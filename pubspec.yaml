@@ -38,6 +38,7 @@ dependencies:
   io_takamaka_core_wallet: ^0.0.1
   flutter_dotenv: ^5.0.2
   provider: ^6.0.5
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:
