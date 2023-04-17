@@ -1,14 +1,17 @@
+import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../about_us/about_us.dart';
 import '/screens/splash/splash.dart';
-import 'package:provider/provider.dart' as provider;
-import '/providers/session_provider.dart';
-import 'package:flutter/material.dart';
 
 class SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+    // 1 <-- SEE HERE
+    return const CupertinoApp(
+      // 2 <-- SEE HERE
+      theme: CupertinoThemeData(brightness: Brightness.light),
+      home: CupertinoSimpleHomePage(),
     );
   }
 
@@ -16,5 +19,61 @@ class SplashState extends State<Splash> {
   void initState() {
     super.initState();
   }
+}
 
+class CupertinoSimpleHomePage extends StatefulWidget {
+  const CupertinoSimpleHomePage({Key? key}) : super(key: key);
+
+  @override
+  _CupertinoSimpleHomePageState createState() =>
+      _CupertinoSimpleHomePageState();
+}
+
+class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    // 3 <-- SEE HERE
+    return CupertinoTabScaffold(
+      // 2 <-- SEE HERE
+      tabBar: CupertinoTabBar(
+        currentIndex: 0,
+        activeColor: Styles.bottomBarActiveLabelColor,
+        items: const <BottomNavigationBarItem>[
+          // 3 <-- SEE HERE
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.question_circle), label: 'About'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.wallet), label: 'Wallets'),
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.settings), label: 'Settings'),
+        ],
+      ),
+      tabBuilder: (context, index) {
+        late final CupertinoTabView returnValue;
+        switch (index) {
+          case 0:
+          // 4 <-- SEE HERE
+            returnValue = CupertinoTabView(builder: (context) {
+              return const AboutUs();
+            });
+            break;
+          case 1:
+            returnValue = CupertinoTabView(
+              builder: (context) {
+                return const Scaffold();
+              },
+            );
+            break;
+          case 2:
+            returnValue = CupertinoTabView(
+              builder: (context) {
+                return const Scaffold();
+              },
+            );
+            break;
+        }
+        return returnValue;
+      },
+    );
+  }
 }
