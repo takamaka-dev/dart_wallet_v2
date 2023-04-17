@@ -1,6 +1,7 @@
 /*
 */
 
+import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,18 +29,36 @@ class AboutUs extends StatelessWidget {
                       fit: BoxFit.fill, scale: 0.5)),
             ),
             Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+                // constraints: const BoxConstraints(maxWidth: 700),
+                padding: const EdgeInsets.all(30),
                 child: Center(
                     child: Column(
-              children: [
-                const Text('AiliA SA', style: TextStyle(color: Colors.black)),
-                const Text('Hertistrasse 25a 6300 Zug, CH',
-                    style: TextStyle(color: Colors.black)),
-                const Text(
-                    'For more details on company registration you can visit the following link to the Zug Canton Commercial Register, by clicking the button underneath.',
-                    style: TextStyle(color: Colors.black), textAlign: TextAlign.center),
-                CupertinoButton.filled(child: Text('more Infos'), onPressed: _launchURLBrowser)
-              ],
-            )))
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Text('AiliA SA',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 22)),
+                    const SizedBox(height: 10),
+                    const Text('Hertistrasse 25a 6300 Zug, CH',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w300)),
+                    const SizedBox(height: 50),
+                    CupertinoButton(
+                        color: Styles.takamakaColor,
+                        onPressed: _launchURLBrowser,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(CupertinoIcons.hand_thumbsup_fill),
+                            Text(' More infos'),
+                          ],
+                        ))
+                  ],
+                )))
           ],
         ));
   }

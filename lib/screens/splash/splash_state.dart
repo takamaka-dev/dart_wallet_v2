@@ -37,7 +37,7 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
       // 2 <-- SEE HERE
       tabBar: CupertinoTabBar(
         currentIndex: 0,
-        activeColor: Styles.bottomBarActiveLabelColor,
+        activeColor: Styles.takamakaColor,
         items: const <BottomNavigationBarItem>[
           // 3 <-- SEE HERE
           BottomNavigationBarItem(
