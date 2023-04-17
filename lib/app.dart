@@ -27,13 +27,13 @@ class App extends StatelessWidget {
 /// Performs initialization steps and then runs our app.
 Future<void> runAppWithOptions(
     {String envFileName = '.env',
-      WalletRepoInterface calendarRepository = const WalletRepository(),
+      WalletRepoInterface walletRepository = const WalletRepository(),
       required State<Splash> splashState}) async {
   flutter.WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load(fileName: envFileName);
 
   flutter.runApp(ChangeNotifierProvider(
-      create: (context) => SessionProvider(calendarRepository),
+      create: (context) => SessionProvider(walletRepository),
       child: App(splashState)));
 }
