@@ -8,6 +8,8 @@ import 'package:url_launcher/url_launcher.dart';
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key});
 
+  final String _url = 'https://takamaka.io/aboutus';
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -34,17 +36,25 @@ class AboutUs extends StatelessWidget {
                     style: TextStyle(color: Colors.black)),
                 const Text(
                     'For more details on company registration you can visit the following link to the Zug Canton Commercial Register, by clicking the button underneath.',
-                    style: TextStyle(color: Colors.black)),
-                CupertinoButton(child: Text('ciao'), onPressed: _launchUrl(Uri.parse('https://flutter.dev')))
+                    style: TextStyle(color: Colors.black), textAlign: TextAlign.center),
+                CupertinoButton.filled(child: Text('more Infos'), onPressed: _launchURLBrowser)
               ],
             )))
           ],
         ));
   }
 
-  Future<void> _launchUrl() async {
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
+  // Future<void> _launchUrl(String _url) async {
+  //   if (!await launchUrl(_url as Uri)) {
+  //     throw Exception('Could not launch $_url');
+  //   }
+  // }
+  Future<dynamic> _launchURLBrowser() async {
+    Uri url = Uri.parse(_url);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
     }
   }
 }
