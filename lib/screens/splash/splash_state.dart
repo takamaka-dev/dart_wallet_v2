@@ -1,5 +1,6 @@
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/settings/settings.dart';
+import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../about_us/about_us.dart';
@@ -61,7 +62,7 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
           case 1:
             returnValue = CupertinoTabView(
               builder: (context) {
-                return const Scaffold();
+                return const Wallet();
               },
             );
             break;
