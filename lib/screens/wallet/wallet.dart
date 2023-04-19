@@ -4,14 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
-class Wallet extends StatefulWidget{
+class Wallet extends StatefulWidget {
   const Wallet({super.key});
 
   @override
   State<Wallet> createState() => _WalletState();
-  }
+}
 
-class _WalletState extends State<Wallet>{
+class _WalletState extends State<Wallet> {
 
   Int8List? _bytes;
 
@@ -47,9 +47,13 @@ class _WalletState extends State<Wallet>{
                 height: 250,
                 fit: BoxFit.contain,
               )),
-          CupertinoTextField(
-            onChanged: (value) => _getBytes(value),
-          )],
+            CupertinoTextField.borderless(
+              padding: EdgeInsets.only(left: 65, top: 10, right: 6, bottom: 10),
+              prefix: Text('Wallet Address'),
+              placeholder: 'Required',
+              onChanged: (value) => _getBytes(value)
+            )
+          ],
         ));
   }
 
