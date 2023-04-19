@@ -19,7 +19,6 @@ class _WalletState extends State<Wallet>{
     final Uint8List data = await WalletUtils.testBitMap(content);
     setState(() {
       _bytes = data.buffer.asInt8List();
-      print(_bytes);
     });
   }
 
