@@ -1,4 +1,5 @@
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:dart_wallet_v2/screens/qr_code/qr_code.dart';
 import 'package:dart_wallet_v2/screens/settings/settings.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,6 +49,8 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
               icon: Icon(Icons.wallet), label: 'Wallets'),
           BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.settings), label: 'Settings'),
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.qrcode), label: 'QRcode'),
         ],
       ),
       tabBuilder: (context, index) {
@@ -70,6 +73,13 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
             returnValue = CupertinoTabView(
               builder: (context) {
                 return const Settings();
+              },
+            );
+            break;
+            case 3:
+            returnValue = CupertinoTabView(
+              builder: (context) {
+                return const QrCode('qrinput');
               },
             );
             break;

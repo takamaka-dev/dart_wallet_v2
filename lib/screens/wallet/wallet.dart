@@ -17,9 +17,11 @@ class _WalletState extends State<Wallet> {
   Int8List? _bytes;
 
   void _getBytes(content) async {
+    print(globals.words);
     final Uint8List data = await WalletUtils.testBitMap(content);
     setState(() {
       _bytes = data.buffer.asInt8List();
+      WalletUtils.generateWords().then((value) => globals.words=value);
     });
   }
 
@@ -48,7 +50,7 @@ class _WalletState extends State<Wallet> {
                 height: 250,
                 fit: BoxFit.contain,
               )),
-            CupertinoTextField.borderless(
+            CupertinoTextField(
               padding: EdgeInsets.only(left: 65, top: 10, right: 6, bottom: 10),
               prefix: Text('Wallet Address'),
               placeholder: 'Required',
