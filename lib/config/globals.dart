@@ -1,9 +1,3 @@
-class Globals {
-  int _selectedNetwork = 0;
+library globals;
 
-  int get selectedNetwork => _selectedNetwork;
-
-  set selectedNetwork(int value) {
-    _selectedNetwork = value;
-  }
-}
+String selectedNetwork = "";
