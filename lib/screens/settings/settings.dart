@@ -1,9 +1,10 @@
-
+import 'package:dart_wallet_v2/config/globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 const double _kItemExtent = 32.0;
 const List<String> _networkNames = <String>[
-  'Development',
+  'Local',
   'Test',
   'Production'
 ];
@@ -17,7 +18,12 @@ class Settings extends StatefulWidget{
 
 class _SettingState extends State<Settings>{
 
-  int _selectedNetwork = 0;
+  final int _selectedNetwork = 0;
+  Map<int, String> networks = {
+    0: dotenv.get('LOCAL_NETWORK'),
+    1: dotenv.get('TEST_NETWORK'),
+    2: dotenv.get('PROD_NETWORK')
+  };
 
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
@@ -41,6 +47,7 @@ class _SettingState extends State<Settings>{
 
   @override
   Widget build(BuildContext context) {
+
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
         middle: Text('Settings Sample'),
@@ -67,7 +74,7 @@ class _SettingState extends State<Settings>{
                     // This is called when selected item is changed.
                     onSelectedItemChanged: (int selectedItem) {
                       setState(() {
-                        _selectedNetwork = selectedItem;
+                        globals.selectedNetwork = networks[selectedItem]!;
                       });
                     },
                     children:

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
+import 'package:dart_wallet_v2/config/globals.dart' as globals;
 
 class Wallet extends StatefulWidget{
   const Wallet({super.key});
@@ -30,6 +31,7 @@ class _WalletState extends State<Wallet>{
 
   @override
   Widget build(BuildContext context) {
+    print(globals.selectedNetwork);
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
           middle: Text('Wallet'),
