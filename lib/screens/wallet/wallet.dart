@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:dart_wallet_v2/utils/wallet_general_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:dart_wallet_v2/config/globals.dart' as globals;
+import 'package:qr_flutter/qr_flutter.dart';
 
 class Wallet extends StatefulWidget {
   const Wallet({super.key});
@@ -39,6 +41,25 @@ class _WalletState extends State<Wallet> {
         WalletGeneralUtils.saveSeed()
       }
     });
+
+    final qrValidationResult = QrValidator.validate(
+      data: globals.generatedSeed,
+      version: QrVersions.auto,
+      errorCorrectionLevel: QrErrorCorrectLevel.L,
+    );
+
+    final QrCode? qrCode = qrValidationResult.qrCode;
+
+    final painter = QrPainter.withQr(
+      qr: qrCode!,
+      color: const Color(0xFF000000),
+      gapless: true,
+      embeddedImageStyle: null,
+      embeddedImage: null,
+    );
+
+    final picData = await painter.toImageData(2048, format: ImageByteFormat.png);
+    await FileSystemUtils.saveFileByte("QrCode.png", picData!);
 
   }
 
