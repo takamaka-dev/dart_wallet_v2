@@ -40,9 +40,6 @@ class _WalletState extends State<Wallet> {
       }
     });
 
-
-
-
   }
 
   @override
