@@ -21,7 +21,9 @@ class _WalletState extends State<Wallet> {
     final Uint8List data = await WalletUtils.testBitMap(content);
     setState(() {
       _bytes = data.buffer.asInt8List();
-      WalletUtils.generateWords().then((value) => globals.words=value);
+      WalletUtils.generateWords().then((value) => {
+        globals.words = value
+      });
     });
   }
 
