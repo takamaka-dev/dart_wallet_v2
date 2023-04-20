@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:dart_wallet_v2/utils/wallet_general_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:dart_wallet_v2/config/globals.dart' as globals;
 
@@ -21,10 +23,26 @@ class _WalletState extends State<Wallet> {
     final Uint8List data = await WalletUtils.testBitMap(content);
     setState(() {
       _bytes = data.buffer.asInt8List();
-      WalletUtils.generateWords().then((value) => {
-        globals.words = value
-      });
     });
+
+    globals.words = await WalletUtils.generateWords();
+    print(globals.words);
+
+    String filePath = await FileSystemUtils.getFilePath('words.txt');
+
+    print(filePath);
+
+    FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
+    FileSystemUtils.readFile(dotenv.get('SEED_FILE_NAME')).then((value) => {
+      print('il valore è: $value'),
+      if (value == '') {
+        WalletGeneralUtils.saveSeed()
+      }
+    });
+
+
+
+
   }
 
   @override
