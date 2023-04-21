@@ -17,7 +17,6 @@ class Wallet extends StatefulWidget {
 }
 
 class _WalletState extends State<Wallet> {
-
   Int8List? _bytes;
 
   void _getBytes(content) async {
@@ -35,12 +34,21 @@ class _WalletState extends State<Wallet> {
     print(filePath);
 
     FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
-    FileSystemUtils.readFile(dotenv.get('SEED_FILE_NAME')).then((value) => {
-      print('il valore è: $value'),
-      if (value == '') {
-        WalletGeneralUtils.saveSeed()
-      }
-    });
+    FileSystemUtils.readFile(dotenv.get('SEED_FILE_NAME')).then((seed) => {
+          print('il valore è: $seed'),
+          if (seed.isEmpty)
+            {
+              WalletGeneralUtils.saveSeed(),
+            }
+          else
+            {
+              WalletUtils.getNewKeypairED25519(seed).then((keypair) async => {
+                    print(
+                        'Takamaka address: ${await WalletUtils.getTakamakaAddress(keypair)}'),
+                    print('CRC: ${await WalletUtils.getCrc32(keypair)}')
+                  })
+            }
+        });
 
     final qrValidationResult = QrValidator.validate(
       data: globals.generatedSeed,
@@ -58,9 +66,9 @@ class _WalletState extends State<Wallet> {
       embeddedImage: null,
     );
 
-    final picData = await painter.toImageData(2048, format: ImageByteFormat.png);
+    final picData =
+        await painter.toImageData(2048, format: ImageByteFormat.png);
     await FileSystemUtils.saveFileByte("QrCode.png", picData!);
-
   }
 
   @override
@@ -78,25 +86,23 @@ class _WalletState extends State<Wallet> {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-          children: [Center(
-              child: _bytes == null
-                  ? const CircularProgressIndicator()
-                  : Image.memory(
-                Uint8List.fromList(_bytes!),
-                width: 250,
-                height: 250,
-                fit: BoxFit.contain,
-              )),
+          children: [
+            Center(
+                child: _bytes == null
+                    ? const CircularProgressIndicator()
+                    : Image.memory(
+                        Uint8List.fromList(_bytes!),
+                        width: 250,
+                        height: 250,
+                        fit: BoxFit.contain,
+                      )),
             CupertinoTextField(
-              padding: EdgeInsets.only(left: 65, top: 10, right: 6, bottom: 10),
-              prefix: Text('Wallet Address'),
-              placeholder: 'Required',
-              onChanged: (value) => _getBytes(value)
-            )
+                padding:
+                    EdgeInsets.only(left: 65, top: 10, right: 6, bottom: 10),
+                prefix: Text('Wallet Address'),
+                placeholder: 'Required',
+                onChanged: (value) => _getBytes(value))
           ],
         ));
   }
-
-
 }
