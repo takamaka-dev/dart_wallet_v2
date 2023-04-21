@@ -19,8 +19,17 @@ class Wallet extends StatefulWidget {
 
 class _WalletState extends State<Wallet> {
   Int8List? _bytes;
+  String? walletAddress;
+  String? crc;
 
   Future<bool> _getBytes() async {
+
+    setState(() {
+      crc = null;
+      walletAddress = null;
+      _bytes = null;
+    });
+
     print(globals.words);
     Uint8List data;
 
@@ -32,8 +41,8 @@ class _WalletState extends State<Wallet> {
 
     print(filePath);
 
-    String tkmAddress = "";
-    String crc = "";
+    String tkmAddressResult = "";
+    String crcResult = "";
 
     FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
     FileSystemUtils.readFile(dotenv.get('SEED_FILE_NAME')).then((seed) => {
@@ -45,11 +54,13 @@ class _WalletState extends State<Wallet> {
           else
             {
               WalletUtils.getNewKeypairED25519(seed).then((keypair) async => {
-                    tkmAddress = await WalletUtils.getTakamakaAddress(keypair),
-                    crc = await WalletUtils.getCrc32(keypair),
-                    data = await WalletUtils.testBitMap(tkmAddress),
+                    tkmAddressResult = await WalletUtils.getTakamakaAddress(keypair),
+                    crcResult = await WalletUtils.getCrc32(keypair),
+                    data = await WalletUtils.testBitMap(tkmAddressResult),
                     setState(() {
                     _bytes = data.buffer.asInt8List();
+                    crc = crcResult;
+                    walletAddress = tkmAddressResult;
                     })
 
                   })
@@ -106,7 +117,9 @@ class _WalletState extends State<Wallet> {
                         fit: BoxFit.contain,
                       )),
 
-            Text('ciao'),
+            Center(child: walletAddress == null? const CircularProgressIndicator() : Text(walletAddress!)),
+
+            Center(child: crc == null? const CircularProgressIndicator() : Text(crc!)),
 
             CupertinoButton(
                 color: Styles.takamakaColor,
