@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/utils/wallet_general_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +20,10 @@ class Wallet extends StatefulWidget {
 class _WalletState extends State<Wallet> {
   Int8List? _bytes;
 
-  void _getBytes(content) async {
+  Future<bool> _getBytes() async {
     print(globals.words);
-    final Uint8List data = await WalletUtils.testBitMap(content);
-    setState(() {
-      _bytes = data.buffer.asInt8List();
-    });
+    Uint8List data;
+
 
     globals.words = await WalletUtils.generateWords();
     print(globals.words);
@@ -32,6 +31,9 @@ class _WalletState extends State<Wallet> {
     String filePath = await FileSystemUtils.getFilePath('words.txt');
 
     print(filePath);
+
+    String tkmAddress = "";
+    String crc = "";
 
     FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
     FileSystemUtils.readFile(dotenv.get('SEED_FILE_NAME')).then((seed) => {
@@ -43,9 +45,13 @@ class _WalletState extends State<Wallet> {
           else
             {
               WalletUtils.getNewKeypairED25519(seed).then((keypair) async => {
-                    print(
-                        'Takamaka address: ${await WalletUtils.getTakamakaAddress(keypair)}'),
-                    print('CRC: ${await WalletUtils.getCrc32(keypair)}')
+                    tkmAddress = await WalletUtils.getTakamakaAddress(keypair),
+                    crc = await WalletUtils.getCrc32(keypair),
+                    data = await WalletUtils.testBitMap(tkmAddress),
+                    setState(() {
+                    _bytes = data.buffer.asInt8List();
+                    })
+
                   })
             }
         });
@@ -69,11 +75,14 @@ class _WalletState extends State<Wallet> {
     final picData =
         await painter.toImageData(2048, format: ImageByteFormat.png);
     await FileSystemUtils.saveFileByte("QrCode.png", picData!);
+
+    return true;
+
   }
 
   @override
   void initState() {
-    _getBytes("yzrhYG_yVL_Cswdg6tiTEx0nTKSPwcfd75J4BP2n0C4.");
+    _getBytes();
     super.initState();
   }
 
@@ -96,12 +105,28 @@ class _WalletState extends State<Wallet> {
                         height: 250,
                         fit: BoxFit.contain,
                       )),
-            CupertinoTextField(
+
+            Text('ciao'),
+
+            CupertinoButton(
+                color: Styles.takamakaColor,
+                onPressed: _getBytes,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Icon(CupertinoIcons.refresh),
+                    SizedBox(width: 10),
+                    Text('Get Wallet'),
+                  ],
+                ))
+
+            /*CupertinoTextField(
                 padding:
                     EdgeInsets.only(left: 65, top: 10, right: 6, bottom: 10),
                 prefix: Text('Wallet Address'),
                 placeholder: 'Required',
-                onChanged: (value) => _getBytes(value))
+                onChanged: (value) => _getBytes())*/
           ],
         ));
   }
