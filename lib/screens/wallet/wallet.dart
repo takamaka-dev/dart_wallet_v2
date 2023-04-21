@@ -57,6 +57,8 @@ class _WalletState extends State<Wallet> {
                     tkmAddressResult = await WalletUtils.getTakamakaAddress(keypair),
                     crcResult = await WalletUtils.getCrc32(keypair),
                     data = await WalletUtils.testBitMap(tkmAddressResult),
+
+
                     setState(() {
                     _bytes = data.buffer.asInt8List();
                     crc = crcResult;
@@ -86,7 +88,9 @@ class _WalletState extends State<Wallet> {
     final picData =
         await painter.toImageData(2048, format: ImageByteFormat.png);
     await FileSystemUtils.saveFileByte("QrCode.png", picData!);
-
+    
+    WalletUtils.initWallet(dotenv.get('WALLET_FOLDER'), 'pippo', dotenv.get('WALLET_EXTENSION'), 'password');
+    
     return true;
 
   }
