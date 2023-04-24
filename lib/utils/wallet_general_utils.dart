@@ -6,7 +6,7 @@ class WalletGeneralUtils {
   static Future<void> saveSeed() async {
     String seed = await WalletUtils.generateSeedPWH(globals.words);
 
-    FileSystemUtils.saveFile(dotenv.get('SEED_FILE_NAME'), seed).then((value) => {
+    FileSystemUtils.saveFile(dotenv.get('PREFIX_SEED_FILE_NAME'), seed).then((value) => {
       if (value) {
         globals.generatedSeed = seed
       }

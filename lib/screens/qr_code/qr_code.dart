@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrCode extends StatelessWidget {
@@ -13,18 +14,7 @@ class QrCode extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Center(
-          child: QrImage(
-            data: qrinput,
-            size: 280,
-            // You can include embeddedImageStyle Property if you
-            //wanna embed an image from your Asset folder
-            embeddedImageStyle: QrEmbeddedImageStyle(
-              size: const Size(
-                100,
-                100,
-              ),
-            ),
-          ),
+          child: WalletUtils.renderQrImage(qrinput)
         )
       ],
     ));
