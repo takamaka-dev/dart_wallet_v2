@@ -15,6 +15,7 @@ class SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     // 1 <-- SEE HERE
     return const CupertinoApp(
+
       // 2 <-- SEE HERE
       theme: CupertinoThemeData(brightness: Brightness.light),
       home: CupertinoSimpleHomePage(),
@@ -40,6 +41,7 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
   Widget build(BuildContext context) {
     // 3 <-- SEE HERE
     return CupertinoTabScaffold(
+
       // 2 <-- SEE HERE
       tabBar: CupertinoTabBar(
         currentIndex: 1,
