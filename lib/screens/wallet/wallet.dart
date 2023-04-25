@@ -39,6 +39,8 @@ class _WalletState extends State<Wallet> {
     if(filePath.isEmpty) {
       globals.words = await WalletUtils.generateWords();
       FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
+    }else{
+      FileSystemUtils.readFile('words.txt').then((wordList) => {globals.words = wordList.split(" ")});
     }
     print(globals.words);
 
