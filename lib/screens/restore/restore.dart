@@ -33,8 +33,12 @@ class Restore extends StatelessWidget {
 
     WalletUtils.getNewKeypairED25519(seed).then((keypair) async => {
           tkmAddressResult = await WalletUtils.getTakamakaAddress(keypair),
+          print('recovered address: ' + tkmAddressResult),
           crcResult = await WalletUtils.getCrc32(keypair)
         });
+
+
+    print('recovered seed ' + seed);
   }
 
   @override

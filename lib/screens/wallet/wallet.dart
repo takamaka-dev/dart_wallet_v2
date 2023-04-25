@@ -30,28 +30,25 @@ class _WalletState extends State<Wallet> {
       _bytes = null;
     });
 
-    print(globals.words);
     Uint8List data;
 
-    String filePath = await FileSystemUtils.getFilePath('words.txt');
-    print(filePath);
+    /*bool exists = await FileSystemUtils.existsFile('words.txt');*/
 
     /*globals.words = await WalletUtils.generateWords();
     FileSystemUtils.saveFile('words.txt', globals.words.join(" "));*/
 
-    if(filePath.isEmpty) {
+    /*if(!exists) {
       globals.words = await WalletUtils.generateWords();
       FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
     }else{
       FileSystemUtils.readFile('words.txt').then((wordList) => {globals.words = wordList.split(" ")});
-    }
-    print(globals.words);
+    }*/
 
     String tkmAddressResult = "";
     String crcResult = "";
 
 
-    FileSystemUtils.readFile(dotenv.get('PREFIX_SEED_FILE_NAME')).then((seed) => {
+    /*FileSystemUtils.readFile(dotenv.get('PREFIX_SEED_FILE_NAME')).then((seed) => {
           print('il valore è: $seed'),
           if (seed.isEmpty)
             {
@@ -73,17 +70,17 @@ class _WalletState extends State<Wallet> {
 
                   })
             }
-        });
+        });*/
 
 
 
-    final qrValidationResult = QrValidator.validate(
+    /*final qrValidationResult = QrValidator.validate(
       data: globals.words.join(" "),
       version: QrVersions.auto,
       errorCorrectionLevel: QrErrorCorrectLevel.L,
-    );
+    );*/
 
-    final QrCode? qrCode = qrValidationResult.qrCode;
+    /*final QrCode? qrCode = qrValidationResult.qrCode;
 
     final painter = QrPainter.withQr(
       qr: qrCode!,
@@ -95,7 +92,7 @@ class _WalletState extends State<Wallet> {
 
     final picData =
         await painter.toImageData(2048, format: ImageByteFormat.png);
-    await FileSystemUtils.saveFileByte("QrCode.png", picData!);
+    await FileSystemUtils.saveFileByte("QrCode.png", picData!);*/
     
     WalletUtils.initWallet(dotenv.get('WALLET_FOLDER'), 'pippo', dotenv.get('WALLET_EXTENSION'), 'password');
     
