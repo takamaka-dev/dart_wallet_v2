@@ -33,18 +33,23 @@ class _WalletState extends State<Wallet> {
     print(globals.words);
     Uint8List data;
 
+    String filePath = await FileSystemUtils.getFilePath('words.txt');
+    print(filePath);
 
-    globals.words = await WalletUtils.generateWords();
+    if(filePath.isEmpty) {
+      globals.words = await WalletUtils.generateWords();
+      FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
+    }
     print(globals.words);
 
-    String filePath = await FileSystemUtils.getFilePath('words.txt');
 
-    print(filePath);
+
+
 
     String tkmAddressResult = "";
     String crcResult = "";
 
-    FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
+
     FileSystemUtils.readFile(dotenv.get('PREFIX_SEED_FILE_NAME')).then((seed) => {
           print('il valore è: $seed'),
           if (seed.isEmpty)

@@ -5,6 +5,7 @@ import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../about_us/about_us.dart';
+import '../restore/restore.dart';
 import '/screens/splash/splash.dart';
 import 'package:dart_wallet_v2/config/globals.dart' as globals;
 
@@ -46,19 +47,21 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
           // 3 <-- SEE HERE
           BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.question_circle), label: 'About'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.wallet), label: 'Wallets'),
+          BottomNavigationBarItem(icon: Icon(Icons.wallet), label: 'Wallets'),
           BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.settings), label: 'Settings'),
           BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.qrcode), label: 'QRcode'),
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.arrow_3_trianglepath),
+              label: 'Restore'),
         ],
       ),
       tabBuilder: (context, index) {
         late final CupertinoTabView returnValue;
         switch (index) {
           case 0:
-          // 4 <-- SEE HERE
+            // 4 <-- SEE HERE
             returnValue = CupertinoTabView(builder: (context) {
               return const AboutUs();
             });
@@ -77,10 +80,17 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
               },
             );
             break;
-            case 3:
+          case 3:
             returnValue = CupertinoTabView(
               builder: (context) {
                 return QrCode(globals.words.join(" "));
+              },
+            );
+            break;
+          case 4:
+            returnValue = CupertinoTabView(
+              builder: (context) {
+                return Restore();
               },
             );
             break;
