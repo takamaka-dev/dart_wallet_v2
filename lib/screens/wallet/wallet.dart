@@ -45,7 +45,7 @@ class _WalletState extends State<Wallet> {
     String crcResult = "";
 
     FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
-    FileSystemUtils.readFile(dotenv.get('SEED_FILE_NAME')).then((seed) => {
+    FileSystemUtils.readFile(dotenv.get('PREFIX_SEED_FILE_NAME')).then((seed) => {
           print('il valore è: $seed'),
           if (seed.isEmpty)
             {
@@ -69,8 +69,10 @@ class _WalletState extends State<Wallet> {
             }
         });
 
+
+
     final qrValidationResult = QrValidator.validate(
-      data: globals.generatedSeed,
+      data: globals.words.join(" "),
       version: QrVersions.auto,
       errorCorrectionLevel: QrErrorCorrectLevel.L,
     );

@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../about_us/about_us.dart';
 import '/screens/splash/splash.dart';
+import 'package:dart_wallet_v2/config/globals.dart' as globals;
 
 class SplashState extends State<Splash> {
   @override
@@ -79,7 +80,7 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
             case 3:
             returnValue = CupertinoTabView(
               builder: (context) {
-                return const QrCode('qrinput');
+                return QrCode(globals.words.join(" "));
               },
             );
             break;
