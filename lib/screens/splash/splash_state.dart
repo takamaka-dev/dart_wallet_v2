@@ -42,7 +42,7 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
     return CupertinoTabScaffold(
       // 2 <-- SEE HERE
       tabBar: CupertinoTabBar(
-        currentIndex: 0,
+        currentIndex: 1,
         activeColor: Styles.takamakaColor,
         items: const <BottomNavigationBarItem>[
           // 3 <-- SEE HERE
@@ -64,14 +64,14 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
           case 0:
             returnValue = CupertinoTabView(
               builder: (context) {
-                return const Home();
+                return const AboutUs();
               },
             );
             break;
           case 1:
             // 4 <-- SEE HERE
             returnValue = CupertinoTabView(builder: (context) {
-              return const AboutUs();
+              return const Home();
             });
             break;
           case 2:
