@@ -36,17 +36,16 @@ class _WalletState extends State<Wallet> {
     String filePath = await FileSystemUtils.getFilePath('words.txt');
     print(filePath);
 
-    if(filePath.isEmpty) {
+    globals.words = await WalletUtils.generateWords();
+    FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
+
+    /*if(filePath.isEmpty) {
       globals.words = await WalletUtils.generateWords();
       FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
     }else{
       FileSystemUtils.readFile('words.txt').then((wordList) => {globals.words = wordList.split(" ")});
-    }
+    }*/
     print(globals.words);
-
-
-
-
 
     String tkmAddressResult = "";
     String crcResult = "";
