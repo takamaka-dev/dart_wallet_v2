@@ -8,7 +8,7 @@ import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:dart_wallet_v2/config/globals.dart' as globals;
 
 class NewWallet extends StatelessWidget {
-  NewWallet(this.onRefresh);
+  NewWallet({required this.onRefresh});
 
   final VoidCallback onRefresh;
   String password = "";
@@ -96,9 +96,10 @@ class NewWallet extends StatelessWidget {
     );
   }
 
-  _openWallet(BuildContext context) {
-    WalletUtils.initWallet(
+  _openWallet(BuildContext context) async {
+    await WalletUtils.initWallet(
         'wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);
+    onRefresh();
     Navigator.pop(context,true);
   }
 }

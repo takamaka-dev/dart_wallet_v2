@@ -96,7 +96,15 @@ class _HomeState extends State<Home> {
         CupertinoPageRoute<void>(
           builder: (BuildContext context) {
             return NewWallet(
-              super.initState();
+                onRefresh: () {
+                  FileSystemUtils.getWalletsInWalletsDir(
+                      dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
+                      .then((value) => {
+                    setState(() {
+                      wallets = value;
+                    })
+                  });
+                }
 
             );
           },
