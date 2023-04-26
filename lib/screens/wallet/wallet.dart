@@ -7,6 +7,7 @@ import 'package:dart_wallet_v2/utils/wallet_general_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:glass/glass.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:dart_wallet_v2/config/globals.dart' as globals;
 import 'package:qr_flutter/qr_flutter.dart';
@@ -33,7 +34,6 @@ class _WalletState extends State<Wallet> {
   String password = "";
 
   Future<bool> _initWalletInterface() async {
-
     setState(() {
       crc = null;
       walletAddress = null;
@@ -41,74 +41,7 @@ class _WalletState extends State<Wallet> {
       seed = null;
     });
 
-    Uint8List data;
-
-    /*bool exists = await FileSystemUtils.existsFile('words.txt');*/
-
-    /*globals.words = await WalletUtils.generateWords();
-    FileSystemUtils.saveFile('words.txt', globals.words.join(" "));*/
-
-    /*if(!exists) {
-      globals.words = await WalletUtils.generateWords();
-      FileSystemUtils.saveFile('words.txt', globals.words.join(" "));
-    }else{
-      FileSystemUtils.readFile('words.txt').then((wordList) => {globals.words = wordList.split(" ")});
-    }*/
-    //
-    // String tkmAddressResult = "";
-    // String crcResult = "";
-
-
-    /*FileSystemUtils.readFile(dotenv.get('PREFIX_SEED_FILE_NAME')).then((seed) => {
-          print('il valore è: $seed'),
-          if (seed.isEmpty)
-            {
-              WalletGeneralUtils.saveSeed(),
-            }
-          else
-            {
-              WalletUtils.getNewKeypairED25519(seed).then((keypair) async => {
-                    tkmAddressResult = await WalletUtils.getTakamakaAddress(keypair),
-                    crcResult = await WalletUtils.getCrc32(keypair),
-                    data = await WalletUtils.testBitMap(tkmAddressResult),
-
-
-                    setState(() {
-                    _bytes = data.buffer.asInt8List();
-                    crc = crcResult;
-                    walletAddress = tkmAddressResult;
-                    })
-
-                  })
-            }
-        });*/
-
-
-
-    /*final qrValidationResult = QrValidator.validate(
-      data: globals.words.join(" "),
-      version: QrVersions.auto,
-      errorCorrectionLevel: QrErrorCorrectLevel.L,
-    );*/
-
-    /*final QrCode? qrCode = qrValidationResult.qrCode;
-
-    final painter = QrPainter.withQr(
-      qr: qrCode!,
-      color: const Color(0xFF000000),
-      gapless: true,
-      embeddedImageStyle: null,
-      embeddedImage: null,
-    );
-
-    final picData =
-        await painter.toImageData(2048, format: ImageByteFormat.png);
-    await FileSystemUtils.saveFileByte("QrCode.png", picData!);*/
-    //
-    // WalletUtils.initWallet(dotenv.get('WALLET_FOLDER'), 'pippo', dotenv.get('WALLET_EXTENSION'), 'password');
-    //
     return true;
-
   }
 
   @override
@@ -120,42 +53,72 @@ class _WalletState extends State<Wallet> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-
-        child: seed==null?getLockedWallet():getUnlockedWallet());
+        child: seed == null ? getLockedWallet() : getUnlockedWallet());
   }
 
-  Widget getLockedWallet(){
-    return CupertinoPageScaffold(
-        child: Column(
-          children: [
-            CupertinoButton(
-              onPressed: () {
-                Navigator.pop(
-                    context); // Navigate back when back button is pressed
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Widget getLockedWallet() {
+    return Scaffold(
+        body: Container(
+            /*decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("images/wallpaper.jpeg"),
+                fit: BoxFit.cover,
+              ),
+            ),*/
+            child: Column(
               children: [
-                CupertinoTextField(
-                  textAlign: TextAlign.center,
-                  placeholder: "Password",
-                  onChanged: (value) => {password = value},
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CupertinoButton(
+                      onPressed: () {
+                        Navigator.pop(
+                            context); // Navigate back when back button is pressed
+                      },
+                      child: const Icon(Icons.arrow_back),
+                    )
+                  ],
                 ),
-                CupertinoButton(
-                    child: Text("Login"),
-                    onPressed: _openWallet
-
-                )
+                Container(
+                  /*decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.shade400,
+                          spreadRadius: 1,
+                          blurRadius: 8)
+                    ],
+                  ),*/
+                  constraints: const BoxConstraints(maxWidth: 700),
+                  padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 25, color: Colors.grey.shade600),
+                          "Please insert your wallet password"),
+                      const SizedBox(height: 50),
+                      CupertinoTextField(
+                        obscureText: true,
+                        textAlign: TextAlign.center,
+                        placeholder: "Password",
+                        onChanged: (value) => {password = value},
+                      ),
+                      const SizedBox(height: 50),
+                      CupertinoButton(
+                          color: Styles.takamakaColor,
+                          child: Text("Login"),
+                          onPressed: _openWallet)
+                    ],
+                  ),
+                ).asGlass(tintColor: Colors.transparent,
+                    clipBorderRadius: BorderRadius.circular(15.0))
               ],
-            )
-          ],
-        ));
+            )));
   }
 
   Widget getUnlockedWallet() {
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -163,16 +126,18 @@ class _WalletState extends State<Wallet> {
             child: _bytes == null
                 ? const CircularProgressIndicator()
                 : Image.memory(
-              Uint8List.fromList(_bytes!),
-              width: 250,
-              height: 250,
-              fit: BoxFit.contain,
-            )),
-
-        Center(child: walletAddress == null? const CircularProgressIndicator() : Text(walletAddress!)),
-
-        Center(child: crc == null? const CircularProgressIndicator() : Text(crc!)),
-
+                    Uint8List.fromList(_bytes!),
+                    width: 250,
+                    height: 250,
+                    fit: BoxFit.contain,
+                  )),
+        Center(
+            child: walletAddress == null
+                ? const CircularProgressIndicator()
+                : Text(walletAddress!)),
+        Center(
+            child:
+                crc == null ? const CircularProgressIndicator() : Text(crc!)),
         CupertinoButton(
             color: Styles.takamakaColor,
             onPressed: _initWalletInterface,
@@ -187,11 +152,11 @@ class _WalletState extends State<Wallet> {
             ))
       ],
     );
-
   }
 
   Future<void> _openWallet() async {
-    seed = await WalletUtils.initWallet('wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);
+    seed = await WalletUtils.initWallet(
+        'wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);
     SimpleKeyPair keypair = await WalletUtils.getNewKeypairED25519(seed!);
     crc = await WalletUtils.getCrc32(keypair);
     walletAddress = await WalletUtils.getTakamakaAddress(keypair);
@@ -204,7 +169,6 @@ class _WalletState extends State<Wallet> {
     });
   }
 
-
 // @override
 //   Widget build(BuildContext context) {
 //     print(globals.selectedNetwork);
@@ -214,7 +178,4 @@ class _WalletState extends State<Wallet> {
 //         ),
 //         child: );
 //   }
-
-
-
 }

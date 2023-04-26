@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,6 @@ class _HomeState extends State<Home> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  /*const WalletListWidget(['paolino', 'paperino', 'pluto']).build(context),*/
                   wallets == null
                       ? const CircularProgressIndicator()
                       : WalletListWidget(wallets!).build(context),
@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
                           children: [
                         CupertinoButton(
                             color: Styles.takamakaColor,
-                            onPressed: _printClikNew,
+                            onPressed: _newWallet,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
@@ -91,10 +91,16 @@ class _HomeState extends State<Home> {
     ));
   }
 
-  Future<void> _printClikNew() async {
-    print("Clicked New Wallet");
-    /*wallets = await FileSystemUtils.getWalletsInWalletsDir(
-        dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'));*/
+  Future<void> _newWallet() async {
+    Navigator.of(context).push(
+        CupertinoPageRoute<void>(
+          builder: (BuildContext context) {
+            return NewWallet(
+              super.initState();
+
+            );
+          },
+        ));
   }
 
   void _printClikRestore() {
@@ -116,7 +122,7 @@ class WalletListWidget extends StatelessWidget {
 
     return CupertinoPageScaffold(
       child: CupertinoListSection(
-        header: const Text('My Reminders'),
+        header: const Text('My wallets'),
         children: wallets,
       ),
     );
