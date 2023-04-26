@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -36,6 +37,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
+        navigationBar: const CupertinoNavigationBar(
+            middle: Text('Home'),
+          ),
         child: Column(
       children: [
         Container(
@@ -139,44 +143,12 @@ class SingleWallet extends StatelessWidget {
       onTap: () => Navigator.of(context).push(
         CupertinoPageRoute<void>(
           builder: (BuildContext context) {
-            return CupertinoPageScaffold(
-                child: Column(
-              children: [
-                CupertinoButton(
-                  onPressed: () {
-                    Navigator.pop(
-                        context); // Navigate back when back button is pressed
-                  },
-                  child: const Icon(Icons.arrow_back),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CupertinoTextField(
-                      textAlign: TextAlign.center,
-                      placeholder: "Password",
-                      onChanged: (value) => {password = value},
-                    ),
-                    CupertinoButton(
-                        child: Text("Login"),
-                        onPressed: _openWallet
-
-                    )
-                  ],
-                )
-              ],
-            ));
+            return Wallet(walletName);
           },
         ),
       ),
     );
   }
 
-  void _openWallet() {
-    WalletUtils.initWallet('wallets', walletName, dotenv.get('WALLET_EXTENSION'), password).then((seed) => {
-
-      print('Current seed ' + seed)
-    });
-  }
 
 }
