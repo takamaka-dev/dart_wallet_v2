@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 import '../../config/styles.dart';
+import '../restore/restore.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -76,7 +77,7 @@ class _HomeState extends State<Home> {
                         SizedBox(width: 50),
                         CupertinoButton(
                             color: Styles.takamakaColor,
-                            onPressed: _printClikRestore,
+                            onPressed: _restoreWallet,
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
@@ -111,8 +112,24 @@ class _HomeState extends State<Home> {
         ));
   }
 
-  void _printClikRestore() {
-    print("Clicked Restore Wallet");
+  void _restoreWallet() {
+    Navigator.of(context).push(
+        CupertinoPageRoute<void>(
+          builder: (BuildContext context) {
+            return Restore(
+                onRefresh: () {
+                  FileSystemUtils.getWalletsInWalletsDir(
+                      dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
+                      .then((value) => {
+                    setState(() {
+                      wallets = value;
+                    })
+                  });
+                }
+
+            );
+          },
+        ));
   }
 }
 

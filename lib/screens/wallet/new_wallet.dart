@@ -18,12 +18,6 @@ class NewWallet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        /*decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("images/wallpaper.jpeg"),
-            fit: BoxFit.cover,
-          ),
-        ),*/
         child: Column(
           children: [
             Row(
