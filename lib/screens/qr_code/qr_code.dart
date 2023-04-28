@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../config/styles.dart';
 
 class QrCode extends StatelessWidget {
-  const QrCode(this.qrinput, {super.key});
+  const QrCode(this.qrInput, {super.key});
 
-  final String qrinput;
+  final String qrInput;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class QrCode extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Center(
-                    child: WalletUtils.renderQrImage(qrinput)
+                    child: WalletUtils.renderQrImage(qrInput)
                 ),
                 const SizedBox(height: 50),
                 CupertinoButton(
