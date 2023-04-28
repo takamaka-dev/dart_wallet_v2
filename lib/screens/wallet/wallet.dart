@@ -168,14 +168,4 @@ class _WalletState extends State<Wallet> {
       _bytes = _bytes;
     });
   }
-
-// @override
-//   Widget build(BuildContext context) {
-//     print(globals.selectedNetwork);
-//     return CupertinoPageScaffold(
-//         navigationBar: const CupertinoNavigationBar(
-//           middle: Text('Wallet'),
-//         ),
-//         child: );
-//   }
 }
