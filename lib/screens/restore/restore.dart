@@ -31,6 +31,9 @@ class Restore extends StatelessWidget {
         password);
 
     await WalletUtils.getNewKeypairED25519(seed);
+
+
+
     onRefresh();
     Navigator.pop(context,true);
 
