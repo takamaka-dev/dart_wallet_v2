@@ -29,7 +29,7 @@ class _WalletState extends State<Wallet> {
   Int8List? _bytes;
   String? walletAddress;
   String? crc;
-  String? seed;
+  Map<String, dynamic>? kb;
 
   String password = "";
 
@@ -38,7 +38,7 @@ class _WalletState extends State<Wallet> {
       crc = null;
       walletAddress = null;
       _bytes = null;
-      seed = null;
+      kb = null;
     });
 
     return true;
@@ -53,7 +53,7 @@ class _WalletState extends State<Wallet> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        child: seed == null ? getLockedWallet() : getUnlockedWallet());
+        child: kb == null ? getLockedWallet() : getUnlockedWallet());
   }
 
   Widget getLockedWallet() {
@@ -113,13 +113,13 @@ class _WalletState extends State<Wallet> {
                             color: Styles.takamakaColor,
                             child: Text("Login"),
                             onPressed: () async {
-                              seed = await WalletUtils.initWallet(
+                              kb = await WalletUtils.initWallet(
                                   'wallets',
                                   walletName,
                                   dotenv.get('WALLET_EXTENSION'),
                                   password);
                               SimpleKeyPair keypair =
-                                  await WalletUtils.getNewKeypairED25519(seed!);
+                                  await WalletUtils.getNewKeypairED25519(kb!['seed']);
                               crc = await WalletUtils.getCrc32(keypair);
                               walletAddress =
                                   await WalletUtils.getTakamakaAddress(keypair);
@@ -128,12 +128,13 @@ class _WalletState extends State<Wallet> {
                                       .buffer
                                       .asInt8List();
                               setState(() {
-                                seed = seed;
+                                kb = kb;
                                 crc = crc;
                                 walletAddress = walletAddress;
                                 _bytes = _bytes;
                               });
-                              model.generatedSeed = seed!;
+                              model.generatedSeed = kb!['seed'];
+                              model.recoveryWords = kb!['words'];
                             })
                       ],
                     ),
@@ -171,7 +172,7 @@ class _WalletState extends State<Wallet> {
                           : Text(crc!)),
                   CupertinoButton(
                       color: Styles.takamakaColor,
-                      onPressed: () => {model.generatedSeed = "", _initWalletInterface()},
+                      onPressed: () => {model.generatedSeed = "", model.recoveryWords = "", _initWalletInterface()},
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,

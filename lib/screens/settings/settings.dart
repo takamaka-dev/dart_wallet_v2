@@ -1,6 +1,7 @@
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:provider/provider.dart';
 
 const double _kItemExtent = 32.0;
@@ -61,8 +62,11 @@ class _SettingState extends State<Settings> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Text(
-                          'Seed:${model.generatedSeed.length > 5 ? model.generatedSeed.substring(0, 5) : 'N/A'}',
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            WalletUtils.renderQrImage(model.recoveryWords.isEmpty ? '' : model.recoveryWords)
+                          ],
                         ),
                         const Text('Selected network: '),
                         CupertinoButton(
