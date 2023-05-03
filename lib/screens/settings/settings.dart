@@ -45,8 +45,8 @@ class _SettingState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Globals(),
+    return ChangeNotifierProvider.value(
+      value: Globals.instance,
       child: Consumer<Globals>(
           builder: (context, model, child) => CupertinoPageScaffold(
                 navigationBar: const CupertinoNavigationBar(
@@ -62,7 +62,7 @@ class _SettingState extends State<Settings> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Text(
-                          'Seed:${model.generatedSeed}',
+                          'Seed:${model.generatedSeed.length > 5 ? model.generatedSeed.substring(0, 5) : 'N/A'}',
                         ),
                         const Text('Selected network: '),
                         CupertinoButton(

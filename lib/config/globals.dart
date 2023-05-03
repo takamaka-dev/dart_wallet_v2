@@ -1,17 +1,19 @@
-library globals;
-
 import 'package:flutter/cupertino.dart';
 
 class Globals with ChangeNotifier {
-  String selectedNetwork = "";
   String _generatedSeed = "";
-  List<String> words = [];
+
+  static final Globals _instance = Globals._privateConstructor();
+
+  static Globals get instance => _instance;
 
   String get generatedSeed => _generatedSeed;
 
+  Globals._privateConstructor();
+
   set generatedSeed(String seed) {
     _generatedSeed = seed;
-    notifyListeners();
+    super.notifyListeners();
   }
 
 }

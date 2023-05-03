@@ -8,7 +8,6 @@ import '../about_us/about_us.dart';
 import '../restore/restore.dart';
 import '../wallet/home.dart';
 import '/screens/splash/splash.dart';
-import 'package:dart_wallet_v2/config/globals.dart' as globals;
 
 class SplashState extends State<Splash> {
   @override
@@ -72,7 +71,8 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
             break;
           case 1:
             // 4 <-- SEE HERE
-            returnValue = CupertinoTabView(builder: (context) {
+            returnValue = CupertinoTabView(
+                builder: (context) {
               return const Home();
             });
             break;

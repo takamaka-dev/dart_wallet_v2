@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:glass/glass.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
-import 'package:dart_wallet_v2/config/globals.dart' as globals;
 
 class NewWallet extends StatelessWidget {
   NewWallet({required this.onRefresh});
