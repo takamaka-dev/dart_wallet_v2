@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -205,7 +206,7 @@ class _WalletState extends State<Wallet> {
                               Navigator.of(context).push(
                                   CupertinoPageRoute<void>(
                                       builder: (BuildContext context) {
-                                        return Scaffold();
+                                        return Pay();
                                       }
                                   ))
                             },
