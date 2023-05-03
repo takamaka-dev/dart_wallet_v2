@@ -16,7 +16,7 @@ class Settings extends StatefulWidget {
 class _SettingState extends State<Settings> {
 
 
-  final int _selectedNetwork = 0;
+  final int _selectedNetwork = 1;
   Map<int, String> networks = {
     0: dotenv.get('LOCAL_NETWORK'),
     1: dotenv.get('TEST_NETWORK'),
