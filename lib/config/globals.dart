@@ -1,7 +1,16 @@
 library globals;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-String selectedNetwork = "";
-String generatedSeed = "";
-List<String> words = [];
+class Globals extends ChangeNotifier {
+  String selectedNetwork = "";
+  String generatedSeed = "";
+  List<String> words = [];
+
+  void setGeneratedSeed(String seed) {
+    generatedSeed = seed;
+    notifyListeners();
+  }
+
+
+}

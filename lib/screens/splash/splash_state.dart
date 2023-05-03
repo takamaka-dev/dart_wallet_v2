@@ -77,11 +77,15 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
             });
             break;
           case 2:
-            returnValue = CupertinoTabView(
+
+
+
+            /*returnValue = CupertinoTabView(
               builder: (context) {
+
                 return const Settings();
               },
-            );
+            );*/
             break;
           // case 3:
           //   returnValue = CupertinoTabView(

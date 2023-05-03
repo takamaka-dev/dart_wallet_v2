@@ -18,6 +18,8 @@ class Settings extends StatefulWidget{
 
 class _SettingState extends State<Settings>{
 
+  late final String? seed;
+
   final int _selectedNetwork = 0;
   Map<int, String> networks = {
     0: dotenv.get('LOCAL_NETWORK'),
@@ -74,7 +76,7 @@ class _SettingState extends State<Settings>{
                     // This is called when selected item is changed.
                     onSelectedItemChanged: (int selectedItem) {
                       setState(() {
-                        globals.selectedNetwork = networks[selectedItem]!;
+                        /*globals.selectedNetwork = networks[selectedItem]!;*/
                       });
                     },
                     children:
@@ -104,6 +106,9 @@ class _SettingState extends State<Settings>{
 
   @override
   void initState() {
+    print("ciao");
+
+
     super.initState();
   }
 }
