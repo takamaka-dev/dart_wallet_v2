@@ -4,13 +4,16 @@ import 'package:flutter/cupertino.dart';
 
 class Globals extends ChangeNotifier {
   String selectedNetwork = "";
-  String generatedSeed = "";
+  String _generatedSeed = "";
   List<String> words = [];
 
-  void setGeneratedSeed(String seed) {
+  String get generatedSeed => _generatedSeed;
+
+  set generatedSeed(String seed) {
     generatedSeed = seed;
+    print('Inside Global generated seed');
+    print('seed: $seed');
     notifyListeners();
   }
-
 
 }
