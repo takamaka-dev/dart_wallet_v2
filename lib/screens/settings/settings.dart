@@ -1,4 +1,3 @@
-import 'package:dart_wallet_v2/config/globals.dart' as globals;
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -15,7 +14,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingState extends State<Settings> {
-  late final String? seed;
+
 
   final int _selectedNetwork = 0;
   Map<int, String> networks = {
@@ -47,7 +46,7 @@ class _SettingState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => Globals(),
+      create: (context) => Globals(),
       child: Consumer<Globals>(
           builder: (context, model, child) => CupertinoPageScaffold(
                 navigationBar: const CupertinoNavigationBar(
@@ -63,7 +62,7 @@ class _SettingState extends State<Settings> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Text(
-                          model.generatedSeed,
+                          'Seed:${model.generatedSeed}',
                         ),
                         const Text('Selected network: '),
                         CupertinoButton(
