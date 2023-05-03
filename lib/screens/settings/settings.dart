@@ -108,8 +108,6 @@ class _SettingState extends State<Settings> {
 
   @override
   void initState() {
-    print("ciao");
-
     super.initState();
   }
 }
