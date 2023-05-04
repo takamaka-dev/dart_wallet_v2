@@ -54,7 +54,7 @@ dependencies:
   hash: ^1.0.4
   hex: ^0.2.0
   sha3: ^0.2.0
-  image: ^4.0.15
+  image: ^4.0.16
   build_runner: ^2.3.3
   encrypt: ^5.0.1
   glass: ^1.0.1+1
