@@ -51,7 +51,7 @@ class _SettingState extends State<Settings> {
       child: Consumer<Globals>(
           builder: (context, model, child) => CupertinoPageScaffold(
                 navigationBar: const CupertinoNavigationBar(
-                  middle: Text('Settings Sample'),
+                  middle: Text('Settings'),
                 ),
                 child: DefaultTextStyle(
                   style: TextStyle(
@@ -112,8 +112,6 @@ class _SettingState extends State<Settings> {
 
   @override
   void initState() {
-    print("ciao");
-
     super.initState();
   }
 }
