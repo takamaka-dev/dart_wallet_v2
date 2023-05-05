@@ -5,9 +5,9 @@ part 'changes.g.dart';
 
 @JsonSerializable()
 class Changes {
-  final List<SingleChange> objects;
+  final List<SingleChange> changes;
 
-  Changes({required this.objects});
+  Changes({required this.changes});
 
   factory Changes.fromJson(Map<String, dynamic> json) =>
       _$ChangesFromJson(json);

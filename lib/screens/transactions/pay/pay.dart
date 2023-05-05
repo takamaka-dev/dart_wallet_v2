@@ -28,9 +28,12 @@ class _PayState extends State<Pay> {
   }
 
   @override
-  void initState() {
+  Future<void> initState() async {
     _initPayInterface();
-    fetchMyObjects();
+    List<SingleChange> changes = await fetchMyObjects();
+
+
+
     super.initState();
   }
 
@@ -141,7 +144,7 @@ class _PayState extends State<Pay> {
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
       final myApiResponse = Changes.fromJson(jsonResponse);
-      return myApiResponse.objects;
+      return myApiResponse.changes;
     } else {
       throw Exception('Errore durante la richiesta dei dati');
     }

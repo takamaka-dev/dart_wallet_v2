@@ -7,11 +7,11 @@ part of 'changes.dart';
 // **************************************************************************
 
 Changes _$ChangesFromJson(Map<String, dynamic> json) => Changes(
-      objects: (json['objects'] as List<dynamic>)
+      changes: (json['changes'] as List<dynamic>)
           .map((e) => SingleChange.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$ChangesToJson(Changes instance) => <String, dynamic>{
-      'objects': instance.objects,
+      'changes': instance.changes,
     };
