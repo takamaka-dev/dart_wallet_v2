@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/api/single_change.dart';
+import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,12 +29,9 @@ class _PayState extends State<Pay> {
   }
 
   @override
-  Future<void> initState() async {
+  void initState() {
     _initPayInterface();
-    List<SingleChange> changes = await fetchMyObjects();
-
-
-
+    fetchMyObjects();
     super.initState();
   }
 
@@ -138,13 +136,13 @@ class _PayState extends State<Pay> {
     );
   }
 
-  Future<List<SingleChange>> fetchMyObjects() async {
+  Future<void> fetchMyObjects() async {
     final response = await http.get(Uri.parse('https://takamaka.io/api/change/tkg'));
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
       final myApiResponse = Changes.fromJson(jsonResponse);
-      return myApiResponse.changes;
+      Globals.instance.changes = myApiResponse;
     } else {
       throw Exception('Errore durante la richiesta dei dati');
     }
