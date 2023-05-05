@@ -56,7 +56,7 @@ class _PayState extends State<Pay> {
     double converted_value = double.parse(value);
 
     if (currentToken == "TKG") {
-      converted_value  *= (1/tkUsd);
+      converted_value *= (1 / tkUsd);
     }
 
     setState(() {
@@ -65,7 +65,7 @@ class _PayState extends State<Pay> {
   }
 
   void updateCurrencyValue(String value) {
-    double usdTk = 1/Globals.instance.changes.changes[2].value;
+    double usdTk = 1 / Globals.instance.changes.changes[2].value;
     double convertedValue = double.parse(value);
 
     if (currentToken == "TKR") {
@@ -76,6 +76,8 @@ class _PayState extends State<Pay> {
       _controller_2.text = "$convertedValue USD";
     });
   }
+
+  void doPay() {}
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +187,20 @@ class _PayState extends State<Pay> {
                   const CupertinoTextField(
                     maxLines: 10,
                     placeholder: 'Enter your text here',
-                  )
+                  ),
+                  const SizedBox(height: 30),
+                  CupertinoButton(
+                      color: Styles.takamakaColor,
+                      onPressed: doPay,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(CupertinoIcons.paperplane),
+                            SizedBox(width: 10),
+                            Text('Send')
+                          ])),
+                  const SizedBox(height: 30),
                 ],
               ),
             )
