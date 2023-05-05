@@ -7,12 +7,14 @@ part of 'single_change.dart';
 // **************************************************************************
 
 SingleChange _$SingleChangeFromJson(Map<String, dynamic> json) => SingleChange(
-      name: json['name'] as String,
-      age: json['age'] as int,
+      label: json['label'] as String,
+      code: json['code'] as String,
+      value: (json['value'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$SingleChangeToJson(SingleChange instance) =>
     <String, dynamic>{
-      'name': instance.name,
-      'age': instance.age,
+      'label': instance.label,
+      'code': instance.code,
+      'value': instance.value,
     };

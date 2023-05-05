@@ -4,10 +4,11 @@ part 'single_change.g.dart';
 
 @JsonSerializable()
 class SingleChange {
-  final String name;
-  final int age;
+  final String label;
+  final String code;
+  final double value;
 
-  SingleChange({required this.name, required this.age});
+  SingleChange({required this.label, required this.code, required this.value});
 
   factory SingleChange.fromJson(Map<String, dynamic> json) =>
       _$SingleChangeFromJson(json);

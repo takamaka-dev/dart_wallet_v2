@@ -58,6 +58,7 @@ dependencies:
   build_runner: ^2.3.3
   encrypt: ^5.0.1
   glass: ^1.0.1+1
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:
