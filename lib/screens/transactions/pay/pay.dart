@@ -77,7 +77,9 @@ class _PayState extends State<Pay> {
     });
   }
 
-  void doPay() {}
+  void doPay() {
+
+  }
 
   @override
   Widget build(BuildContext context) {
