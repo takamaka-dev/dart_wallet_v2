@@ -65,11 +65,11 @@ class _PayState extends State<Pay> {
   }
 
   void updateCurrencyValue(String value) {
-    double usdTk = 1 / Globals.instance.changes.changes[2].value;
+    double usdTk =  Globals.instance.changes.changes[2].value;
     double convertedValue = double.parse(value);
 
-    if (currentToken == "TKR") {
-      convertedValue *= usdTk;
+    if (currentToken == "TKG") {
+      convertedValue = convertedValue * usdTk;
     }
 
     setState(() {
@@ -141,6 +141,8 @@ class _PayState extends State<Pay> {
                         onPressed: () {
                           setState(() {
                             currentToken = "TKG";
+                            _controller.text = "";
+                            _controller_2.text = "";
                           });
                         },
                         child: CircleAvatar(
@@ -156,6 +158,8 @@ class _PayState extends State<Pay> {
                         onPressed: () {
                           setState(() {
                             currentToken = "TKR";
+                            _controller.text = "";
+                            _controller_2.text = "";
                           });
                         },
                         child: CircleAvatar(
