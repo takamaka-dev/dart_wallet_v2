@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config/styles.dart';
+
 class Pay extends StatefulWidget {
   const Pay({super.key});
 
@@ -31,33 +33,30 @@ class _PayState extends State<Pay> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CupertinoButton(
-                onPressed: () {
-                  Navigator.pop(
-                      context); // Navigate back when back button is pressed
-                },
-                child: const Icon(Icons.arrow_back),
-              ),
-              Container(
-                  width: 100,
-                  height: 60,
-                  decoration: const BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius:
-                          BorderRadius.only(bottomLeft: Radius.circular(10))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(CupertinoIcons.paperplane,
-                          size: 20, color: Colors.white),
-                      SizedBox(width: 10),
-                      Text("Pay", style: TextStyle(color: Colors.white))
-                    ],
-                  ))
-            ],
+          SizedBox(
+            width: double.infinity,
+            child: Container(
+                color: Styles.takamakaColor,
+                child: Stack(
+                  alignment: Alignment.centerLeft,
+                  children: <Widget>[
+                    CupertinoButton(
+                      onPressed: () {
+                        Navigator.pop(
+                            context); // Navigate back when back button is pressed
+                      },
+                      child: const Icon(Icons.arrow_back, color: Colors.white),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        Text("Pay section",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                  ],
+                )),
           ),
           Container(
             padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
@@ -99,7 +98,10 @@ class _PayState extends State<Pay> {
                           backgroundColor:
                               currentToken == "TKR" ? Colors.red : Colors.grey,
                           child: Text("TKR",
-                              style: TextStyle(color: currentToken == "TKR" ? Colors.white : Colors.black54))),
+                              style: TextStyle(
+                                  color: currentToken == "TKR"
+                                      ? Colors.white
+                                      : Colors.black54))),
                     )
                   ],
                 ),
@@ -114,74 +116,15 @@ class _PayState extends State<Pay> {
                   placeholder: "TKG",
                 ),
                 const SizedBox(height: 20),
-                InputTextWithAnimation()
-                /*CupertinoTextField(
+                const CupertinoTextField(
                   maxLines: 10,
                   placeholder: 'Enter your text here',
-
-                ),*/
-                /*const CupertinoTextField(
-                  decoration: BoxDecoration(
-                    color: CupertinoColors.white,
-                  ),
-                  placeholder: 'Inserisci qui il testo',
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                )*/
+                )
               ],
             ),
           )
         ],
       ),
-    );
-  }
-}
-
-class InputTextWithAnimation extends StatefulWidget {
-  @override
-  _InputTextWithAnimationState createState() => _InputTextWithAnimationState();
-}
-
-class _InputTextWithAnimationState extends State<InputTextWithAnimation> {
-  bool _isFocused = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-          width: 300.0,
-          height: 60.0,
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: _isFocused ? Colors.blue : Colors.grey,
-                width: 2.0,
-              ),
-            ),
-          ),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Enter your text here',
-              border: InputBorder.none,
-            ),
-            onChanged: (value) {},
-            onTap: () {
-              setState(() {
-                _isFocused = true;
-              });
-            },
-            onSubmitted: (value) {
-              setState(() {
-                _isFocused = false;
-              });
-            },
-          ),
-        ),
-      ],
     );
   }
 }
