@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/api/single_change.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
@@ -23,6 +24,8 @@ class _PayState extends State<Pay> {
   Int8List? _bytes;
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller_2 = TextEditingController();
+  final TextEditingController _controllerToAddress = TextEditingController();
+  final TextEditingController _controllerMessage = TextEditingController();
 
   Future<bool> _initPayInterface() async {
     setState(() {
@@ -41,31 +44,31 @@ class _PayState extends State<Pay> {
   }
 
   Future<void> updateIdenticon(String address) async {
-    var bytes_result;
+    var bytesResult;
     if (address.isNotEmpty) {
-      bytes_result = await WalletUtils.testBitMap(address).buffer.asInt8List();
+      bytesResult = await WalletUtils.testBitMap(address).buffer.asInt8List();
     }
 
     setState(() {
-      _bytes = bytes_result;
+      _bytes = bytesResult;
     });
   }
 
   void updateTokenValue(String value) {
     double tkUsd = Globals.instance.changes.changes[2].value;
-    double converted_value = double.parse(value);
+    double convertedValue = double.parse(value);
 
     if (currentToken == "TKG") {
-      converted_value *= (1 / tkUsd);
+      convertedValue *= (1 / tkUsd);
     }
 
     setState(() {
-      _controller.text = "$converted_value " + currentToken!;
+      _controller.text = "$convertedValue " + currentToken!;
     });
   }
 
   void updateCurrencyValue(String value) {
-    double usdTk =  Globals.instance.changes.changes[2].value;
+    double usdTk = Globals.instance.changes.changes[2].value;
     double convertedValue = double.parse(value);
 
     if (currentToken == "TKG") {
@@ -77,8 +80,44 @@ class _PayState extends State<Pay> {
     });
   }
 
-  void doPay() {
+  Future<void> doPay() async {
 
+    InternalTransactionBean itb;
+
+    print('FROM ADDRESS: ' + Globals.instance.selectedFromAddress);
+
+    if (currentToken == "TKG") {
+      itb = BuilderItb.pay(
+          Globals.instance.selectedFromAddress,
+          _controllerToAddress.text,
+          TKmTK.unitStringTK(_controller.text),
+          TKmTK.unitTK(0),
+          _controllerMessage.text,
+          TKmTK.getTransactionTime());
+    } else {
+      itb = BuilderItb.pay(
+          Globals.instance.selectedFromAddress,
+          _controllerToAddress.text,
+          TKmTK.unitTK(0),
+          TKmTK.unitStringTK(_controller.text),
+          _controllerMessage.text,
+          TKmTK.getTransactionTime());
+    }
+
+    SimpleKeyPair skp =
+        await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
+
+    TransactionBean tb = await TkmWallet.createGenericTransaction(
+        itb, skp, Globals.instance.selectedFromAddress);
+
+    String tbJson = tb.toJson().toString();
+
+    String payHexBody = StringUtilities.convertToHex(tbJson);
+
+    TransactionInput ti = TransactionInput(payHexBody);
+
+    ConsumerHelper.doPost("", "", "", ti.toJson());
+    print(payHexBody);
   }
 
   @override
@@ -120,7 +159,8 @@ class _PayState extends State<Pay> {
                 children: [
                   Center(
                       child: _bytes == null
-                          ? Icon(CupertinoIcons.qrcode, color: Styles.takamakaColor, size: 100)
+                          ? Icon(CupertinoIcons.qrcode,
+                              color: Styles.takamakaColor, size: 100)
                           : Image.memory(
                               Uint8List.fromList(_bytes!),
                               width: 250,
@@ -131,6 +171,7 @@ class _PayState extends State<Pay> {
                   CupertinoTextField(
                     textAlign: TextAlign.center,
                     onChanged: (value) => {updateIdenticon(value)},
+                    controller: _controllerToAddress,
                     placeholder: "Address",
                   ),
                   const SizedBox(height: 20),
@@ -190,14 +231,15 @@ class _PayState extends State<Pay> {
                     placeholder: currentToken == "TKG" ? "TKG" : "TKR",
                   ),
                   const SizedBox(height: 20),
-                  const CupertinoTextField(
+                  CupertinoTextField(
                     maxLines: 10,
+                    controller: _controllerMessage,
                     placeholder: 'Enter your text here',
                   ),
                   const SizedBox(height: 30),
                   CupertinoButton(
                       color: Styles.takamakaColor,
-                      onPressed: doPay,
+                      onPressed: () => {doPay()},
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,

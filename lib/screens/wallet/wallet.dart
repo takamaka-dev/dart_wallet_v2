@@ -64,12 +64,6 @@ class _WalletState extends State<Wallet> {
           builder: (context, model, child) =>
               Scaffold(
                   body: Container(
-                    /*decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("images/wallpaper.jpeg"),
-                fit: BoxFit.cover,
-              ),
-            ),*/
                       child: Column(
                         children: [
                           Row(
@@ -85,15 +79,6 @@ class _WalletState extends State<Wallet> {
                             ],
                           ),
                           Container(
-                            /*decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.shade400,
-                          spreadRadius: 1,
-                          blurRadius: 8)
-                    ],
-                  ),*/
                             constraints: const BoxConstraints(maxWidth: 700),
                             padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
                             child: Column(
@@ -124,6 +109,9 @@ class _WalletState extends State<Wallet> {
                                       SimpleKeyPair keypair =
                                       await WalletUtils.getNewKeypairED25519(
                                           kb!['seed']);
+
+                                      Globals.instance.generatedSeed = kb!['seed'];
+
                                       crc = await WalletUtils.getCrc32(keypair);
                                       walletAddress =
                                       await WalletUtils.getTakamakaAddress(
@@ -137,6 +125,7 @@ class _WalletState extends State<Wallet> {
                                         kb = kb;
                                         crc = crc;
                                         walletAddress = walletAddress;
+                                        Globals.instance.selectedFromAddress = walletAddress!;
                                         _bytes = _bytes;
                                       });
                                       model.generatedSeed = kb!['seed'];

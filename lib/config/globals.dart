@@ -1,9 +1,20 @@
+import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'api/single_change.dart';
 
 class Globals with ChangeNotifier {
+
+  String _selectedFromAddress = "";
+
+  String get selectedFromAddress => _selectedFromAddress;
+
+  set selectedFromAddress(String value) {
+    _selectedFromAddress = value;
+    super.notifyListeners();
+  }
+
   String _generatedSeed = "";
   String _recoveryWords = "";
   String _selectedNetwork = "";
