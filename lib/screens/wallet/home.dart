@@ -27,109 +27,122 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> getWallets() async {
-    FileSystemUtils.getWalletsInWalletsDir(
-            dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
-        .then((value) => {
-              setState(() {
-                wallets = value;
-              })
-            });
+
+    bool existsFolder = await (await FileSystemUtils.getWalletDir(dotenv.get('WALLET_FOLDER'))).exists();
+
+    if (!existsFolder) {
+      await FileSystemUtils.createFolderInAppDocDir(dotenv.get('WALLET_FOLDER'));
+    }
+
+    List<String> walletsResult = await FileSystemUtils.getWalletsInWalletsDir(
+        dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'));
+
+    setState(() {
+      wallets = walletsResult;
+    });
+  }
+
+  Widget tryRenderWallets() {
+
+    if (wallets == null) {
+      return const CircularProgressIndicator();
+    } else if (wallets!.isNotEmpty) {
+      return  WalletListWidget(wallets!).build(context);
+    }
+
+    return Column(
+      children: const [
+        SizedBox(height: 20),
+        Text("No wallets has been added yet!"),
+        SizedBox(height: 20)
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-            middle: Text('Home'),
-          ),
+          middle: Text('Home'),
+        ),
         child: Column(
-      children: [
-        Container(
-            constraints: const BoxConstraints(maxWidth: 700),
-            padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
-            child: Center()),
-        Container(
-            alignment: Alignment.bottomCenter,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  wallets == null
-                      ? const CircularProgressIndicator()
-                      : WalletListWidget(wallets!).build(context),
-                  Center(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                        CupertinoButton(
-                            color: Styles.takamakaColor,
-                            onPressed: _newWallet,
-                            child: Row(
+          children: [
+            Container(
+                constraints: const BoxConstraints(maxWidth: 700),
+                padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
+                child: Center()),
+            Container(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      tryRenderWallets(),
+                      Center(
+                          child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Icon(CupertinoIcons.plus),
-                                SizedBox(width: 10),
-                                Text('New Wallet'),
-                              ],
-                            )),
-                        SizedBox(width: 50),
-                        CupertinoButton(
-                            color: Styles.takamakaColor,
-                            onPressed: _restoreWallet,
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: const [
-                                  Icon(CupertinoIcons.arrow_3_trianglepath),
-                                  SizedBox(width: 10),
-                                  Text('Restore Wallet')
-                                ])),
-                      ]))
-                ]))
-      ],
-    ));
+                              children: [
+                            CupertinoButton(
+                                color: Styles.takamakaColor,
+                                onPressed: _newWallet,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Icon(CupertinoIcons.plus),
+                                    SizedBox(width: 10),
+                                    Text('New Wallet'),
+                                  ],
+                                )),
+                            SizedBox(width: 50),
+                            CupertinoButton(
+                                color: Styles.takamakaColor,
+                                onPressed: _restoreWallet,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      Icon(CupertinoIcons.arrow_3_trianglepath),
+                                      SizedBox(width: 10),
+                                      Text('Restore Wallet')
+                                    ])),
+                          ]))
+                    ]))
+          ],
+        ));
   }
 
   Future<void> _newWallet() async {
-    Navigator.of(context).push(
-        CupertinoPageRoute<void>(
-          builder: (BuildContext context) {
-            return NewWallet(
-                onRefresh: () {
-                  FileSystemUtils.getWalletsInWalletsDir(
-                      dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
-                      .then((value) => {
+    Navigator.of(context).push(CupertinoPageRoute<void>(
+      builder: (BuildContext context) {
+        return NewWallet(onRefresh: () {
+          FileSystemUtils.getWalletsInWalletsDir(
+                  dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
+              .then((value) => {
                     setState(() {
                       wallets = value;
                     })
                   });
-                }
-
-            );
-          },
-        ));
+        });
+      },
+    ));
   }
 
   void _restoreWallet() {
-    Navigator.of(context).push(
-        CupertinoPageRoute<void>(
-          builder: (BuildContext context) {
-            return Restore(
-                onRefresh: () {
-                  FileSystemUtils.getWalletsInWalletsDir(
-                      dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
-                      .then((value) => {
+    Navigator.of(context).push(CupertinoPageRoute<void>(
+      builder: (BuildContext context) {
+        return Restore(onRefresh: () {
+          FileSystemUtils.getWalletsInWalletsDir(
+                  dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
+              .then((value) => {
                     setState(() {
                       wallets = value;
                     })
                   });
-                }
-
-            );
-          },
-        ));
+        });
+      },
+    ));
   }
 }
 
@@ -162,7 +175,6 @@ class SingleWallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return CupertinoListTile(
       title: Text(walletName),
       leading: Container(
@@ -180,6 +192,4 @@ class SingleWallet extends StatelessWidget {
       ),
     );
   }
-
-
 }
