@@ -178,7 +178,7 @@ class _WalletState extends State<Wallet> {
                           ? const CircularProgressIndicator()
                           : Text(crc!)),
                   Center(
-                    child: Row(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CupertinoButton(
@@ -198,7 +198,7 @@ class _WalletState extends State<Wallet> {
                                 Text('Logout'),
                               ],
                             )),
-                        SizedBox(width: 30),
+                        SizedBox(height: 30),
                         CupertinoButton(
                             color: Styles.takamakaColor,
                             onPressed: () =>

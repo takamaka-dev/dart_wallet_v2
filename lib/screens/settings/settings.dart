@@ -59,7 +59,7 @@ class _SettingState extends State<Settings> {
                     fontSize: 22.0,
                   ),
                   child: Center(
-                    child: Row(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Row(
@@ -81,7 +81,7 @@ class _SettingState extends State<Settings> {
                               // This is called when selected item is changed.
                               onSelectedItemChanged: (int selectedItem) {
                                 setState(() {
-                                  /*globals.selectedNetwork = networks[selectedItem]!;*/
+                                  Globals.instance.selectedNetwork = networks[selectedItem]!;
                                 });
                               },
                               children: List<Widget>.generate(

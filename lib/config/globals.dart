@@ -6,6 +6,15 @@ import 'api/single_change.dart';
 class Globals with ChangeNotifier {
   String _generatedSeed = "";
   String _recoveryWords = "";
+  String _selectedNetwork = "";
+
+  String get selectedNetwork => _selectedNetwork;
+
+  set selectedNetwork(String value) {
+    _selectedNetwork = value;
+    super.notifyListeners();
+  }
+
   Changes _changes = Changes(changes: []);
 
 

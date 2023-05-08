@@ -120,7 +120,7 @@ class _PayState extends State<Pay> {
                 children: [
                   Center(
                       child: _bytes == null
-                          ? Text("")
+                          ? Icon(CupertinoIcons.qrcode, color: Styles.takamakaColor, size: 100)
                           : Image.memory(
                               Uint8List.fromList(_bytes!),
                               width: 250,
