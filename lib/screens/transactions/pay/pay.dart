@@ -110,8 +110,12 @@ class _PayState extends State<Pay> {
     TransactionBean tb = await TkmWallet.createGenericTransaction(
         itb, skp, Globals.instance.selectedFromAddress);
 
-    String tbJson = StringUtilities.jsonNotEscapedToCorrectFormat(tb.toJson().toString());
+    String asd = StringUtilities.jsonNotEscapedToCorrectFormat(tb.message.toString());
 
+    tb.message = asd;
+
+    //String tbJson = StringUtilities.jsonNotEscapedToCorrectFormat(tb.toJson().toString());
+    String tbJson = jsonEncode(tb.toJson());
     String payHexBody = StringUtilities.convertToHex(tbJson);
 
     TransactionInput ti = TransactionInput(payHexBody);
