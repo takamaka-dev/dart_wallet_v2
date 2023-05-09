@@ -111,8 +111,13 @@ class _PayState extends State<Pay> {
         itb, skp, Globals.instance.selectedFromAddress);
 
     String asd = StringUtilities.jsonNotEscapedToCorrectFormat(tb.message.toString());
+    var jsonDecoded = json.decode(asd);
 
-    tb.message = asd;
+    jsonDecoded['notBefore'] = int.parse(jsonDecoded['notBefore']);
+    jsonDecoded['redValue'] = int.parse(jsonDecoded['redValue']);
+    jsonDecoded['greenValue'] = int.parse(jsonDecoded['greenValue']);
+
+    tb.message = jsonEncode(jsonDecoded);
 
     //String tbJson = StringUtilities.jsonNotEscapedToCorrectFormat(tb.toJson().toString());
     String tbJson = jsonEncode(tb.toJson());
