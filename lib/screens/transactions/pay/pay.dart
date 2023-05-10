@@ -87,32 +87,25 @@ class _PayState extends State<Pay> {
 
   Future<void> doPay() async {
 
-    String str = "PmwBpB9fY0oyA_IZbYeOBr5ImIfN7ZiXs12elWQcyno.7Y-QAQYbUqpuwH3-_P0jLa3fd8zAtjCaw1AkVCHuIDU.ciao1683706093246null1000000000PAYnullnull";
-    List<int> bytes = utf8.encode(str);
-    SHA3Digest sha3digest = SHA3Digest(256);
-    Uint8List hash = sha3digest.process(Uint8List.fromList(bytes));
-    String hashString = hex.encode(hash);
-    String base64UrlSafe = StringUtilities.convertFromBase64ToBase64UrlSafe(base64.encode(hash));
-    /* final sha256 = Digest("SHA-256");
-
-    Uint8List hash = sha256.process(Uint8List.fromList(bytes));
-    String hashString = hex.encode(hash);
-    String base64UrlSafe = StringUtilities.convertFromBase64ToBase64UrlSafe(base64.encode(hash));
-*/
-
-
     InternalTransactionBean itb;
 
     print('FROM ADDRESS: ' + Globals.instance.selectedFromAddress);
 
     if (currentToken == "TKG") {
+
       itb = BuilderItb.pay(
           Globals.instance.selectedFromAddress,
-          _controllerToAddress.text,
-          TKmTK.unitStringTK(_controller.text),
-          TKmTK.unitTK(0),
-          _controllerMessage.text,
+          // "dNqVOk1YrSSBbPLn2opyAMz8E3JrNVZhzUTlFGwgIYY.",
+          "7Y-QAQYbUqpuwH3-_P0jLa3fd8zAtjCaw1AkVCHuIDU.",
+          // _controllerToAddress.text,
+          // TKmTK.unitStringTK(_controller.text),
+          TKmTK.unitTK(1),
+          null,
+          // _controllerMessage.text,
+           "ciao",
           TKmTK.getTransactionTime());
+      String payItbJson = json.encode(itb.toJson());
+      print(payItbJson);
     } else {
       itb = BuilderItb.pay(
           Globals.instance.selectedFromAddress,
@@ -124,12 +117,17 @@ class _PayState extends State<Pay> {
     }
 
     SimpleKeyPair skp =
-        await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
+        // await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
+        await WalletUtils.getNewKeypairED25519("dNqVOk1YrSSBbPLn2opyAMz8E3JrNVZhzUTlFGwgIYY.");
 
+    // TransactionBean tb = await TkmWallet.createGenericTransaction(
+    //     itb, skp, Globals.instance.selectedFromAddress);
     TransactionBean tb = await TkmWallet.createGenericTransaction(
-        itb, skp, Globals.instance.selectedFromAddress);
+        itb, skp, "dNqVOk1YrSSBbPLn2opyAMz8E3JrNVZhzUTlFGwgIYY.");
 
-    String asd = StringUtilities.jsonNotEscapedToCorrectFormat(tb.message.toString());
+    tb.signature = "s7Z0XlIOaMQ4qo3X1jQPzXiyfmmlWhH1myQ5DMHt835Lo52sWKcMwpprH80L5TM1oV0rvCXiiA28QqP0_vRhAA..";
+
+    String asd = tb.message.toString();
     var jsonDecoded = json.decode(asd);
 
     jsonDecoded['notBefore'] = int.parse(jsonDecoded['notBefore']);
@@ -138,7 +136,7 @@ class _PayState extends State<Pay> {
 
     tb.message = jsonEncode(jsonDecoded);
 
-    //String tbJson = StringUtilities.jsonNotEscapedToCorrectFormat(tb.toJson().toString());
+    // String tbJson = StringUtilities.jsonNotEscapedToCorrectFormat(tb.toJson().toString());
     String tbJson = jsonEncode(tb.toJson());
     String payHexBody = StringUtilities.convertToHex(tbJson);
 
