@@ -116,27 +116,26 @@ class _PayState extends State<Pay> {
           TKmTK.getTransactionTime());
     }
 
-    SimpleKeyPair skp =
-        // await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
-        await WalletUtils.getNewKeypairED25519("dNqVOk1YrSSBbPLn2opyAMz8E3JrNVZhzUTlFGwgIYY.");
+    SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
+        //await WalletUtils.getNewKeypairED25519("dNqVOk1YrSSBbPLn2opyAMz8E3JrNVZhzUTlFGwgIYY.");
 
     // TransactionBean tb = await TkmWallet.createGenericTransaction(
     //     itb, skp, Globals.instance.selectedFromAddress);
     TransactionBean tb = await TkmWallet.createGenericTransaction(
-        itb, skp, "dNqVOk1YrSSBbPLn2opyAMz8E3JrNVZhzUTlFGwgIYY.");
+        itb, skp, Globals.instance.selectedFromAddress);
 
-    tb.signature = "s7Z0XlIOaMQ4qo3X1jQPzXiyfmmlWhH1myQ5DMHt835Lo52sWKcMwpprH80L5TM1oV0rvCXiiA28QqP0_vRhAA..";
-
-    String asd = tb.message.toString();
+    /*String asd = tb.message.toString();
     var jsonDecoded = json.decode(asd);
 
-    jsonDecoded['notBefore'] = int.parse(jsonDecoded['notBefore']);
-    jsonDecoded['redValue'] = int.parse(jsonDecoded['redValue']);
-    jsonDecoded['greenValue'] = int.parse(jsonDecoded['greenValue']);
+    jsonDecoded['notBefore'] = BigInt.parse(jsonDecoded['notBefore']);
+    jsonDecoded['redValue'] = BigInt.parse(jsonDecoded['redValue']);
+    jsonDecoded['greenValue'] = BigInt.parse(jsonDecoded['greenValue']);
 
-    tb.message = jsonEncode(jsonDecoded);
+    tb.message = jsonEncode(jsonDecoded);*/
 
     // String tbJson = StringUtilities.jsonNotEscapedToCorrectFormat(tb.toJson().toString());
+    //var jsonDecoded = StringUtilities.jsonNotEscapedToCorrectFormat(tb.message!);
+
     String tbJson = jsonEncode(tb.toJson());
     String payHexBody = StringUtilities.convertToHex(tbJson);
 
