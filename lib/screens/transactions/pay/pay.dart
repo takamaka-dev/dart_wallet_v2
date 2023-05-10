@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/api/single_change.dart';
@@ -8,6 +9,10 @@ import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
+import 'package:pointycastle/api.dart';
+import 'package:pointycastle/digests/sha256.dart';
+import 'package:pointycastle/digests/sha3.dart';
+import 'package:pointycastle/macs/hmac.dart';
 
 import '../../../config/styles.dart';
 import 'package:http/http.dart' as http;
@@ -81,6 +86,20 @@ class _PayState extends State<Pay> {
   }
 
   Future<void> doPay() async {
+
+    String str = "PmwBpB9fY0oyA_IZbYeOBr5ImIfN7ZiXs12elWQcyno.7Y-QAQYbUqpuwH3-_P0jLa3fd8zAtjCaw1AkVCHuIDU.ciao1683706093246null1000000000PAYnullnull";
+    List<int> bytes = utf8.encode(str);
+    SHA3Digest sha3digest = SHA3Digest(256);
+    Uint8List hash = sha3digest.process(Uint8List.fromList(bytes));
+    String hashString = hex.encode(hash);
+    String base64UrlSafe = StringUtilities.convertFromBase64ToBase64UrlSafe(base64.encode(hash));
+    /* final sha256 = Digest("SHA-256");
+
+    Uint8List hash = sha256.process(Uint8List.fromList(bytes));
+    String hashString = hex.encode(hash);
+    String base64UrlSafe = StringUtilities.convertFromBase64ToBase64UrlSafe(base64.encode(hash));
+*/
+
 
     InternalTransactionBean itb;
 
