@@ -27,6 +27,8 @@ class Wallet extends StatefulWidget {
 class _WalletState extends State<Wallet> {
   _WalletState(this.walletName);
 
+  final TextEditingController _walletIndexNumberController = TextEditingController();
+
   final String walletName;
 
   Int8List? _bytes;
@@ -56,99 +58,110 @@ class _WalletState extends State<Wallet> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        child: kb == null ? getLockedWallet() : getUnlockedWallet());
+        child: kb == null && Globals.instance.brb.greenBalance != null ? getLockedWallet() : getUnlockedWallet());
   }
 
   Widget getLockedWallet() {
     return ChangeNotifierProvider.value(
       value: Globals.instance,
       child: Consumer<Globals>(
-          builder: (context, model, child) =>
-              Scaffold(
-                  body: Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              CupertinoButton(
-                                onPressed: () {
-                                  Navigator.pop(
-                                      context); // Navigate back when back button is pressed
-                                },
-                                child: const Icon(Icons.arrow_back),
-                              )
-                            ],
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(maxWidth: 700),
-                            padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        color: Colors.grey.shade600),
-                                    "Please insert your wallet password"),
-                                const SizedBox(height: 50),
-                                CupertinoTextField(
-                                  obscureText: true,
-                                  textAlign: TextAlign.center,
-                                  placeholder: "Password",
-                                  onChanged: (value) => {password = value},
-                                ),
-                                const SizedBox(height: 50),
-                                CupertinoButton(
-                                    color: Styles.takamakaColor,
-                                    child: const Text("Login"),
-                                    onPressed: () async {
-                                      kb = await WalletUtils.initWallet(
-                                          'wallets',
-                                          walletName,
-                                          dotenv.get('WALLET_EXTENSION'),
-                                          password);
-                                      SimpleKeyPair keypair =
-                                      await WalletUtils.getNewKeypairED25519(
-                                          kb!['seed']);
-
-                                      Globals.instance.generatedSeed =
-                                      kb!['seed'];
-
-                                      crc = await WalletUtils.getCrc32(keypair);
-                                      walletAddress =
-                                      await WalletUtils.getTakamakaAddress(
-                                          keypair);
-                                      _bytes =
-                                      await WalletUtils
-                                          .testBitMap(walletAddress!)
-                                          .buffer
-                                          .asInt8List();
-                                      fetchMyObjects();
-                                      setState(() {
-                                        kb = kb;
-                                        crc = crc;
-                                        walletAddress = walletAddress;
-                                        Globals.instance.selectedFromAddress =
-                                        walletAddress!;
-                                        _bytes = _bytes;
-                                      });
-                                      model.generatedSeed = kb!['seed'];
-                                      model.recoveryWords = kb!['words'];
-                                    })
-                              ],
+          builder: (context, model, child) => Scaffold(
+                  body: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                  CupertinoButton(
+                    onPressed: () {
+                      Navigator.pop(
+                          context); // Navigate back when back button is pressed
+                    },
+                    child: const Icon(Icons.arrow_back),
+                  )
+                    ],
+                  ),
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 700),
+                    padding: const EdgeInsets.fromLTRB(20, 50, 20, 50),
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Icon(CupertinoIcons.lock, size: 60, color: Styles.takamakaColor),
+                    Text(
+                        style: TextStyle(
+                            fontSize: 25, color: Colors.grey.shade600),
+                        "Please insert your wallet password"),
+                    const SizedBox(height: 50),
+                    SizedBox(
+                        width: 200,
+                        child: Column(
+                          children: [
+                            CupertinoTextField(
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              controller: _walletIndexNumberController,
+                              placeholder: 'Wallet index number',
+                              onChanged: (value) {
+                                // Azione quando il testo viene modificato
+                              },
                             ),
-                          ).asGlass(
-                              tintColor: Colors.transparent,
-                              clipBorderRadius: BorderRadius.circular(15.0))
-                        ],
-                      )))),
+                            const SizedBox(height: 50),
+                            CupertinoTextField(
+                              obscureText: true,
+                              textAlign: TextAlign.center,
+                              placeholder: "Password",
+                              onChanged: (value) => {password = value},
+                            ),
+                          ],
+                        )),
+                    const SizedBox(height: 50),
+                    CupertinoButton(
+                        color: Styles.takamakaColor,
+                        child: const Text("Login"),
+                        onPressed: () async {
+                          kb = await WalletUtils.initWallet(
+                              'wallets',
+                              walletName,
+                              dotenv.get('WALLET_EXTENSION'),
+                              password);
+                          SimpleKeyPair keypair =
+                              await WalletUtils.getNewKeypairED25519(
+                                  kb!['seed'], index: int.parse(_walletIndexNumberController.text));
+
+                          Globals.instance.generatedSeed = kb!['seed'];
+
+                          crc = await WalletUtils.getCrc32(keypair);
+                          walletAddress =
+                              await WalletUtils.getTakamakaAddress(keypair);
+                          _bytes =
+                              await WalletUtils.testBitMap(walletAddress!)
+                                  .buffer
+                                  .asInt8List();
+                          fetchMyObjects();
+                          setState(() {
+                            kb = kb;
+                            crc = crc;
+                            walletAddress = walletAddress;
+                            Globals.instance.selectedFromAddress =
+                                walletAddress!;
+                            _bytes = _bytes;
+                          });
+                          model.generatedSeed = kb!['seed'];
+                          model.recoveryWords = kb!['words'];
+                        })
+                  ],
+                    ),
+                  ).asGlass(
+                  tintColor: Colors.transparent,
+                  clipBorderRadius: BorderRadius.circular(15.0))
+                ],
+              ))),
     );
   }
 
   Future<void> doGetBalance() async {
     BalanceRequestBean brb =
-    BalanceRequestBean(Globals.instance.selectedFromAddress);
+        BalanceRequestBean(Globals.instance.selectedFromAddress);
     BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(
         await ConsumerHelper.doRequest(HttpMethods.POST,
             ApiList().apiMap['test']!['balance']!, brb.toJson())));
@@ -158,158 +171,168 @@ class _WalletState extends State<Wallet> {
     return ChangeNotifierProvider.value(
       value: Globals.instance,
       child: Consumer<Globals>(
-        builder: (context, model, child) =>
-            SingleChildScrollView(
-              child: Column(
+          builder: (context, model, child) => SingleChildScrollView(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                  const SizedBox(height: 50),
-              Center(
-                  child: _bytes == null
-                      ? const CircularProgressIndicator()
-                      : Image.memory(
-                    Uint8List.fromList(_bytes!),
-                    width: 250,
-                    height: 250,
-                    fit: BoxFit.contain,
-                  )),
-              SizedBox(height: 20),
-              Container(
-                  alignment: Alignment.topLeft,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage('images/wall.jpeg'),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  padding: const EdgeInsets.all(15),
-                  margin: const EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            children: [
-                              const CircleAvatar(
-                                  radius: 35.0,
-                                  backgroundColor: Colors.green,
-                                  child: Text("TKG",
-                                      style: TextStyle(
-                                          color: Colors.white))),
-                              const SizedBox(height: 10),
-                              Text(
-                                  "TKG ${(Globals.instance.brb.greenBalance! /
-                                      BigInt.from(10).pow(10)).toStringAsFixed(
-                                      2)}",
-                                  style: const TextStyle(
-                                      color: Colors.white)),
-                              Text(
-                                  "\$ ${updateCurrencyValue(Globals.instance.brb
-                                      .greenBalance! /
-                                      BigInt.from(10).pow(10))}",
-                                  style: const TextStyle(
-                                      color: Colors.white))
-                            ],
+                    const SizedBox(height: 50),
+                    Center(
+                        child: _bytes == null
+                            ? const CircularProgressIndicator()
+                            : Image.memory(
+                                Uint8List.fromList(_bytes!),
+                                width: 250,
+                                height: 250,
+                                fit: BoxFit.contain,
+                              )),
+                    const SizedBox(height: 20),
+                    Container(
+                        alignment: Alignment.topLeft,
+                        decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage('images/wall.jpeg'),
+                            fit: BoxFit.cover,
                           ),
-                          const SizedBox(width: 50),
-                          Column(
-                            children: [
-                              const CircleAvatar(
-                                  radius: 35.0,
-                                  backgroundColor: Colors.red,
-                                  child: Text("TKR",
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: [
+                                    const CircleAvatar(
+                                        radius: 35.0,
+                                        backgroundColor: Colors.green,
+                                        child: Text("TKG",
+                                            style: TextStyle(
+                                                color: Colors.white))),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      children: [
+                                        const Text("TKG ",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white)),
+                                        Text(
+                                            (Globals.instance.brb
+                                                        .greenBalance! /
+                                                    BigInt.from(10).pow(10))
+                                                .toStringAsFixed(2),
+                                            style: const TextStyle(
+                                                color: Colors.white))
+                                      ],
+                                    ),
+                                    Text(
+                                        "\$ ${updateCurrencyValue(Globals.instance.brb.greenBalance! / BigInt.from(10).pow(10))}",
+                                        style: const TextStyle(
+                                            color: Colors.white))
+                                  ],
+                                ),
+                                const SizedBox(width: 50),
+                                Column(
+                                  children: [
+                                    const CircleAvatar(
+                                        radius: 35.0,
+                                        backgroundColor: Colors.red,
+                                        child: Text("TKR",
+                                            style: TextStyle(
+                                                color: Colors.white))),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      children: [
+                                        const Text("TKR ",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white)),
+                                        Text(
+                                            (Globals.instance.brb.redBalance! /
+                                                    BigInt.from(10).pow(10))
+                                                .toStringAsFixed(2),
+                                            style: const TextStyle(
+                                                color: Colors.white))
+                                      ],
+                                    ),
+                                    Text(
+                                        "\$ ${(Globals.instance.brb.redBalance! / BigInt.from(10).pow(10)).toStringAsFixed(2)}",
+                                        style: const TextStyle(
+                                            color: Colors.white))
+                                  ],
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 50),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: const [
+                                  Text("Your Takamaka Address:",
+                                      textAlign: TextAlign.left,
                                       style: TextStyle(
-                                          color: Colors.white))),
-                              const SizedBox(height: 10),
-                              Text(
-                                  "TKR ${(Globals.instance.brb.redBalance! /
-                                      BigInt.from(10).pow(10)).toStringAsFixed(
-                                      2)}",
-                                  style: const TextStyle(
-                                      color: Colors.white)),
-                              Text(
-                                  "\$ ${(Globals.instance.brb.redBalance! /
-                                      BigInt.from(10).pow(10)).toStringAsFixed(
-                                      2)}",
-                                  style: const TextStyle(
-                                      color: Colors.white))
-                            ],
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 50),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            Text("Your Takamaka Address:",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold))
-                          ]),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          walletAddress == null
-                              ? const CircularProgressIndicator()
-                              : Text(walletAddress!,
-                              style: const TextStyle(
-                                  color: Colors.white))
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      crc == null
-                          ? const CircularProgressIndicator()
-                          : Column(
-                        children: [
-                          Row(
-                            children: const [
-                              Text("Your CRC: ",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold))
-                            ],
-                          ),
-                          const SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Text(crc!,
-                                  textAlign: TextAlign.start,
-                                  style: const TextStyle(
-                                      color: Colors.white))
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  )),
-              Center(
-                  child:
-                  Container(
-                      padding: const EdgeInsets.all(15),
-                      margin: const EdgeInsets.all(0),
-                      width: double.infinity,
-                      child: CupertinoButton(
-                          color: Styles.takamakaColor,
-                          onPressed: () =>
-                          {
-                            model.generatedSeed = "",
-                            model.recoveryWords = "",
-                            _initWalletInterface()
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Icon(CupertinoIcons.arrow_right_square),
-                              SizedBox(width: 10),
-                              Text('Logout'),
-                            ],
-                          ))
-                /*CupertinoButton(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold))
+                                ]),
+                            const SizedBox(height: 5),
+                            Row(
+                              children: [
+                                walletAddress == null
+                                    ? const CircularProgressIndicator()
+                                    : Text(walletAddress!,
+                                        style: const TextStyle(
+                                            color: Colors.white))
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            crc == null
+                                ? const CircularProgressIndicator()
+                                : Column(
+                                    children: [
+                                      Row(
+                                        children: const [
+                                          Text("Your CRC: ",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold))
+                                        ],
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          Text(crc!,
+                                              textAlign: TextAlign.start,
+                                              style: const TextStyle(
+                                                  color: Colors.white))
+                                        ],
+                                      )
+                                    ],
+                                  )
+                          ],
+                        )),
+                    Center(
+                      child: Container(
+                          padding: const EdgeInsets.all(15),
+                          margin: const EdgeInsets.all(0),
+                          width: double.infinity,
+                          child: CupertinoButton(
+                              color: Styles.takamakaColor,
+                              onPressed: () => {
+                                    model.generatedSeed = "",
+                                    model.recoveryWords = "",
+                                    _initWalletInterface()
+                                  },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: const [
+                                  Icon(CupertinoIcons.arrow_right_square),
+                                  SizedBox(width: 10),
+                                  Text('Logout'),
+                                ],
+                              ))
+                          /*CupertinoButton(
                               color: Styles.takamakaColor,
                               onPressed: () => {
                                     Navigator.of(context).push(
@@ -328,11 +351,11 @@ class _WalletState extends State<Wallet> {
                                 ],
                               )),*/
 
-              ),
-            )
-        ],
-      ),
-    )),
+                          ),
+                    )
+                  ],
+                ),
+              )),
     );
   }
 
@@ -344,7 +367,7 @@ class _WalletState extends State<Wallet> {
     Globals.instance.changes = myApiResponse;
 
     BalanceRequestBean brb =
-    BalanceRequestBean(Globals.instance.selectedFromAddress);
+        BalanceRequestBean(Globals.instance.selectedFromAddress);
 
     BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(
         await ConsumerHelper.doRequest(HttpMethods.POST,
