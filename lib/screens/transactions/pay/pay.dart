@@ -44,7 +44,7 @@ class _PayState extends State<Pay> {
   @override
   void initState() {
     _initPayInterface();
-    fetchMyObjects();
+    //fetchMyObjects();
     super.initState();
   }
 
@@ -262,16 +262,5 @@ class _PayState extends State<Pay> {
     );
   }
 
-  Future<void> fetchMyObjects() async {
-    final response =
-        await http.get(Uri.parse('https://takamaka.io/api/change/tkg'));
 
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      final myApiResponse = Changes.fromJson(jsonResponse);
-      Globals.instance.changes = myApiResponse;
-    } else {
-      throw Exception('Errore durante la richiesta dei dati');
-    }
-  }
 }

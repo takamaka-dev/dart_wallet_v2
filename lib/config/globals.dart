@@ -1,10 +1,20 @@
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 import 'api/single_change.dart';
 
 class Globals with ChangeNotifier {
+
+  BalanceResponseBean _brb = BalanceResponseBean();
+
+  BalanceResponseBean get brb => _brb;
+
+  set brb(BalanceResponseBean value) {
+    _brb = value;
+    super.notifyListeners();
+  }
 
   String _selectedFromAddress = "";
 

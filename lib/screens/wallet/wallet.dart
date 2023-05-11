@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:cryptography/cryptography.dart';
+import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
 import 'package:flutter/cupertino.dart';
@@ -125,6 +126,7 @@ class _WalletState extends State<Wallet> {
                                 Globals.instance.selectedFromAddress =
                                     walletAddress!;
                                 _bytes = _bytes;
+                                fetchMyObjects();
                               });
                               model.generatedSeed = kb!['seed'];
                               model.recoveryWords = kb!['words'];
@@ -155,135 +157,194 @@ class _WalletState extends State<Wallet> {
     return ChangeNotifierProvider.value(
       value: Globals.instance,
       child: Consumer<Globals>(
-          builder: (context, model, child) => Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Center(
-                      child: _bytes == null
-                          ? const CircularProgressIndicator()
-                          : Image.memory(
-                              Uint8List.fromList(_bytes!),
-                              width: 250,
-                              height: 250,
-                              fit: BoxFit.contain,
-                            )),
-                  Container(
-                      alignment: Alignment.topLeft,
-                      decoration: BoxDecoration(
-
-                        image: const DecorationImage(
-                          image: AssetImage('images/wall.jpeg'),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
+          builder: (context, model, child) => SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const SizedBox(height: 50),
+                Center(
+                    child: _bytes == null
+                        ? const CircularProgressIndicator()
+                        : Image.memory(
+                      Uint8List.fromList(_bytes!),
+                      width: 250,
+                      height: 250,
+                      fit: BoxFit.contain,
+                    )),
+                SizedBox(height: 20),
+                Container(
+                    alignment: Alignment.topLeft,
+                    decoration: BoxDecoration(
+                      image: const DecorationImage(
+                        image: AssetImage('images/wall.jpeg'),
+                        fit: BoxFit.cover,
                       ),
-                      padding: const EdgeInsets.all(15),
-                      margin: const EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                const CircleAvatar(
+                                    radius: 35.0,
+                                    backgroundColor: Colors.green,
+                                    child: Text("TKG",
+                                        style:
+                                        TextStyle(color: Colors.white))),
+                                const SizedBox(height: 10),
+                                Text(
+                                    "TKG ${(Globals.instance.brb.greenBalance! / BigInt.from(10).pow(10)).toStringAsFixed(2)}",
+                                    style:
+                                    const TextStyle(color: Colors.white)),
+                                Text(
+                                    "\$ ${updateCurrencyValue(Globals.instance.brb.greenBalance! / BigInt.from(10).pow(10))}",
+                                    style:
+                                    const TextStyle(color: Colors.white))
+                              ],
+                            ),
+                            const SizedBox(width: 50),
+                            Column(
+                              children: [
+                                const CircleAvatar(
+                                    radius: 35.0,
+                                    backgroundColor: Colors.red,
+                                    child: Text("TKR",
+                                        style:
+                                        TextStyle(color: Colors.white))),
+                                const SizedBox(height: 10),
+                                Text(
+                                    "TKR ${(Globals.instance.brb.redBalance! / BigInt.from(10).pow(10)).toStringAsFixed(2)}",
+                                    style:
+                                    const TextStyle(color: Colors.white)),
+                                Text(
+                                    "\$ ${(Globals.instance.brb.redBalance! / BigInt.from(10).pow(10)).toStringAsFixed(2)}",
+                                    style:
+                                    const TextStyle(color: Colors.white))
+                              ],
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 50),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              Text("Your Takamaka Address:",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            walletAddress == null
+                                ? const CircularProgressIndicator()
+                                : Text(walletAddress!,
+                                style:
+                                const TextStyle(color: Colors.white))
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        crc == null
+                            ? const CircularProgressIndicator()
+                            : Column(
+                          children: [
+                            Row(
                               children: const [
-                                Text("Your Takamaka Address:",
-                                    textAlign: TextAlign.left,
+                                Text("Your CRC: ",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold))
-                              ]),
-                          const SizedBox(height: 5),
-                          Row(
-                            children: [walletAddress == null
-                                ? const CircularProgressIndicator()
-                                : Text(walletAddress!,
-                                style: const TextStyle(color: Colors.white))],
-                          ),
-                          const SizedBox(height: 20),
-                          crc == null
-                              ? const CircularProgressIndicator()
-                              : Column(
-                            children: [
-                              Row(
-                                children: const [
-                                  Text("Your CRC: ",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold))
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Row(
-                                children: [
-                                  Text(crc!,
-                                      textAlign: TextAlign.start,
-                                      style: const TextStyle(
-                                          color: Colors.white))
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      )),
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        /* CupertinoButton(
-                            color: Styles.takamakaColor,
-                            onPressed: () =>
-                            {
-                              doGetBalance()
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Icon(CupertinoIcons.money_dollar),
-                                SizedBox(width: 10),
-                                Text('GetBalance'),
                               ],
-                            )),*/
-                        CupertinoButton(
-                            color: Styles.takamakaColor,
-                            onPressed: () => {
-                                  model.generatedSeed = "",
-                                  model.recoveryWords = "",
-                                  _initWalletInterface()
-                                },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Icon(CupertinoIcons.arrow_right_square),
-                                SizedBox(width: 10),
-                                Text('Logout'),
+                            ),
+                            const SizedBox(height: 5),
+                            Row(
+                              children: [
+                                Text(crc!,
+                                    textAlign: TextAlign.start,
+                                    style: const TextStyle(
+                                        color: Colors.white))
                               ],
-                            )),
-                        const SizedBox(height: 30),
-                        CupertinoButton(
-                            color: Styles.takamakaColor,
-                            onPressed: () => {
-                                  Navigator.of(context).push(
-                                      CupertinoPageRoute<void>(
-                                          builder: (BuildContext context) {
-                                    return const Pay();
-                                  }))
-                                },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Icon(CupertinoIcons.paperplane),
-                                SizedBox(width: 10),
-                                Text('Payments'),
-                              ],
-                            )),
-                        const SizedBox(height: 50),
+                            )
+                          ],
+                        )
                       ],
-                    ),
-                  )
-                ],
-              )),
+                    )),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CupertinoButton(
+                          color: Styles.takamakaColor,
+                          onPressed: () => {
+                            model.generatedSeed = "",
+                            model.recoveryWords = "",
+                            _initWalletInterface()
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(CupertinoIcons.arrow_right_square),
+                              SizedBox(width: 10),
+                              Text('Logout'),
+                            ],
+                          )),
+                      const SizedBox(height: 30),
+                      CupertinoButton(
+                          color: Styles.takamakaColor,
+                          onPressed: () => {
+                            Navigator.of(context).push(
+                                CupertinoPageRoute<void>(
+                                    builder: (BuildContext context) {
+                                      return const Pay();
+                                    }))
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(CupertinoIcons.paperplane),
+                              SizedBox(width: 10),
+                              Text('Payments'),
+                            ],
+                          )),
+                      const SizedBox(height: 50),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )),
     );
+  }
+
+  Future<void> fetchMyObjects() async {
+    final response = await ConsumerHelper.doRequest(
+        HttpMethods.GET, ApiList().apiMap['test']!['changes']!, {});
+
+    final myApiResponse = Changes.fromJson(jsonDecode(response));
+    Globals.instance.changes = myApiResponse;
+
+    BalanceRequestBean brb =
+        BalanceRequestBean(Globals.instance.selectedFromAddress);
+
+    BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(
+        await ConsumerHelper.doRequest(HttpMethods.POST,
+            ApiList().apiMap['test']!['balance']!, brb.toJson())));
+
+    Globals.instance.brb = brespb;
+  }
+
+  String updateCurrencyValue(double value) {
+    double usdTk = Globals.instance.changes.changes[2].value;
+
+    return (value * usdTk).toStringAsFixed(2);
   }
 }
