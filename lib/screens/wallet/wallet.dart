@@ -362,8 +362,7 @@ class _WalletState extends State<Wallet> {
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white)),
                                         Text(
-                                            (Globals.instance.brb
-                                                        .greenBalance! /
+                                            ((Globals.instance.brb.greenBalance ?? BigInt.from(0)) /
                                                     BigInt.from(10).pow(10))
                                                 .toStringAsFixed(2),
                                             style: const TextStyle(
@@ -371,7 +370,7 @@ class _WalletState extends State<Wallet> {
                                       ],
                                     ),
                                     Text(
-                                        "\$ ${updateCurrencyValue(Globals.instance.brb.greenBalance! / BigInt.from(10).pow(10))}",
+                                        "\$ ${updateCurrencyValue((Globals.instance.brb.greenBalance ?? BigInt.from(0)) / BigInt.from(10).pow(10))}",
                                         style: const TextStyle(
                                             color: Colors.white))
                                   ],
@@ -393,7 +392,7 @@ class _WalletState extends State<Wallet> {
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white)),
                                         Text(
-                                            (Globals.instance.brb.redBalance! /
+                                            ((Globals.instance.brb.redBalance ?? BigInt.from(0)) /
                                                     BigInt.from(10).pow(10))
                                                 .toStringAsFixed(2),
                                             style: const TextStyle(
@@ -401,7 +400,7 @@ class _WalletState extends State<Wallet> {
                                       ],
                                     ),
                                     Text(
-                                        "\$ ${(Globals.instance.brb.redBalance! / BigInt.from(10).pow(10)).toStringAsFixed(2)}",
+                                        "\$ ${((Globals.instance.brb.redBalance ?? BigInt.from(0)) / BigInt.from(10).pow(10)).toStringAsFixed(2)}",
                                         style: const TextStyle(
                                             color: Colors.white))
                                   ],
@@ -500,8 +499,13 @@ class _WalletState extends State<Wallet> {
   }
 
   String updateCurrencyValue(double value) {
-    double usdTk = Globals.instance.changes.changes[2].value;
+    try {
+      double usdTk = Globals.instance.changes.changes[2].value;
 
-    return (value * usdTk).toStringAsFixed(2);
+      return (value * usdTk).toStringAsFixed(2);
+    }catch (exception) {
+      return "0";
+    }
+
   }
 }
