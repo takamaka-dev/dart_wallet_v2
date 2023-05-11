@@ -14,6 +14,7 @@ import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Wallet extends StatefulWidget {
   const Wallet(this.walletName, {super.key});
@@ -27,7 +28,10 @@ class Wallet extends StatefulWidget {
 class _WalletState extends State<Wallet> {
   _WalletState(this.walletName);
 
-  final TextEditingController _walletIndexNumberController = TextEditingController();
+  final TextEditingController _walletIndexNumberController =
+      TextEditingController();
+
+  final String _url = 'https://exp.takamaka.dev/';
 
   final String walletName;
 
@@ -61,6 +65,15 @@ class _WalletState extends State<Wallet> {
         child: kb == null ? getLockedWallet() : getUnlockedWallet());
   }
 
+  Future<dynamic> _launchURLBrowser() async {
+    Uri url = Uri.parse(_url);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   Widget getLockedWallet() {
     return ChangeNotifierProvider.value(
       value: Globals.instance,
@@ -71,89 +84,92 @@ class _WalletState extends State<Wallet> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                  CupertinoButton(
-                    onPressed: () {
-                      Navigator.pop(
-                          context); // Navigate back when back button is pressed
-                    },
-                    child: const Icon(Icons.arrow_back),
-                  )
+                      CupertinoButton(
+                        onPressed: () {
+                          Navigator.pop(
+                              context); // Navigate back when back button is pressed
+                        },
+                        child: const Icon(Icons.arrow_back),
+                      )
                     ],
                   ),
                   Container(
                     constraints: const BoxConstraints(maxWidth: 700),
                     padding: const EdgeInsets.fromLTRB(20, 50, 20, 50),
                     child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(CupertinoIcons.lock, size: 60, color: Styles.takamakaColor),
-                    Text(
-                        style: TextStyle(
-                            fontSize: 25, color: Colors.grey.shade600),
-                        "Please insert your wallet password"),
-                    const SizedBox(height: 50),
-                    SizedBox(
-                        width: 200,
-                        child: Column(
-                          children: [
-                            CupertinoTextField(
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              controller: _walletIndexNumberController,
-                              placeholder: 'Wallet index number',
-                              onChanged: (value) {
-                                // Azione quando il testo viene modificato
-                              },
-                            ),
-                            const SizedBox(height: 50),
-                            CupertinoTextField(
-                              obscureText: true,
-                              textAlign: TextAlign.center,
-                              placeholder: "Password",
-                              onChanged: (value) => {password = value},
-                            ),
-                          ],
-                        )),
-                    const SizedBox(height: 50),
-                    CupertinoButton(
-                        color: Styles.takamakaColor,
-                        child: const Text("Login"),
-                        onPressed: () async {
-                          kb = await WalletUtils.initWallet(
-                              'wallets',
-                              walletName,
-                              dotenv.get('WALLET_EXTENSION'),
-                              password);
-                          SimpleKeyPair keypair =
-                              await WalletUtils.getNewKeypairED25519(
-                                  kb!['seed'], index: int.parse(_walletIndexNumberController.text));
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Icon(CupertinoIcons.lock,
+                            size: 60, color: Styles.takamakaColor),
+                        Text(
+                            style: TextStyle(
+                                fontSize: 25, color: Colors.grey.shade600),
+                            "Please insert your wallet password"),
+                        const SizedBox(height: 50),
+                        SizedBox(
+                            width: 200,
+                            child: Column(
+                              children: [
+                                CupertinoTextField(
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.center,
+                                  controller: _walletIndexNumberController,
+                                  placeholder: 'Wallet index number',
+                                  onChanged: (value) {
+                                    // Azione quando il testo viene modificato
+                                  },
+                                ),
+                                const SizedBox(height: 50),
+                                CupertinoTextField(
+                                  obscureText: true,
+                                  textAlign: TextAlign.center,
+                                  placeholder: "Password",
+                                  onChanged: (value) => {password = value},
+                                ),
+                              ],
+                            )),
+                        const SizedBox(height: 50),
+                        CupertinoButton(
+                            color: Styles.takamakaColor,
+                            child: const Text("Login"),
+                            onPressed: () async {
+                              kb = await WalletUtils.initWallet(
+                                  'wallets',
+                                  walletName,
+                                  dotenv.get('WALLET_EXTENSION'),
+                                  password);
+                              SimpleKeyPair keypair =
+                                  await WalletUtils.getNewKeypairED25519(
+                                      kb!['seed'],
+                                      index: int.parse(
+                                          _walletIndexNumberController.text));
 
-                          Globals.instance.generatedSeed = kb!['seed'];
+                              Globals.instance.generatedSeed = kb!['seed'];
 
-                          crc = await WalletUtils.getCrc32(keypair);
-                          walletAddress =
-                              await WalletUtils.getTakamakaAddress(keypair);
-                          _bytes =
-                              await WalletUtils.testBitMap(walletAddress!)
-                                  .buffer
-                                  .asInt8List();
-                          fetchMyObjects();
-                          setState(() {
-                            kb = kb;
-                            crc = crc;
-                            walletAddress = walletAddress;
-                            Globals.instance.selectedFromAddress =
-                                walletAddress!;
-                            _bytes = _bytes;
-                          });
-                          model.generatedSeed = kb!['seed'];
-                          model.recoveryWords = kb!['words'];
-                        })
-                  ],
+                              crc = await WalletUtils.getCrc32(keypair);
+                              walletAddress =
+                                  await WalletUtils.getTakamakaAddress(keypair);
+                              _bytes =
+                                  await WalletUtils.testBitMap(walletAddress!)
+                                      .buffer
+                                      .asInt8List();
+                              fetchMyObjects();
+                              setState(() {
+                                kb = kb;
+                                crc = crc;
+                                walletAddress = walletAddress;
+                                Globals.instance.selectedFromAddress =
+                                    walletAddress!;
+                                _bytes = _bytes;
+                              });
+                              model.generatedSeed = kb!['seed'];
+                              model.recoveryWords = kb!['words'];
+                            })
+                      ],
                     ),
                   ).asGlass(
-                  tintColor: Colors.transparent,
-                  clipBorderRadius: BorderRadius.circular(15.0))
+                      tintColor: Colors.transparent,
+                      clipBorderRadius: BorderRadius.circular(15.0))
                 ],
               ))),
     );
@@ -175,7 +191,7 @@ class _WalletState extends State<Wallet> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
                     Center(
                         child: _bytes == null
                             ? const CircularProgressIndicator()
@@ -192,17 +208,124 @@ class _WalletState extends State<Wallet> {
                         color: Colors.grey.shade100,
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          CupertinoButton(
-                              color: Styles.takamakaColor,
-                              onPressed: () => {
-                                Navigator.of(context).push(
-                                    CupertinoPageRoute<void>(
-                                        builder: (BuildContext context) {
-                                          return const Pay();
-                                        }))
-                              },
-                              child: Icon(CupertinoIcons.paperplane)),
+                          Expanded(child: Container(
+                            decoration: const BoxDecoration(
+                                border: Border(
+                                  right: BorderSide(
+                                    color: Colors.white,
+                                    width: 1.0,
+                                  ),
+                                )),
+                            child: CupertinoButton(
+                                color: Styles.takamakaColor,
+                                alignment: Alignment.topLeft,
+                                borderRadius: BorderRadius.zero,
+                                // Rimuove il bordo arrotondato
+
+                                onPressed: () => {
+                                  Navigator.of(context).push(
+                                      CupertinoPageRoute<void>(
+                                          builder: (BuildContext context) {
+                                            return const Pay();
+                                          }))
+                                },
+                                child: const Center(
+                                    child: Icon(CupertinoIcons.paperplane))),
+                          )),
+                          Expanded(child: Container(
+                            decoration: const BoxDecoration(
+                                border: Border(
+                                  right: BorderSide(
+                                    color: Colors.white,
+                                    width: 1.0,
+                                  ),
+                                )),
+                            child: CupertinoButton(
+                                color: Styles.takamakaColor,
+                                alignment: Alignment.topLeft,
+                                borderRadius: BorderRadius.zero,
+                                // Rimuove il bordo arrotondato
+
+                                onPressed: () => {
+                                  Navigator.of(context).push(
+                                      CupertinoPageRoute<void>(
+                                          builder: (BuildContext context) {
+                                            return const Pay();
+                                          }))
+                                },
+                                child: const Center(
+                                    child: Icon(CupertinoIcons.arrow_down))),
+                          )),
+                          Expanded(child: Container(
+                            decoration: const BoxDecoration(
+                                border: Border(
+                                  right: BorderSide(
+                                    color: Colors.white,
+                                    width: 2.0,
+                                  ),
+                                )),
+                            child: CupertinoButton(
+                                color: Styles.takamakaColor,
+                                alignment: Alignment.topLeft,
+                                borderRadius: BorderRadius.zero,
+                                // Rimuove il bordo arrotondato
+
+                                onPressed: () => {
+                                  Navigator.of(context).push(
+                                      CupertinoPageRoute<void>(
+                                          builder: (BuildContext context) {
+                                            return const Pay();
+                                          }))
+                                },
+                                child: const Center(
+                                    child: Icon(CupertinoIcons.doc_on_clipboard))),
+                          )),
+                          Expanded(child: Container(
+                            decoration: const BoxDecoration(
+                                border: Border(
+                                  right: BorderSide(
+                                    color: Colors.white,
+                                    width: 1.0,
+                                  ),
+                                )),
+                            child: CupertinoButton(
+                                color: Styles.takamakaColor,
+                                alignment: Alignment.topLeft,
+                                borderRadius: BorderRadius.zero,
+                                // Rimuove il bordo arrotondato
+
+                                onPressed: () => {
+                                  Navigator.of(context).push(
+                                      CupertinoPageRoute<void>(
+                                          builder: (BuildContext context) {
+                                            return const Pay();
+                                          }))
+                                },
+                                child: const Center(
+                                    child: Icon(CupertinoIcons.layers_alt_fill))),
+                          )),
+                          Expanded(child: Container(
+                            decoration: const BoxDecoration(
+                                border: Border(
+                                  right: BorderSide(
+                                    color: Colors.white,
+                                    width: 1.0,
+                                  ),
+                                )),
+                            child: CupertinoButton(
+                                color: Styles.takamakaColor,
+                                alignment: Alignment.topLeft,
+                                borderRadius: BorderRadius.zero,
+                                // Rimuove il bordo arrotondato
+
+                                onPressed: () => {
+                                  _launchURLBrowser()
+                                },
+                                child: const Center(
+                                    child: Icon(CupertinoIcons.location_solid))),
+                          ))
                         ],
                       ),
                     ),
@@ -351,9 +474,7 @@ class _WalletState extends State<Wallet> {
                                   SizedBox(width: 10),
                                   Text('Logout'),
                                 ],
-                              ))
-
-                          ),
+                              ))),
                     )
                   ],
                 ),
