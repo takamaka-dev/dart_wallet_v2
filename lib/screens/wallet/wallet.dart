@@ -148,7 +148,7 @@ class _WalletState extends State<Wallet> {
 
     print('GET BALANCE FOR ADDRESS: ' + Globals.instance.selectedFromAddress);
 
-    BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(await ConsumerHelper.doRequest(Methods.POST, ApiList().apiMap['balance']!, brb.toJson())));
+    BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(await ConsumerHelper.doRequest(HttpMethods.POST, ApiList().apiMap['test']!['balance']!, brb.toJson())));
     print((brespb.greenBalance as BigInt)/BigInt.from(10).pow(9));
 
   }

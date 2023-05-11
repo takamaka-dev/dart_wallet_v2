@@ -120,7 +120,7 @@ class _PayState extends State<Pay> {
 
     TransactionInput ti = TransactionInput(payHexBody);
 
-    ConsumerHelper.doRequest(Methods.POST, ApiList().apiMap["pay"]!, ti.toJson());
+    ConsumerHelper.doRequest(HttpMethods.POST, ApiList().apiMap['test']!["pay"]!, ti.toJson());
     print(payHexBody);
   }
 
