@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // something that we want to avoid as we have a custom UI that doesn't alienate iOS users.
 
 class Styles {
-  static final Color takamakaColor = hexToColor('004680');
+  static final Color takamakaColor = hexToColor('1b2c40');
 
   static final Color primaryTextColor = hexToColor('000000');
   static final Color secondaryTextColor = hexToColor('666666');

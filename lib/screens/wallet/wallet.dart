@@ -62,127 +62,173 @@ class _WalletState extends State<Wallet> {
     return ChangeNotifierProvider.value(
       value: Globals.instance,
       child: Consumer<Globals>(
-          builder: (context, model, child) =>
-              Scaffold(
+          builder: (context, model, child) => Scaffold(
                   body: Container(
                       child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              CupertinoButton(
-                                onPressed: () {
-                                  Navigator.pop(
-                                      context); // Navigate back when back button is pressed
-                                },
-                                child: const Icon(Icons.arrow_back),
-                              )
-                            ],
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(maxWidth: 700),
-                            padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        color: Colors.grey.shade600),
-                                    "Please insert your wallet password"),
-                                const SizedBox(height: 50),
-                                CupertinoTextField(
-                                  obscureText: true,
-                                  textAlign: TextAlign.center,
-                                  placeholder: "Password",
-                                  onChanged: (value) => {password = value},
-                                ),
-                                const SizedBox(height: 50),
-                                CupertinoButton(
-                                    color: Styles.takamakaColor,
-                                    child: Text("Login"),
-                                    onPressed: () async {
-                                      kb = await WalletUtils.initWallet(
-                                          'wallets',
-                                          walletName,
-                                          dotenv.get('WALLET_EXTENSION'),
-                                          password);
-                                      SimpleKeyPair keypair =
-                                      await WalletUtils.getNewKeypairED25519(
-                                          kb!['seed']);
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CupertinoButton(
+                        onPressed: () {
+                          Navigator.pop(
+                              context); // Navigate back when back button is pressed
+                        },
+                        child: const Icon(Icons.arrow_back),
+                      )
+                    ],
+                  ),
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 700),
+                    padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                            style: TextStyle(
+                                fontSize: 25, color: Colors.grey.shade600),
+                            "Please insert your wallet password"),
+                        const SizedBox(height: 50),
+                        CupertinoTextField(
+                          obscureText: true,
+                          textAlign: TextAlign.center,
+                          placeholder: "Password",
+                          onChanged: (value) => {password = value},
+                        ),
+                        const SizedBox(height: 50),
+                        CupertinoButton(
+                            color: Styles.takamakaColor,
+                            child: const Text("Login"),
+                            onPressed: () async {
+                              kb = await WalletUtils.initWallet(
+                                  'wallets',
+                                  walletName,
+                                  dotenv.get('WALLET_EXTENSION'),
+                                  password);
+                              SimpleKeyPair keypair =
+                                  await WalletUtils.getNewKeypairED25519(
+                                      kb!['seed']);
 
-                                      Globals.instance.generatedSeed = kb!['seed'];
+                              Globals.instance.generatedSeed = kb!['seed'];
 
-                                      crc = await WalletUtils.getCrc32(keypair);
-                                      walletAddress =
-                                      await WalletUtils.getTakamakaAddress(
-                                          keypair);
-                                      _bytes =
-                                      await WalletUtils
-                                          .testBitMap(walletAddress!)
-                                          .buffer
-                                          .asInt8List();
-                                      setState(() {
-                                        kb = kb;
-                                        crc = crc;
-                                        walletAddress = walletAddress;
-                                        Globals.instance.selectedFromAddress = walletAddress!;
-                                        _bytes = _bytes;
-                                      });
-                                      model.generatedSeed = kb!['seed'];
-                                      model.recoveryWords = kb!['words'];
-                                    })
-                              ],
-                            ),
-                          ).asGlass(
-                              tintColor: Colors.transparent,
-                              clipBorderRadius: BorderRadius.circular(15.0))
-                        ],
-                      )))),
+                              crc = await WalletUtils.getCrc32(keypair);
+                              walletAddress =
+                                  await WalletUtils.getTakamakaAddress(keypair);
+                              _bytes =
+                                  await WalletUtils.testBitMap(walletAddress!)
+                                      .buffer
+                                      .asInt8List();
+                              setState(() {
+                                kb = kb;
+                                crc = crc;
+                                walletAddress = walletAddress;
+                                Globals.instance.selectedFromAddress =
+                                    walletAddress!;
+                                _bytes = _bytes;
+                              });
+                              model.generatedSeed = kb!['seed'];
+                              model.recoveryWords = kb!['words'];
+                            })
+                      ],
+                    ),
+                  ).asGlass(
+                      tintColor: Colors.transparent,
+                      clipBorderRadius: BorderRadius.circular(15.0))
+                ],
+              )))),
     );
   }
 
   Future<void> doGetBalance() async {
-
-    BalanceRequestBean brb = BalanceRequestBean(Globals.instance.selectedFromAddress);
+    BalanceRequestBean brb =
+        BalanceRequestBean(Globals.instance.selectedFromAddress);
 
     print('GET BALANCE FOR ADDRESS: ' + Globals.instance.selectedFromAddress);
 
-    BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(await ConsumerHelper.doRequest(HttpMethods.POST, ApiList().apiMap['test']!['balance']!, brb.toJson())));
-    print((brespb.greenBalance as BigInt)/BigInt.from(10).pow(9));
-
+    BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(
+        await ConsumerHelper.doRequest(HttpMethods.POST,
+            ApiList().apiMap['test']!['balance']!, brb.toJson())));
+    print((brespb.greenBalance as BigInt) / BigInt.from(10).pow(9));
   }
 
   Widget getUnlockedWallet() {
     return ChangeNotifierProvider.value(
       value: Globals.instance,
       child: Consumer<Globals>(
-          builder: (context, model, child) =>
-              Column(
+          builder: (context, model, child) => Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Center(
                       child: _bytes == null
                           ? const CircularProgressIndicator()
                           : Image.memory(
-                        Uint8List.fromList(_bytes!),
-                        width: 250,
-                        height: 250,
-                        fit: BoxFit.contain,
+                              Uint8List.fromList(_bytes!),
+                              width: 250,
+                              height: 250,
+                              fit: BoxFit.contain,
+                            )),
+                  Container(
+                      alignment: Alignment.topLeft,
+                      decoration: BoxDecoration(
+
+                        image: const DecorationImage(
+                          image: AssetImage('images/wall.jpeg'),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: const [
+                                Text("Your Takamaka Address:",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold))
+                              ]),
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [walletAddress == null
+                                ? const CircularProgressIndicator()
+                                : Text(walletAddress!,
+                                style: const TextStyle(color: Colors.white))],
+                          ),
+                          const SizedBox(height: 20),
+                          crc == null
+                              ? const CircularProgressIndicator()
+                              : Column(
+                            children: [
+                              Row(
+                                children: const [
+                                  Text("Your CRC: ",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  Text(crc!,
+                                      textAlign: TextAlign.start,
+                                      style: const TextStyle(
+                                          color: Colors.white))
+                                ],
+                              )
+                            ],
+                          )
+                        ],
                       )),
-                  Center(
-                      child: walletAddress == null
-                          ? const CircularProgressIndicator()
-                          : Text(walletAddress!)),
-                  Center(
-                      child: crc == null
-                          ? const CircularProgressIndicator()
-                          : Text(crc!)),
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CupertinoButton(
+                        /* CupertinoButton(
                             color: Styles.takamakaColor,
                             onPressed: () =>
                             {
@@ -196,15 +242,14 @@ class _WalletState extends State<Wallet> {
                                 SizedBox(width: 10),
                                 Text('GetBalance'),
                               ],
-                            )),
+                            )),*/
                         CupertinoButton(
                             color: Styles.takamakaColor,
-                            onPressed: () =>
-                            {
-                              model.generatedSeed = "",
-                              model.recoveryWords = "",
-                              _initWalletInterface()
-                            },
+                            onPressed: () => {
+                                  model.generatedSeed = "",
+                                  model.recoveryWords = "",
+                                  _initWalletInterface()
+                                },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
@@ -214,18 +259,16 @@ class _WalletState extends State<Wallet> {
                                 Text('Logout'),
                               ],
                             )),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         CupertinoButton(
                             color: Styles.takamakaColor,
-                            onPressed: () =>
-                            {
-                              Navigator.of(context).push(
-                                  CupertinoPageRoute<void>(
-                                      builder: (BuildContext context) {
-                                        return Pay();
-                                      }
-                                  ))
-                            },
+                            onPressed: () => {
+                                  Navigator.of(context).push(
+                                      CupertinoPageRoute<void>(
+                                          builder: (BuildContext context) {
+                                    return const Pay();
+                                  }))
+                                },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
@@ -234,7 +277,8 @@ class _WalletState extends State<Wallet> {
                                 SizedBox(width: 10),
                                 Text('Payments'),
                               ],
-                            ))
+                            )),
+                        const SizedBox(height: 50),
                       ],
                     ),
                   )
