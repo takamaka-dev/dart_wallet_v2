@@ -58,7 +58,7 @@ class _WalletState extends State<Wallet> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        child: kb == null && Globals.instance.brb.greenBalance != null ? getLockedWallet() : getUnlockedWallet());
+        child: kb == null ? getLockedWallet() : getUnlockedWallet());
   }
 
   Widget getLockedWallet() {
@@ -186,6 +186,26 @@ class _WalletState extends State<Wallet> {
                                 fit: BoxFit.contain,
                               )),
                     const SizedBox(height: 20),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                      ),
+                      child: Row(
+                        children: [
+                          CupertinoButton(
+                              color: Styles.takamakaColor,
+                              onPressed: () => {
+                                Navigator.of(context).push(
+                                    CupertinoPageRoute<void>(
+                                        builder: (BuildContext context) {
+                                          return const Pay();
+                                        }))
+                              },
+                              child: Icon(CupertinoIcons.paperplane)),
+                        ],
+                      ),
+                    ),
                     Container(
                         alignment: Alignment.topLeft,
                         decoration: BoxDecoration(
@@ -332,24 +352,6 @@ class _WalletState extends State<Wallet> {
                                   Text('Logout'),
                                 ],
                               ))
-                          /*CupertinoButton(
-                              color: Styles.takamakaColor,
-                              onPressed: () => {
-                                    Navigator.of(context).push(
-                                        CupertinoPageRoute<void>(
-                                            builder: (BuildContext context) {
-                                      return const Pay();
-                                    }))
-                                  },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: const [
-                                  Icon(CupertinoIcons.paperplane),
-                                  SizedBox(width: 10),
-                                  Text('Payments'),
-                                ],
-                              )),*/
 
                           ),
                     )
