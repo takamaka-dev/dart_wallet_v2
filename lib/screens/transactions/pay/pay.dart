@@ -86,13 +86,11 @@ class _PayState extends State<Pay> {
   }
 
   Future<void> doPay() async {
-
     InternalTransactionBean itb;
 
     print('FROM ADDRESS: ' + Globals.instance.selectedFromAddress);
 
     if (currentToken == "TKG") {
-
       itb = BuilderItb.pay(
           Globals.instance.selectedFromAddress,
           _controllerToAddress.text,
@@ -110,7 +108,8 @@ class _PayState extends State<Pay> {
           TKmTK.getTransactionTime());
     }
 
-    SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
+    SimpleKeyPair skp =
+        await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
 
     TransactionBean tb = await TkmWallet.createGenericTransaction(
         itb, skp, Globals.instance.selectedFromAddress);
@@ -120,8 +119,37 @@ class _PayState extends State<Pay> {
 
     TransactionInput ti = TransactionInput(payHexBody);
 
-    ConsumerHelper.doRequest(HttpMethods.POST, ApiList().apiMap['test']!["pay"]!, ti.toJson());
-    print(payHexBody);
+    final response = await ConsumerHelper.doRequest(
+        HttpMethods.POST, ApiList().apiMap['test']!["tx"]!, ti.toJson());
+    print(response);
+
+    if (response == '{"TxIsVerified":"true"}') {
+      Navigator.of(context).restorablePush(_dialogBuilder);
+
+    }
+  }
+
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogBuilder(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Success!'),
+          content: const Text('The transaction has been properly verified!'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: const Text('Thank you'),
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -261,6 +289,4 @@ class _PayState extends State<Pay> {
       ),
     );
   }
-
-
 }
