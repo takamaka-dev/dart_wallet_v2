@@ -7,6 +7,14 @@ import 'api/single_change.dart';
 
 class Globals with ChangeNotifier {
 
+  int _currentIndex = 0;
+
+  int get currentIndex => _currentIndex;
+
+  set currentIndex(int value) {
+    _currentIndex = value;
+  }
+
   BalanceResponseBean _brb = BalanceResponseBean();
 
   BalanceResponseBean get brb => _brb;

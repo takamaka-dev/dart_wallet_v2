@@ -30,6 +30,7 @@ class _WalletState extends State<Wallet> {
 
   final TextEditingController _walletIndexNumberController =
       TextEditingController();
+  TextEditingController _selectedIndexController = TextEditingController();
 
   final String _url = 'https://exp.takamaka.dev/';
 
@@ -38,6 +39,7 @@ class _WalletState extends State<Wallet> {
   Int8List? _bytes;
   String? walletAddress;
   String? crc;
+  int? selectedIndex;
   Map<String, dynamic>? kb;
 
   String password = "";
@@ -116,7 +118,7 @@ class _WalletState extends State<Wallet> {
                                   controller: _walletIndexNumberController,
                                   placeholder: 'Wallet index number',
                                   onChanged: (value) {
-                                    // Azione quando il testo viene modificato
+                                    _walletIndexNumberController.text = value;
                                   },
                                 ),
                                 const SizedBox(height: 50),
@@ -145,6 +147,8 @@ class _WalletState extends State<Wallet> {
                                           _walletIndexNumberController.text));
 
                               Globals.instance.generatedSeed = kb!['seed'];
+                              Globals.instance.currentIndex =
+                                  int.parse(_walletIndexNumberController.text);
 
                               crc = await WalletUtils.getCrc32(keypair);
                               walletAddress =
@@ -161,6 +165,10 @@ class _WalletState extends State<Wallet> {
                                 Globals.instance.selectedFromAddress =
                                     walletAddress!;
                                 _bytes = _bytes;
+                                selectedIndex = int.parse(
+                                    _walletIndexNumberController.text);
+                                _selectedIndexController.text =
+                                    selectedIndex.toString();
                               });
                               model.generatedSeed = kb!['seed'];
                               model.recoveryWords = kb!['words'];
@@ -210,14 +218,15 @@ class _WalletState extends State<Wallet> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Expanded(child: Container(
+                          Expanded(
+                              child: Container(
                             decoration: const BoxDecoration(
                                 border: Border(
-                                  right: BorderSide(
-                                    color: Colors.white,
-                                    width: 1.0,
-                                  ),
-                                )),
+                              right: BorderSide(
+                                color: Colors.white,
+                                width: 1.0,
+                              ),
+                            )),
                             child: CupertinoButton(
                                 color: Styles.takamakaColor,
                                 alignment: Alignment.topLeft,
@@ -225,23 +234,24 @@ class _WalletState extends State<Wallet> {
                                 // Rimuove il bordo arrotondato
 
                                 onPressed: () => {
-                                  Navigator.of(context).push(
-                                      CupertinoPageRoute<void>(
-                                          builder: (BuildContext context) {
-                                            return const Pay();
-                                          }))
-                                },
+                                      Navigator.of(context).push(
+                                          CupertinoPageRoute<void>(
+                                              builder: (BuildContext context) {
+                                        return const Pay();
+                                      }))
+                                    },
                                 child: const Center(
                                     child: Icon(CupertinoIcons.paperplane))),
                           )),
-                          Expanded(child: Container(
+                          Expanded(
+                              child: Container(
                             decoration: const BoxDecoration(
                                 border: Border(
-                                  right: BorderSide(
-                                    color: Colors.white,
-                                    width: 1.0,
-                                  ),
-                                )),
+                              right: BorderSide(
+                                color: Colors.white,
+                                width: 1.0,
+                              ),
+                            )),
                             child: CupertinoButton(
                                 color: Styles.takamakaColor,
                                 alignment: Alignment.topLeft,
@@ -249,23 +259,24 @@ class _WalletState extends State<Wallet> {
                                 // Rimuove il bordo arrotondato
 
                                 onPressed: () => {
-                                  Navigator.of(context).push(
-                                      CupertinoPageRoute<void>(
-                                          builder: (BuildContext context) {
-                                            return const Pay();
-                                          }))
-                                },
+                                      Navigator.of(context).push(
+                                          CupertinoPageRoute<void>(
+                                              builder: (BuildContext context) {
+                                        return const Pay();
+                                      }))
+                                    },
                                 child: const Center(
                                     child: Icon(CupertinoIcons.arrow_down))),
                           )),
-                          Expanded(child: Container(
+                          Expanded(
+                              child: Container(
                             decoration: const BoxDecoration(
                                 border: Border(
-                                  right: BorderSide(
-                                    color: Colors.white,
-                                    width: 2.0,
-                                  ),
-                                )),
+                              right: BorderSide(
+                                color: Colors.white,
+                                width: 2.0,
+                              ),
+                            )),
                             child: CupertinoButton(
                                 color: Styles.takamakaColor,
                                 alignment: Alignment.topLeft,
@@ -273,23 +284,25 @@ class _WalletState extends State<Wallet> {
                                 // Rimuove il bordo arrotondato
 
                                 onPressed: () => {
-                                  Navigator.of(context).push(
-                                      CupertinoPageRoute<void>(
-                                          builder: (BuildContext context) {
-                                            return const Pay();
-                                          }))
-                                },
+                                      Navigator.of(context).push(
+                                          CupertinoPageRoute<void>(
+                                              builder: (BuildContext context) {
+                                        return const Pay();
+                                      }))
+                                    },
                                 child: const Center(
-                                    child: Icon(CupertinoIcons.doc_on_clipboard))),
+                                    child:
+                                        Icon(CupertinoIcons.doc_on_clipboard))),
                           )),
-                          Expanded(child: Container(
+                          Expanded(
+                              child: Container(
                             decoration: const BoxDecoration(
                                 border: Border(
-                                  right: BorderSide(
-                                    color: Colors.white,
-                                    width: 1.0,
-                                  ),
-                                )),
+                              right: BorderSide(
+                                color: Colors.white,
+                                width: 1.0,
+                              ),
+                            )),
                             child: CupertinoButton(
                                 color: Styles.takamakaColor,
                                 alignment: Alignment.topLeft,
@@ -297,34 +310,35 @@ class _WalletState extends State<Wallet> {
                                 // Rimuove il bordo arrotondato
 
                                 onPressed: () => {
-                                  Navigator.of(context).push(
-                                      CupertinoPageRoute<void>(
-                                          builder: (BuildContext context) {
-                                            return const Pay();
-                                          }))
-                                },
+                                      Navigator.of(context).push(
+                                          CupertinoPageRoute<void>(
+                                              builder: (BuildContext context) {
+                                        return const Pay();
+                                      }))
+                                    },
                                 child: const Center(
-                                    child: Icon(CupertinoIcons.layers_alt_fill))),
+                                    child:
+                                        Icon(CupertinoIcons.layers_alt_fill))),
                           )),
-                          Expanded(child: Container(
+                          Expanded(
+                              child: Container(
                             decoration: const BoxDecoration(
                                 border: Border(
-                                  right: BorderSide(
-                                    color: Colors.white,
-                                    width: 1.0,
-                                  ),
-                                )),
+                              right: BorderSide(
+                                color: Colors.white,
+                                width: 1.0,
+                              ),
+                            )),
                             child: CupertinoButton(
                                 color: Styles.takamakaColor,
                                 alignment: Alignment.topLeft,
                                 borderRadius: BorderRadius.zero,
                                 // Rimuove il bordo arrotondato
 
-                                onPressed: () => {
-                                  _launchURLBrowser()
-                                },
+                                onPressed: () => {_launchURLBrowser()},
                                 child: const Center(
-                                    child: Icon(CupertinoIcons.location_solid))),
+                                    child:
+                                        Icon(CupertinoIcons.location_solid))),
                           ))
                         ],
                       ),
@@ -362,7 +376,9 @@ class _WalletState extends State<Wallet> {
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white)),
                                         Text(
-                                            ((Globals.instance.brb.greenBalance ?? BigInt.from(0)) /
+                                            ((Globals.instance.brb
+                                                            .greenBalance ??
+                                                        BigInt.from(0)) /
                                                     BigInt.from(10).pow(10))
                                                 .toStringAsFixed(2),
                                             style: const TextStyle(
@@ -392,7 +408,8 @@ class _WalletState extends State<Wallet> {
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white)),
                                         Text(
-                                            ((Globals.instance.brb.redBalance ?? BigInt.from(0)) /
+                                            ((Globals.instance.brb.redBalance ??
+                                                        BigInt.from(0)) /
                                                     BigInt.from(10).pow(10))
                                                 .toStringAsFixed(2),
                                             style: const TextStyle(
@@ -450,6 +467,87 @@ class _WalletState extends State<Wallet> {
                                         ],
                                       )
                                     ],
+                                  ),
+                            const SizedBox(height: 20),
+                            selectedIndex == null
+                                ? const CircularProgressIndicator()
+                                : Column(
+                                    children: [
+                                      Row(
+                                        children: const [
+                                          Text("Your Wallet Index: ",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold))
+                                        ],
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 100,
+                                            child: CupertinoTextField(
+                                              controller:
+                                                  _selectedIndexController,
+                                              onChanged: (value) => {
+                                                _selectedIndexController.text = value
+                                              },
+                                              textAlign: TextAlign.start,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          CupertinoButton(
+                                              color: Colors.grey.shade200,
+                                              minSize: 20, // impostiamo la larghezza minima del pulsante
+                                              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                              onPressed: () async {
+                                                kb = await WalletUtils.initWallet(
+                                                    'wallets',
+                                                    walletName,
+                                                    dotenv.get('WALLET_EXTENSION'),
+                                                    password);
+                                                SimpleKeyPair keypair =
+                                                await WalletUtils.getNewKeypairED25519(
+                                                    kb!['seed'],
+                                                    index: int.parse(
+                                                        _selectedIndexController.text));
+
+                                                Globals.instance.generatedSeed = kb!['seed'];
+                                                Globals.instance.currentIndex =
+                                                    int.parse(_selectedIndexController.text);
+
+                                                crc = await WalletUtils.getCrc32(keypair);
+                                                walletAddress =
+                                                await WalletUtils.getTakamakaAddress(keypair);
+                                                _bytes =
+                                                await WalletUtils.testBitMap(walletAddress!)
+                                                    .buffer
+                                                    .asInt8List();
+                                                fetchMyObjects();
+                                                setState(() {
+                                                  kb = kb;
+                                                  crc = crc;
+                                                  walletAddress = walletAddress;
+                                                  Globals.instance.selectedFromAddress =
+                                                  walletAddress!;
+                                                  _bytes = _bytes;
+                                                  selectedIndex = int.parse(_selectedIndexController.text);
+                                                  _selectedIndexController.text =
+                                                      selectedIndex.toString();
+                                                });
+                                                model.generatedSeed = kb!['seed'];
+                                                model.recoveryWords = kb!['words'];
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Icon(CupertinoIcons.refresh, color: Styles.takamakaColor),
+                                                ],
+                                              ))
+                                        ],
+                                      )
+                                    ],
                                   )
                           ],
                         )),
@@ -503,9 +601,8 @@ class _WalletState extends State<Wallet> {
       double usdTk = Globals.instance.changes.changes[2].value;
 
       return (value * usdTk).toStringAsFixed(2);
-    }catch (exception) {
+    } catch (exception) {
       return "0";
     }
-
   }
 }
