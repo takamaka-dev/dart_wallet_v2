@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 
@@ -141,6 +142,17 @@ class _WalletState extends State<Wallet> {
     );
   }
 
+  Future<void> doGetBalance() async {
+
+    BalanceRequestBean brb = BalanceRequestBean(Globals.instance.selectedFromAddress);
+
+    print('GET BALANCE FOR ADDRESS: ' + Globals.instance.selectedFromAddress);
+
+    BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(await ConsumerHelper.doRequest(Methods.POST, ApiList().apiMap['balance']!, brb.toJson())));
+    print((brespb.greenBalance as BigInt)/BigInt.from(10).pow(9));
+
+  }
+
   Widget getUnlockedWallet() {
     return ChangeNotifierProvider.value(
       value: Globals.instance,
@@ -170,6 +182,21 @@ class _WalletState extends State<Wallet> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        CupertinoButton(
+                            color: Styles.takamakaColor,
+                            onPressed: () =>
+                            {
+                              doGetBalance()
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Icon(CupertinoIcons.money_dollar),
+                                SizedBox(width: 10),
+                                Text('GetBalance'),
+                              ],
+                            )),
                         CupertinoButton(
                             color: Styles.takamakaColor,
                             onPressed: () =>

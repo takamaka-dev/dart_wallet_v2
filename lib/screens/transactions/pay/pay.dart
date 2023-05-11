@@ -95,17 +95,11 @@ class _PayState extends State<Pay> {
 
       itb = BuilderItb.pay(
           Globals.instance.selectedFromAddress,
-          // "dNqVOk1YrSSBbPLn2opyAMz8E3JrNVZhzUTlFGwgIYY.",
-          "7Y-QAQYbUqpuwH3-_P0jLa3fd8zAtjCaw1AkVCHuIDU.",
-          // _controllerToAddress.text,
-          // TKmTK.unitStringTK(_controller.text),
-          TKmTK.unitTK(1),
-          null,
-          // _controllerMessage.text,
-           "ciao",
+          _controllerToAddress.text,
+          TKmTK.unitStringTK(_controller.text),
+          TKmTK.unitStringTK(_controller.text),
+          _controllerMessage.text,
           TKmTK.getTransactionTime());
-      String payItbJson = json.encode(itb.toJson());
-      print(payItbJson);
     } else {
       itb = BuilderItb.pay(
           Globals.instance.selectedFromAddress,
@@ -117,31 +111,16 @@ class _PayState extends State<Pay> {
     }
 
     SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
-        //await WalletUtils.getNewKeypairED25519("dNqVOk1YrSSBbPLn2opyAMz8E3JrNVZhzUTlFGwgIYY.");
 
-    // TransactionBean tb = await TkmWallet.createGenericTransaction(
-    //     itb, skp, Globals.instance.selectedFromAddress);
     TransactionBean tb = await TkmWallet.createGenericTransaction(
         itb, skp, Globals.instance.selectedFromAddress);
-
-    /*String asd = tb.message.toString();
-    var jsonDecoded = json.decode(asd);
-
-    jsonDecoded['notBefore'] = BigInt.parse(jsonDecoded['notBefore']);
-    jsonDecoded['redValue'] = BigInt.parse(jsonDecoded['redValue']);
-    jsonDecoded['greenValue'] = BigInt.parse(jsonDecoded['greenValue']);
-
-    tb.message = jsonEncode(jsonDecoded);*/
-
-    // String tbJson = StringUtilities.jsonNotEscapedToCorrectFormat(tb.toJson().toString());
-    //var jsonDecoded = StringUtilities.jsonNotEscapedToCorrectFormat(tb.message!);
 
     String tbJson = jsonEncode(tb.toJson());
     String payHexBody = StringUtilities.convertToHex(tbJson);
 
     TransactionInput ti = TransactionInput(payHexBody);
 
-    ConsumerHelper.doPost("", "", "", ti.toJson());
+    ConsumerHelper.doRequest(Methods.POST, ApiList().apiMap["pay"]!, ti.toJson());
     print(payHexBody);
   }
 
