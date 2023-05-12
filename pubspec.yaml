@@ -59,6 +59,8 @@ dependencies:
   encrypt: ^5.0.1
   glass: ^1.0.1+1
   http: ^0.13.3
+  loader_overlay: ^2.2.0
+  flutter_spinkit: ^5.2.0
 
 dev_dependencies:
   flutter_test:
