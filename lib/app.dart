@@ -27,11 +27,11 @@ class App extends StatelessWidget {
       initialRoute: Splash.routeName,
       home: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: Center(
-          child: SpinKitCubeGrid(
+        overlayWidget: const Center(
+          child: CircularProgressIndicator()/*SpinKitCubeGrid(
             color: Styles.primaryHighlightColor,
             size: 80.0,
-          ),
+          ),*/
         ),
         overlayColor: Colors.black,
         overlayOpacity: 0.8,
