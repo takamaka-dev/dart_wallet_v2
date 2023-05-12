@@ -136,6 +136,7 @@ class _WalletState extends State<Wallet> {
                             color: Styles.takamakaColor,
                             child: const Text("Login"),
                             onPressed: () async {
+                              context.loaderOverlay.show();
                               kb = await WalletUtils.initWallet(
                                   'wallets',
                                   walletName,
@@ -173,6 +174,7 @@ class _WalletState extends State<Wallet> {
                               });
                               model.generatedSeed = kb!['seed'];
                               model.recoveryWords = kb!['words'];
+                              context.loaderOverlay.hide();
                             })
                       ],
                     ),
@@ -502,6 +504,7 @@ class _WalletState extends State<Wallet> {
                                               minSize: 20, // impostiamo la larghezza minima del pulsante
                                               padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                               onPressed: () async {
+                                                context.loaderOverlay.show();
                                                 kb = await WalletUtils.initWallet(
                                                     'wallets',
                                                     walletName,
@@ -538,6 +541,7 @@ class _WalletState extends State<Wallet> {
                                                 });
                                                 model.generatedSeed = kb!['seed'];
                                                 model.recoveryWords = kb!['words'];
+                                                context.loaderOverlay.hide();
                                               },
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.center,
