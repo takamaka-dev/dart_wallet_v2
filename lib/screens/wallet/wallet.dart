@@ -12,6 +12,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:glass/glass.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -580,6 +581,7 @@ class _WalletState extends State<Wallet> {
   }
 
   Future<void> fetchMyObjects() async {
+    context.loaderOverlay.show();
     final response = await ConsumerHelper.doRequest(
         HttpMethods.GET, ApiList().apiMap['test']!['changes']!, {});
 
@@ -594,6 +596,7 @@ class _WalletState extends State<Wallet> {
             ApiList().apiMap['test']!['balance']!, brb.toJson())));
 
     Globals.instance.brb = brespb;
+    context.loaderOverlay.hide();
   }
 
   String updateCurrencyValue(double value) {
