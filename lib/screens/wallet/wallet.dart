@@ -120,6 +120,7 @@ class _WalletState extends State<Wallet> {
                                   placeholder: 'Wallet index number',
                                   onChanged: (value) {
                                     _walletIndexNumberController.text = value;
+                                    _walletIndexNumberController.selection = TextSelection.fromPosition(TextPosition(offset: _walletIndexNumberController.text.length));
                                   },
                                 ),
                                 const SizedBox(height: 50),
@@ -169,8 +170,7 @@ class _WalletState extends State<Wallet> {
                                 _bytes = _bytes;
                                 selectedIndex = int.parse(
                                     _walletIndexNumberController.text);
-                                _selectedIndexController.text =
-                                    selectedIndex.toString();
+                                _selectedIndexController.text = selectedIndex.toString();
                               });
                               model.generatedSeed = kb!['seed'];
                               model.recoveryWords = kb!['words'];
@@ -493,8 +493,10 @@ class _WalletState extends State<Wallet> {
                                               controller:
                                                   _selectedIndexController,
                                               onChanged: (value) => {
-                                                _selectedIndexController.text = value
-                                              },
+                                                _selectedIndexController.text = value,
+                                              _selectedIndexController.selection = TextSelection.fromPosition(TextPosition(offset: _selectedIndexController.text.length))
+
+                                            },
                                               textAlign: TextAlign.start,
                                             ),
                                           ),
