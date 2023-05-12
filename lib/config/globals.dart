@@ -15,6 +15,22 @@ class Globals with ChangeNotifier {
     _currentIndex = value;
   }
 
+  TransactionInput _ti = TransactionInput("");
+
+  TransactionInput get ti => _ti;
+
+  set ti(TransactionInput value) {
+    _ti = value;
+  }
+
+  FeeBean _feeBean = FeeBean();
+
+  FeeBean get feeBean => _feeBean;
+
+  set feeBean(FeeBean value) {
+    _feeBean = value;
+  }
+
   BalanceResponseBean _brb = BalanceResponseBean();
 
   BalanceResponseBean get brb => _brb;

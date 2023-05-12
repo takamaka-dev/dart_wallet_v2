@@ -1,21 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
-import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
-import 'package:dart_wallet_v2/config/api/changes.dart';
-import 'package:dart_wallet_v2/config/api/single_change.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
-import 'package:pointycastle/api.dart';
-import 'package:pointycastle/digests/sha256.dart';
-import 'package:pointycastle/digests/sha3.dart';
-import 'package:pointycastle/macs/hmac.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 import '../../../config/styles.dart';
-import 'package:http/http.dart' as http;
 
 class Pay extends StatefulWidget {
   const Pay({super.key});
@@ -32,6 +24,8 @@ class _PayState extends State<Pay> {
   final TextEditingController _controllerToAddress = TextEditingController();
   final TextEditingController _controllerMessage = TextEditingController();
 
+  FeeBean currentFeeBean = FeeBean();
+  late TransactionInput ti;
   Future<bool> _initPayInterface() async {
     setState(() {
       currentToken = "TKG";
@@ -88,7 +82,7 @@ class _PayState extends State<Pay> {
   Future<void> doPay() async {
     InternalTransactionBean itb;
 
-    print('FROM ADDRESS: ' + Globals.instance.selectedFromAddress);
+    //context.loaderOverlay.show();
 
     if (currentToken == "TKG") {
       itb = BuilderItb.pay(
@@ -117,16 +111,64 @@ class _PayState extends State<Pay> {
     String tbJson = jsonEncode(tb.toJson());
     String payHexBody = StringUtilities.convertToHex(tbJson);
 
-    TransactionInput ti = TransactionInput(payHexBody);
+    ti = TransactionInput(payHexBody);
 
-    final response = await ConsumerHelper.doRequest(
+    Globals.instance.ti = ti;
+
+    TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+
+    FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
+
+    Globals.instance.feeBean = feeBean;
+
+    context.loaderOverlay.hide();
+
+    if (feeBean.disk != null) {
+      Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+    }
+
+    /*final response = await ConsumerHelper.doRequest(
         HttpMethods.POST, ApiList().apiMap['test']!["tx"]!, ti.toJson());
     print(response);
 
     if (response == '{"TxIsVerified":"true"}') {
       Navigator.of(context).restorablePush(_dialogBuilder);
+    }*/
+  }
 
-    }
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogBuilderPreConfirm(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Alert'),
+          content: Text('The transaction is ready for confirmation ${Globals.instance.feeBean}'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () async {
+                context.loaderOverlay.show();
+                final response = await ConsumerHelper.doRequest(
+                    HttpMethods.POST, ApiList().apiMap['test']!["tx"]!, Globals.instance.ti.toJson());
+                if (response == '{"TxIsVerified":"true"}') {
+                  context.loaderOverlay.hide();
+                  Navigator.pop(context);
+                  Navigator.of(context).restorablePush(_dialogBuilder);
+                }
+              },
+              child: const Text('Confirm'),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Abort'),
+            )
+          ],
+        );
+      },
+    );
   }
 
   @pragma('vm:entry-point')
