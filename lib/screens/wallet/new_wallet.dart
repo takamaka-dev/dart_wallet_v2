@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:glass/glass.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class NewWallet extends StatelessWidget {
   NewWallet({required this.onRefresh});
@@ -90,9 +91,11 @@ class NewWallet extends StatelessWidget {
   }
 
   _openWallet(BuildContext context) async {
+    context.loaderOverlay.show();
     await WalletUtils.initWallet(
         'wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);
     onRefresh();
+    context.loaderOverlay.hide();
     Navigator.pop(context,true);
   }
 }

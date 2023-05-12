@@ -15,6 +15,7 @@ class Restore extends StatelessWidget {
   String password = "";
 
   Future<void> _restoreWallet(context) async {
+    context.loaderOverlay.show();
     List<String> wordList = [];
     if (words.isNotEmpty) {
       wordList = words.split(" ");
@@ -34,6 +35,7 @@ class Restore extends StatelessWidget {
     await WalletUtils.getNewKeypairED25519(seed);
 
     onRefresh();
+    context.loaderOverlay.hide();
     Navigator.pop(context, true);
   }
 
