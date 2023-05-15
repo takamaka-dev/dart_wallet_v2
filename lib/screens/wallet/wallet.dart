@@ -6,6 +6,7 @@ import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
+import 'package:dart_wallet_v2/screens/transactions/stake/stake.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -30,7 +31,7 @@ class _WalletState extends State<Wallet> {
   _WalletState(this.walletName);
 
   final TextEditingController _walletIndexNumberController =
-      TextEditingController();
+      TextEditingController(text: '0');
   TextEditingController _selectedIndexController = TextEditingController();
 
   final String _url = 'https://exp.takamaka.dev/';
@@ -263,29 +264,30 @@ class _WalletState extends State<Wallet> {
                           )),
                           Expanded(
                               child: Container(
-                            decoration: const BoxDecoration(
-                                border: Border(
-                              right: BorderSide(
-                                color: Colors.white,
-                                width: 1.0,
-                              ),
-                            )),
-                            child: CupertinoButton(
-                                color: Styles.takamakaColor,
-                                alignment: Alignment.topLeft,
-                                borderRadius: BorderRadius.zero,
-                                // Rimuove il bordo arrotondato
+                                decoration: const BoxDecoration(
+                                    border: Border(
+                                      right: BorderSide(
+                                        color: Colors.white,
+                                        width: 1.0,
+                                      ),
+                                    )),
+                                child: CupertinoButton(
+                                    color: Styles.takamakaColor,
+                                    alignment: Alignment.topLeft,
+                                    borderRadius: BorderRadius.zero,
+                                    // Rimuove il bordo arrotondato
 
-                                onPressed: () => {
+                                    onPressed: () => {
                                       Navigator.of(context).push(
                                           CupertinoPageRoute<void>(
                                               builder: (BuildContext context) {
-                                        return const Pay();
-                                      }))
+                                                return const Stake();
+                                              }))
                                     },
-                                child: const Center(
-                                    child: Icon(CupertinoIcons.arrow_down))),
-                          )),
+                                    child: const Center(
+                                        child:
+                                        Icon(CupertinoIcons.layers_alt_fill))),
+                              )),
                           Expanded(
                               child: Container(
                             decoration: const BoxDecoration(
@@ -314,30 +316,29 @@ class _WalletState extends State<Wallet> {
                           )),
                           Expanded(
                               child: Container(
-                            decoration: const BoxDecoration(
-                                border: Border(
-                              right: BorderSide(
-                                color: Colors.white,
-                                width: 1.0,
-                              ),
-                            )),
-                            child: CupertinoButton(
-                                color: Styles.takamakaColor,
-                                alignment: Alignment.topLeft,
-                                borderRadius: BorderRadius.zero,
-                                // Rimuove il bordo arrotondato
+                                decoration: const BoxDecoration(
+                                    border: Border(
+                                      right: BorderSide(
+                                        color: Colors.white,
+                                        width: 1.0,
+                                      ),
+                                    )),
+                                child: CupertinoButton(
+                                    color: Styles.takamakaColor,
+                                    alignment: Alignment.topLeft,
+                                    borderRadius: BorderRadius.zero,
+                                    // Rimuove il bordo arrotondato
 
-                                onPressed: () => {
+                                    onPressed: () => {
                                       Navigator.of(context).push(
                                           CupertinoPageRoute<void>(
                                               builder: (BuildContext context) {
-                                        return const Pay();
-                                      }))
+                                                return const Pay();
+                                              }))
                                     },
-                                child: const Center(
-                                    child:
-                                        Icon(CupertinoIcons.layers_alt_fill))),
-                          )),
+                                    child: const Center(
+                                        child: Icon(CupertinoIcons.arrow_down))),
+                              )),
                           Expanded(
                               child: Container(
                             decoration: const BoxDecoration(
