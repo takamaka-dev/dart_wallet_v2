@@ -7,6 +7,14 @@ import 'api/single_change.dart';
 
 class Globals with ChangeNotifier {
 
+  String _sith = "";
+
+  String get sith => _sith;
+
+  set sith(String value) {
+    _sith = value;
+  }
+
   int _currentIndex = 0;
 
   int get currentIndex => _currentIndex;

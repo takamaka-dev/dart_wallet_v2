@@ -117,6 +117,10 @@ class _PayState extends State<Pay> {
 
     TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
 
+    String? singleInclusionTransactionHash = payTbox.singleInclusionTransactionHash;
+
+    Globals.instance.sith = singleInclusionTransactionHash!;
+
     FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
 
     Globals.instance.feeBean = feeBean;
@@ -147,6 +151,12 @@ class _PayState extends State<Pay> {
           content: Text('The transaction is ready for confirmation ${Globals.instance.feeBean}'),
           actions: <Widget>[
             CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Abort'),
+            ),
+            CupertinoDialogAction(
               onPressed: () async {
                 context.loaderOverlay.show();
                 final response = await ConsumerHelper.doRequest(
@@ -158,12 +168,6 @@ class _PayState extends State<Pay> {
                 }
               },
               child: const Text('Confirm'),
-            ),
-            CupertinoDialogAction(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Abort'),
             )
           ],
         );
@@ -179,7 +183,7 @@ class _PayState extends State<Pay> {
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('Success!'),
-          content: const Text('The transaction has been properly verified!'),
+          content: Text('The transaction has been properly verified!' "\n Sith: " + Globals.instance.sith),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
