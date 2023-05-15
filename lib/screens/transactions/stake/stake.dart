@@ -25,6 +25,7 @@ class _StakeState extends State<Stake> {
   }
 
   Future<void> _initStakeInterface() async {
+
     context.loaderOverlay.show();
     final response = await ConsumerHelper.doRequest(
         HttpMethods.POST, ApiList().apiMap['test']!["listnodes"]!, {});
