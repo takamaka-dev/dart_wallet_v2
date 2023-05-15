@@ -7,6 +7,14 @@ import 'api/single_change.dart';
 
 class Globals with ChangeNotifier {
 
+  StakeNodeList _snl = StakeNodeList([]);
+
+  StakeNodeList get snl => _snl;
+
+  set snl(StakeNodeList value) {
+    _snl = value;
+  }
+
   String _sith = "";
 
   String get sith => _sith;

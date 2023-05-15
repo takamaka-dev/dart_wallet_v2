@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +14,8 @@ class Stake extends StatefulWidget {
   State<StatefulWidget> createState() => _StakeState();
 }
 
-
 class _StakeState extends State<Stake> {
+  List<Widget> widgetList = <Widget>[];
 
   @override
   void initState() {
@@ -25,11 +28,22 @@ class _StakeState extends State<Stake> {
     context.loaderOverlay.show();
     final response = await ConsumerHelper.doRequest(
         HttpMethods.POST, ApiList().apiMap['test']!["listnodes"]!, {});
-    if (response == '{"TxIsVerified":"true"}') {
-      context.loaderOverlay.hide();
-    }
-  }
 
+    Map<String, dynamic> jsonDecoded = jsonDecode(response);
+    
+  /*  jsonDecoded.map((key, value) => null)
+    
+    var myApiResponse = StakeNodeList.fromJson(jsonDecoded);
+
+    Globals.instance.snl = myApiResponse;
+
+    if (!Globals.instance.snl.stakeNodeLists.isEmpty) {
+      for (int i = 0; i < Globals.instance.snl.stakeNodeLists.length; i++) {
+        StakeNode sn = Globals.instance.snl.stakeNodeLists[i];
+      }
+    }*/
+    context.loaderOverlay.hide();
+  }
 
   Future<void> doStake() async {
     InternalTransactionBean itb;
@@ -90,7 +104,7 @@ class _StakeState extends State<Stake> {
                               context); // Navigate back when back button is pressed
                         },
                         child:
-                        const Icon(Icons.arrow_back, color: Colors.white),
+                            const Icon(Icons.arrow_back, color: Colors.white),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -105,11 +119,7 @@ class _StakeState extends State<Stake> {
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
-              child: Column(
-                children: [
-
-                ],
-              ),
+              child: const CupertinoPageScaffold(child: Text("asd")),
             )
           ],
         ),
@@ -117,4 +127,7 @@ class _StakeState extends State<Stake> {
     );
   }
 
+  List<Widget> renderNodeList() {
+    return widgetList;
+  }
 }
