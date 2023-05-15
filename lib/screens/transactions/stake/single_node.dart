@@ -42,23 +42,27 @@ class SingleNode extends StatelessWidget {
 
 
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Text("TKG: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                      Text(nodeStakeAmount.toString())
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    alias,
-                    softWrap: true,
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.visible, // new
-                  ),
-                ],
+
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Text("TKG: ", style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text(nodeStakeAmount.toString())
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      alias,
+                      softWrap: true,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.visible, // new
+                    ),
+                  ],
+                ),
               )
             ),
 
