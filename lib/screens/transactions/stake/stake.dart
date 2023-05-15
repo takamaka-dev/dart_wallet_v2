@@ -52,7 +52,7 @@ class _StakeState extends State<Stake> {
 
   }
 
-  Future<void> doStake() async {
+  Future<void> doUnStake() async {
     InternalTransactionBean itb;
 
 

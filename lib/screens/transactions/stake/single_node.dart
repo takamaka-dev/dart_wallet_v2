@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:dart_wallet_v2/screens/transactions/stake/stake_proceed.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 class SingleNode extends StatelessWidget {
@@ -39,67 +42,56 @@ class SingleNode extends StatelessWidget {
               fit: BoxFit.contain,
             ),
             const SizedBox(width: 10),
-
-
             Expanded(
-
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const Text("TKG: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text(nodeStakeAmount.toString())
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      alias,
-                      softWrap: true,
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.visible, // new
-                    ),
-                  ],
-                ),
-              )
-            ),
-
-           /* Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text("TKG: ", textAlign: TextAlign.start,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(nodeStakeAmount.toString()),
-                  ],
-                ),
-
-
-
-
-
-                *//*Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text("Alias: ",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Flexible(child: Text(
-                      alias,
-                      softWrap: false,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    )),
-                  ],
-                )*//*
-              ],
-            )*/
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            "TKG: ",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(nodeStakeAmount.toString())
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        alias,
+                        softWrap: true,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.visible, // new
+                      ),
+                    ],
+                  ),
+                )),
           ],
         ),
-        SizedBox(height: 30)
+        const SizedBox(height: 20),
+        Container(
+            width: double.infinity,
+            child: CupertinoButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    CupertinoPageRoute<void>(
+                        builder: (BuildContext context) {
+
+                          return const StakeProceed();
+                        }));
+              },
+              color: Styles.takamakaColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(CupertinoIcons.hand_point_right_fill),
+                  SizedBox(width: 10),
+                  Text("Select for staking")
+                ],
+              ),
+            )),
+        const SizedBox(height: 30)
       ],
     );
   }
