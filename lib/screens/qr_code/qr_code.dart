@@ -8,6 +8,7 @@ class QrCode extends StatelessWidget {
 
   final String qrInput;
 
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(

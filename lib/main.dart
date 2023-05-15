@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/rendering.dart';
 
 import 'app.dart';
@@ -10,6 +8,5 @@ void main() {
   runAppWithOptions(
       envFileName: '.env',
       splashState: SplashState(),
-
   );
 }
