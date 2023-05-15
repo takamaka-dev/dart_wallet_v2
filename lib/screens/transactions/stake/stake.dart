@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:dart_wallet_v2/screens/transactions/stake/single_node.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -15,7 +16,7 @@ class Stake extends StatefulWidget {
 }
 
 class _StakeState extends State<Stake> {
-  List<Widget> widgetList = <Widget>[];
+  List<Widget> _widgetList = <Widget>[];
 
   @override
   void initState() {
@@ -25,8 +26,9 @@ class _StakeState extends State<Stake> {
   }
 
   Future<void> _initStakeInterface() async {
-
     context.loaderOverlay.show();
+    List<Widget> temp = [];
+
     final response = await ConsumerHelper.doRequest(
         HttpMethods.POST, ApiList().apiMap['test']!["listnodes"]!, {});
 
@@ -36,51 +38,24 @@ class _StakeState extends State<Stake> {
 
     Globals.instance.snl = StakeNodeList(myApiResponse);
 
-    if (!Globals.instance.snl.stakeNodeLists.isEmpty) {
+    if (Globals.instance.snl.stakeNodeLists.isNotEmpty) {
       for (int i = 0; i < Globals.instance.snl.stakeNodeLists.length; i++) {
         StakeNode sn = Globals.instance.snl.stakeNodeLists[i];
+        temp.add(SingleNode(sn.alias.isEmpty ? sn.shortAddress : sn.alias, StringUtilities.convertFromBase64ToBase64UrlUnsafe(sn.identicon), BigInt.from(5)));
       }
     }
+
+    setState(() {
+      _widgetList = temp;
+    });
     context.loaderOverlay.hide();
+
   }
 
   Future<void> doStake() async {
     InternalTransactionBean itb;
 
-    //context.loaderOverlay.show();
 
-    /*itb = BuilderItb.pay(
-        Globals.instance.selectedFromAddress,
-        _controllerToAddress.text,
-        TKmTK.unitStringTK(_controller.text),
-        TKmTK.unitStringTK(_controller.text),
-        _controllerMessage.text,
-        TKmTK.getTransactionTime());
-
-    SimpleKeyPair skp =
-    await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
-
-    TransactionBean tb = await TkmWallet.createGenericTransaction(
-        itb, skp, Globals.instance.selectedFromAddress);
-
-    String tbJson = jsonEncode(tb.toJson());
-    String payHexBody = StringUtilities.convertToHex(tbJson);
-
-    ti = TransactionInput(payHexBody);
-
-    Globals.instance.ti = ti;
-
-    TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
-
-    FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
-
-    Globals.instance.feeBean = feeBean;
-
-    context.loaderOverlay.hide();
-
-    if (feeBean.disk != null) {
-      Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
-    }*/
   }
 
   @override
@@ -118,7 +93,9 @@ class _StakeState extends State<Stake> {
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
-              child: const CupertinoPageScaffold(child: Text("asd")),
+              child: Column(
+                children: tryRenderNodes(),
+              )
             )
           ],
         ),
@@ -126,7 +103,13 @@ class _StakeState extends State<Stake> {
     );
   }
 
-  List<Widget> renderNodeList() {
-    return widgetList;
+  List<Widget> tryRenderNodes() {
+    if (_widgetList.isEmpty) {
+      return [const CircularProgressIndicator()];
+    }
+
+    return _widgetList;
+
   }
+
 }
