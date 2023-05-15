@@ -51,9 +51,11 @@ class SingleNode extends StatelessWidget {
                       Text(nodeStakeAmount.toString())
                     ],
                   ),
+                  SizedBox(height: 10),
                   Text(
                     alias,
                     softWrap: true,
+                    textAlign: TextAlign.left,
                     overflow: TextOverflow.visible, // new
                   ),
                 ],
