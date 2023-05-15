@@ -29,19 +29,17 @@ class _StakeState extends State<Stake> {
     final response = await ConsumerHelper.doRequest(
         HttpMethods.POST, ApiList().apiMap['test']!["listnodes"]!, {});
 
-    Map<String, dynamic> jsonDecoded = jsonDecode(response);
-    
-  /*  jsonDecoded.map((key, value) => null)
-    
-    var myApiResponse = StakeNodeList.fromJson(jsonDecoded);
+    List jsonDecoded = json.decode(response);
 
-    Globals.instance.snl = myApiResponse;
+    List<StakeNode> myApiResponse = jsonDecoded.map((item) => StakeNode.fromJson(item)).toList();
+
+    Globals.instance.snl = StakeNodeList(myApiResponse);
 
     if (!Globals.instance.snl.stakeNodeLists.isEmpty) {
       for (int i = 0; i < Globals.instance.snl.stakeNodeLists.length; i++) {
         StakeNode sn = Globals.instance.snl.stakeNodeLists[i];
       }
-    }*/
+    }
     context.loaderOverlay.hide();
   }
 
