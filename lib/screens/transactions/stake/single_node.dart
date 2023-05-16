@@ -8,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 class SingleNode extends StatelessWidget {
-  const SingleNode(this.alias, this.identicon, this.nodeStakeAmount,
+  SingleNode(this.shortAddress, this.alias, this.identicon, this.nodeStakeAmount,
       {super.key});
 
+  final String shortAddress;
   final String alias;
   final String identicon;
   final BigInt nodeStakeAmount;
@@ -59,11 +60,11 @@ class SingleNode extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        alias,
+                        alias.isEmpty ? shortAddress : alias,
                         softWrap: true,
                         textAlign: TextAlign.left,
                         overflow: TextOverflow.visible, // new
-                      ),
+                      )
                     ],
                   ),
                 )),
@@ -77,8 +78,7 @@ class SingleNode extends StatelessWidget {
                 Navigator.of(context).push(
                     CupertinoPageRoute<void>(
                         builder: (BuildContext context) {
-
-                          return const StakeProceed();
+                          return StakeProceed(shortAddress);
                         }));
               },
               color: Styles.takamakaColor,

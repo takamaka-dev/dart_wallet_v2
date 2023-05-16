@@ -37,7 +37,7 @@ class _StakeState extends State<Stake> {
     if (Globals.instance.snl.stakeNodeLists.isNotEmpty) {
       for (int i = 0; i < Globals.instance.snl.stakeNodeLists.length; i++) {
         StakeNode sn = Globals.instance.snl.stakeNodeLists[i];
-        temp.add(SingleNode(sn.alias.isEmpty ? sn.shortAddress : sn.alias, StringUtilities.convertFromBase64ToBase64UrlUnsafe(sn.identicon), BigInt.from(5)));
+        temp.add(SingleNode(sn.shortAddress, sn.alias, StringUtilities.convertFromBase64ToBase64UrlUnsafe(sn.identicon), BigInt.from(5)));
       }
     }
 
