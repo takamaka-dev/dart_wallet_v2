@@ -10,18 +10,20 @@ import 'package:loader_overlay/loader_overlay.dart';
 import '../../../config/styles.dart';
 
 class StakeProceed extends StatefulWidget {
-  StakeProceed(this.shortAddress, {super.key});
+  StakeProceed(this.qteslaAddress, this.shortAddress, {super.key});
 
+  String qteslaAddress;
   String shortAddress;
 
   @override
-  State<StatefulWidget> createState() => _StakeProceedState(shortAddress);
+  State<StatefulWidget> createState() => _StakeProceedState(qteslaAddress, shortAddress);
 }
 
 class _StakeProceedState extends State<StakeProceed> {
 
-  _StakeProceedState(this.shortAddress);
+  _StakeProceedState(this.qteslaAddress, this.shortAddress);
 
+  String qteslaAddress;
   String shortAddress;
   Int8List? _bytes;
   final TextEditingController _controller = TextEditingController();
@@ -41,13 +43,8 @@ class _StakeProceedState extends State<StakeProceed> {
       shortAddress = shortAddress;
     });
 
-    var response = await ConsumerHelper.doRequest(HttpMethods.GET, ApiList().apiMap['test']!['stakenodemap']! + shortAddress, {});
-
-
-    _controllerToAddressQtesla.text = response;
-    updateIdenticon(_controllerToAddress.text);
-
-
+    _controllerToAddressQtesla.text = qteslaAddress;
+    updateIdenticon(_controllerToAddressQtesla.text);
 
     return true;
   }

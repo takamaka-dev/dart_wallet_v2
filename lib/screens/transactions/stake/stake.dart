@@ -18,14 +18,13 @@ class _StakeState extends State<Stake> {
 
   @override
   void initState() {
-    context.loaderOverlay.show();
     _initStakeInterface();
-    context.loaderOverlay.hide();
     //fetchMyObjects();
     super.initState();
   }
 
   Future<void> _initStakeInterface() async {
+    context.loaderOverlay.show();
     List<Widget> temp = [];
 
     final response = await ConsumerHelper.doRequest(
@@ -33,20 +32,46 @@ class _StakeState extends State<Stake> {
 
     Globals.instance.snl = StakeNodeList.fromJsonArray(response);
 
+    final responseAcceptedBets = await ConsumerHelper.doRequest(
+        HttpMethods.GET, ApiList().apiMap['test']!['acceptedbets']!, {});
+
+    AcceptedBetByHolderListBean abhl =
+        AcceptedBetByHolderListBean.fromJsonArray(responseAcceptedBets);
+
+    Map<String, int> coveredBets = {};
+
+    abhl.acceptedBets.forEach((element) {
+      if (element.holderAddressURL64 == Globals.instance.selectedFromAddress) {
+        coveredBets = element.coveredBets;
+      }
+    });
+
     if (Globals.instance.snl.stakeNodeLists.isNotEmpty) {
       for (int i = 0; i < Globals.instance.snl.stakeNodeLists.length; i++) {
         StakeNode sn = Globals.instance.snl.stakeNodeLists[i];
+
+        String qTeslaAddressVersion = await ConsumerHelper.doRequest(
+            HttpMethods.GET,
+            ApiList().apiMap['test']!['stakenodemap']! + sn.shortAddress, {});
+
+        BigInt amountTkBigint = BigInt.from(0);
+        if (coveredBets.containsKey(qTeslaAddressVersion)) {
+          amountTkBigint = BigInt.from(coveredBets[qTeslaAddressVersion]!);
+        }
+
         temp.add(SingleNode(
+            qTeslaAddressVersion,
             sn.shortAddress,
             sn.alias,
             StringUtilities.convertFromBase64ToBase64UrlUnsafe(sn.identicon),
-            BigInt.from(5)));
+            TKmTK.bigIntDoubleTK(amountTkBigint)));
       }
     }
 
     setState(() {
       _widgetList = temp;
     });
+    context.loaderOverlay.hide();
   }
 
 /*
