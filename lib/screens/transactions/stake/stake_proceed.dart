@@ -27,21 +27,27 @@ class _StakeProceedState extends State<StakeProceed> {
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller_2 = TextEditingController();
   final TextEditingController _controllerToAddress = TextEditingController();
+  final TextEditingController _controllerToAddressQtesla = TextEditingController();
   final TextEditingController _controllerMessage = TextEditingController();
 
   FeeBean currentFeeBean = FeeBean();
   late TransactionInput ti;
   Future<bool> _initStakeProceedInterface() async {
 
-    var response = await ConsumerHelper.doRequest(HttpMethods.GET, ApiList().apiMap['test']!['stakenodemap']! + shortAddress, {});
-
-    _controllerToAddress.text = response;
-    updateIdenticon(_controllerToAddress.text);
+    _controllerToAddress.text = shortAddress;
 
     setState(() {
       _bytes = null;
       shortAddress = shortAddress;
     });
+
+    var response = await ConsumerHelper.doRequest(HttpMethods.GET, ApiList().apiMap['test']!['stakenodemap']! + shortAddress, {});
+
+
+    _controllerToAddressQtesla.text = response;
+    updateIdenticon(_controllerToAddress.text);
+
+
 
     return true;
   }
@@ -93,7 +99,7 @@ class _StakeProceedState extends State<StakeProceed> {
 
     itb = BuilderItb.stake(
         Globals.instance.selectedFromAddress,
-        _controllerToAddress.text,
+        _controllerToAddressQtesla.text,
         TKmTK.unitStringTK(_controller.text),
         _controllerMessage.text,
         TKmTK.getTransactionTime());
