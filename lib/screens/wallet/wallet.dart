@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:dart_wallet_v2/screens/transactions/blob/blob.dart';
 import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/stake.dart';
 import 'package:flutter/cupertino.dart';
@@ -307,7 +308,7 @@ class _WalletState extends State<Wallet> {
                                       Navigator.of(context).push(
                                           CupertinoPageRoute<void>(
                                               builder: (BuildContext context) {
-                                        return const Pay();
+                                        return const Blob();
                                       }))
                                     },
                                 child: const Center(
