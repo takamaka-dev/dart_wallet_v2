@@ -10,14 +10,19 @@ import 'package:loader_overlay/loader_overlay.dart';
 import '../../../config/styles.dart';
 
 class StakeProceed extends StatefulWidget {
-  const StakeProceed({super.key});
+  StakeProceed(this.shortAddress, {super.key});
+
+  String shortAddress;
 
   @override
-  State<StatefulWidget> createState() => _StakeProceedState();
+  State<StatefulWidget> createState() => _StakeProceedState(shortAddress);
 }
 
 class _StakeProceedState extends State<StakeProceed> {
-  String? currentToken;
+
+  _StakeProceedState(this.shortAddress);
+
+  String shortAddress;
   Int8List? _bytes;
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller_2 = TextEditingController();
@@ -26,10 +31,16 @@ class _StakeProceedState extends State<StakeProceed> {
 
   FeeBean currentFeeBean = FeeBean();
   late TransactionInput ti;
-  Future<bool> _initPayInterface() async {
+  Future<bool> _initStakeProceedInterface() async {
+
+    var response = await ConsumerHelper.doRequest(HttpMethods.GET, ApiList().apiMap['test']!['stakenodemap']! + shortAddress, {});
+
+    _controllerToAddress.text = response;
+    updateIdenticon(_controllerToAddress.text);
+
     setState(() {
-      currentToken = "TKG";
       _bytes = null;
+      shortAddress = shortAddress;
     });
 
     return true;
@@ -37,7 +48,7 @@ class _StakeProceedState extends State<StakeProceed> {
 
   @override
   void initState() {
-    _initPayInterface();
+    _initStakeProceedInterface();
     //fetchMyObjects();
     super.initState();
   }
@@ -57,12 +68,10 @@ class _StakeProceedState extends State<StakeProceed> {
     double tkUsd = Globals.instance.changes.changes[2].value;
     double convertedValue = double.parse(value);
 
-    if (currentToken == "TKG") {
-      convertedValue *= (1 / tkUsd);
-    }
+    convertedValue *= (1 / tkUsd);
 
     setState(() {
-      _controller.text = "$convertedValue " + currentToken!;
+      _controller.text = "$convertedValue " " TKG";
     });
   }
 
@@ -70,9 +79,7 @@ class _StakeProceedState extends State<StakeProceed> {
     double usdTk = Globals.instance.changes.changes[2].value;
     double convertedValue = double.parse(value);
 
-    if (currentToken == "TKG") {
-      convertedValue = convertedValue * usdTk;
-    }
+    convertedValue = convertedValue * usdTk;
 
     setState(() {
       _controller_2.text = "$convertedValue USD";
@@ -84,10 +91,9 @@ class _StakeProceedState extends State<StakeProceed> {
 
     //context.loaderOverlay.show();
 
-    itb = BuilderItb.pay(
+    itb = BuilderItb.stake(
         Globals.instance.selectedFromAddress,
         _controllerToAddress.text,
-        TKmTK.unitStringTK(_controller.text),
         TKmTK.unitStringTK(_controller.text),
         _controllerMessage.text,
         TKmTK.getTransactionTime());
@@ -240,6 +246,7 @@ class _StakeProceedState extends State<StakeProceed> {
                     textAlign: TextAlign.center,
                     onChanged: (value) => {updateIdenticon(value)},
                     controller: _controllerToAddress,
+                    readOnly: true,
                     placeholder: "Address",
                   ),
                   const SizedBox(height: 20),
@@ -249,38 +256,15 @@ class _StakeProceedState extends State<StakeProceed> {
                       TextButton(
                         onPressed: () {
                           setState(() {
-                            currentToken = "TKG";
                             _controller.text = "";
                             _controller_2.text = "";
                           });
                         },
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                             radius: 30.0,
-                            backgroundColor: currentToken == "TKG"
-                                ? Colors.green
-                                : Colors.grey,
-                            child: const Text("TKG",
+                            backgroundColor: Colors.green,
+                            child: Text("TKG",
                                 style: TextStyle(color: Colors.white))),
-                      ),
-                      const SizedBox(width: 30),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            currentToken = "TKR";
-                            _controller.text = "";
-                            _controller_2.text = "";
-                          });
-                        },
-                        child: CircleAvatar(
-                            radius: 30.0,
-                            backgroundColor: currentToken == "TKR"
-                                ? Colors.red
-                                : Colors.grey,
-                            child: Text("TKR",
-                                style: TextStyle(
-                                    color: currentToken == "TKR"
-                                        ? Colors.white
-                                        : Colors.black54))),
                       )
                     ],
                   ),
@@ -296,7 +280,7 @@ class _StakeProceedState extends State<StakeProceed> {
                     textAlign: TextAlign.center,
                     controller: _controller,
                     onChanged: (value) => {updateCurrencyValue(value)},
-                    placeholder: currentToken == "TKG" ? "TKG" : "TKR",
+                    placeholder: "TKG",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(
@@ -307,14 +291,14 @@ class _StakeProceedState extends State<StakeProceed> {
                   const SizedBox(height: 30),
                   CupertinoButton(
                       color: Styles.takamakaColor,
-                      onPressed: () => {doPay()},
+                      onPressed: () => {doStake()},
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: const [
                             Icon(CupertinoIcons.paperplane),
                             SizedBox(width: 10),
-                            Text('Send')
+                            Text('Stake')
                           ])),
                   const SizedBox(height: 30),
                 ],
