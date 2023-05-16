@@ -92,8 +92,6 @@ class _StakeProceedState extends State<StakeProceed> {
   Future<void> doStake() async {
     InternalTransactionBean itb;
 
-    //context.loaderOverlay.show();
-
     itb = BuilderItb.stake(
         Globals.instance.selectedFromAddress,
         _controllerToAddressQtesla.text,

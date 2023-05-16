@@ -74,11 +74,7 @@ class _StakeState extends State<Stake> {
     context.loaderOverlay.hide();
   }
 
-/*
-  Future<void> doUnStake() async {
-    InternalTransactionBean itb;
-  }
-*/
+
 
   @override
   Widget build(BuildContext context) {
