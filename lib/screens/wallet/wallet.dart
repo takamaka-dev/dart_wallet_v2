@@ -398,14 +398,14 @@ class _WalletState extends State<Wallet> {
                                             ((Globals.instance.brb
                                                             .greenBalance ??
                                                         BigInt.from(0)) /
-                                                    BigInt.from(10).pow(10))
+                                                    BigInt.from(10).pow(9))
                                                 .toStringAsFixed(2),
                                             style: const TextStyle(
                                                 color: Colors.white))
                                       ],
                                     ),
                                     Text(
-                                        "\$ ${updateCurrencyValue((Globals.instance.brb.greenBalance ?? BigInt.from(0)) / BigInt.from(10).pow(10))}",
+                                        "\$ ${updateCurrencyValue((Globals.instance.brb.greenBalance ?? BigInt.from(0)) / BigInt.from(10).pow(9))}",
                                         style: const TextStyle(
                                             color: Colors.white))
                                   ],
@@ -429,14 +429,14 @@ class _WalletState extends State<Wallet> {
                                         Text(
                                             ((Globals.instance.brb.redBalance ??
                                                         BigInt.from(0)) /
-                                                    BigInt.from(10).pow(10))
+                                                    BigInt.from(10).pow(9))
                                                 .toStringAsFixed(2),
                                             style: const TextStyle(
                                                 color: Colors.white))
                                       ],
                                     ),
                                     Text(
-                                        "\$ ${((Globals.instance.brb.redBalance ?? BigInt.from(0)) / BigInt.from(10).pow(10)).toStringAsFixed(2)}",
+                                        "\$ ${((Globals.instance.brb.redBalance ?? BigInt.from(0)) / BigInt.from(10).pow(9)).toStringAsFixed(2)}",
                                         style: const TextStyle(
                                             color: Colors.white))
                                   ],

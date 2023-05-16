@@ -4,11 +4,9 @@ import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/stake_proceed.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 class SingleNode extends StatelessWidget {
-  SingleNode(this.shortAddress, this.alias, this.identicon, this.nodeStakeAmount,
+  const SingleNode(this.shortAddress, this.alias, this.identicon, this.nodeStakeAmount,
       {super.key});
 
   final String shortAddress;
@@ -18,19 +16,6 @@ class SingleNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*return Row(
-        children: const [
-          Flexible(
-            child: Text(
-              'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-              style: TextStyle(fontSize: 58),
-              softWrap: true,
-              overflow: TextOverflow.visible, // new
-            ),
-          ),
-        ],
-      );*/
-
     return Column(
       children: [
         Row(
@@ -71,7 +56,7 @@ class SingleNode extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        Container(
+        SizedBox(
             width: double.infinity,
             child: CupertinoButton(
               onPressed: () {

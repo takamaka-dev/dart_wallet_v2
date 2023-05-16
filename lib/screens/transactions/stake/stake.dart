@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/single_node.dart';
@@ -20,13 +18,14 @@ class _StakeState extends State<Stake> {
 
   @override
   void initState() {
+    context.loaderOverlay.show();
     _initStakeInterface();
+    context.loaderOverlay.hide();
     //fetchMyObjects();
     super.initState();
   }
 
   Future<void> _initStakeInterface() async {
-    context.loaderOverlay.show();
     List<Widget> temp = [];
 
     final response = await ConsumerHelper.doRequest(
@@ -37,22 +36,24 @@ class _StakeState extends State<Stake> {
     if (Globals.instance.snl.stakeNodeLists.isNotEmpty) {
       for (int i = 0; i < Globals.instance.snl.stakeNodeLists.length; i++) {
         StakeNode sn = Globals.instance.snl.stakeNodeLists[i];
-        temp.add(SingleNode(sn.shortAddress, sn.alias, StringUtilities.convertFromBase64ToBase64UrlUnsafe(sn.identicon), BigInt.from(5)));
+        temp.add(SingleNode(
+            sn.shortAddress,
+            sn.alias,
+            StringUtilities.convertFromBase64ToBase64UrlUnsafe(sn.identicon),
+            BigInt.from(5)));
       }
     }
 
     setState(() {
       _widgetList = temp;
     });
-    context.loaderOverlay.hide();
-
   }
 
+/*
   Future<void> doUnStake() async {
     InternalTransactionBean itb;
-
-
   }
+*/
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +89,10 @@ class _StakeState extends State<Stake> {
                   )),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
-              child: Column(
-                children: tryRenderNodes(),
-              )
-            )
+                padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
+                child: Column(
+                  children: tryRenderNodes(),
+                ))
           ],
         ),
       ),
@@ -105,7 +105,5 @@ class _StakeState extends State<Stake> {
     }
 
     return _widgetList;
-
   }
-
 }
