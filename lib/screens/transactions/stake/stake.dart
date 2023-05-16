@@ -32,11 +32,7 @@ class _StakeState extends State<Stake> {
     final response = await ConsumerHelper.doRequest(
         HttpMethods.POST, ApiList().apiMap['test']!["listnodes"]!, {});
 
-    List jsonDecoded = json.decode(response);
-
-    List<StakeNode> myApiResponse = jsonDecoded.map((item) => StakeNode.fromJson(item)).toList();
-
-    Globals.instance.snl = StakeNodeList(myApiResponse);
+    Globals.instance.snl = StakeNodeList.fromJsonArray(response);
 
     if (Globals.instance.snl.stakeNodeLists.isNotEmpty) {
       for (int i = 0; i < Globals.instance.snl.stakeNodeLists.length; i++) {

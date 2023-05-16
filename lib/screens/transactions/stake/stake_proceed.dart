@@ -307,7 +307,7 @@ class _StakeProceedState extends State<StakeProceed> {
                   const SizedBox(height: 30),
                   CupertinoButton(
                       color: Styles.takamakaColor,
-                      onPressed: () => {doPay()},
+                      onPressed: () => {},
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
