@@ -33,48 +33,47 @@ class _BlobTextState extends State<BlobText> {
   @override
   void initState() {
     _initBlobInterface();
-    //fetchMyObjects();
     super.initState();
   }
 
-  Future<void> doBlob() async {
-    InternalTransactionBean itb;
+  Future<void> doBlobText() async {
+    context.loaderOverlay.show();
 
-    //context.loaderOverlay.show();
+    String message = _controllerMessage.text.trim();
 
-    // InternalTransactionBean itb = BuilderItb.blob(
-    //     Globals.instance.selectedFromAddress,
-    //     message,
-    //     TKmTK.getTransactionTime());
+    InternalTransactionBean itb = BuilderItb.blob(
+        Globals.instance.selectedFromAddress,
+        message,
+        TKmTK.getTransactionTime());
 
     SimpleKeyPair skp =
     await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
 
-    // TransactionBean tb = await TkmWallet.createGenericTransaction(
-    //     itb, skp, Globals.instance.selectedFromAddress);
+    TransactionBean tb = await TkmWallet.createGenericTransaction(
+        itb, skp, Globals.instance.selectedFromAddress);
 
-    // String tbJson = jsonEncode(tb.toJson());
-    // String payHexBody = StringUtilities.convertToHex(tbJson);
-    //
-    // ti = TransactionInput(payHexBody);
-    //
-    // Globals.instance.ti = ti;
-    //
-    // TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
-    //
-    // String? singleInclusionTransactionHash = payTbox.singleInclusionTransactionHash;
-    //
-    // Globals.instance.sith = singleInclusionTransactionHash!;
-    //
-    // FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
-    //
-    // Globals.instance.feeBean = feeBean;
-    //
-    // context.loaderOverlay.hide();
-    //
-    // if (feeBean.disk != null) {
-    //   Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
-    // }
+    String tbJson = jsonEncode(tb.toJson());
+    String payHexBody = StringUtilities.convertToHex(tbJson);
+
+    ti = TransactionInput(payHexBody);
+
+    Globals.instance.ti = ti;
+
+    TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+
+    String? singleInclusionTransactionHash = payTbox.singleInclusionTransactionHash;
+
+    Globals.instance.sith = singleInclusionTransactionHash!;
+
+    FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
+
+    Globals.instance.feeBean = feeBean;
+
+    context.loaderOverlay.hide();
+
+    if (feeBean.disk != null) {
+      Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+    }
 
   }
 
@@ -160,7 +159,7 @@ class _BlobTextState extends State<BlobText> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const <Widget>[
-                        Text("Pay section",
+                        Text("Upload Simple Text",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white)),
                       ],
@@ -174,9 +173,8 @@ class _BlobTextState extends State<BlobText> {
               children: [
                 CupertinoTextField(
                   textAlign: TextAlign.center,
-                  // onChanged: (value) => {updateIdenticon(value)},
-                  // controller: _controllerToAddress,
-                  placeholder: "Address",
+                  controller: _controllerMessage,
+                  placeholder: "Type here your text",
                 ),
                 const SizedBox(height: 30),
                 CupertinoButton(
