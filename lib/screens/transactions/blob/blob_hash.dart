@@ -8,17 +8,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:pointycastle/digests/sha3.dart';
 
 import '../../../config/styles.dart';
 
-class BlobFile extends StatefulWidget {
-  const BlobFile({super.key});
+class BlobHash extends StatefulWidget {
+  const BlobHash({super.key});
 
   @override
-  State<StatefulWidget> createState() => _BlobFileState();
+  State<StatefulWidget> createState() => _BlobHashState();
 }
 
-class _BlobFileState extends State<BlobFile> {
+class _BlobHashState extends State<BlobHash> {
   File? _selectedFile;
   void _openFilePicker() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -48,44 +49,49 @@ class _BlobFileState extends State<BlobFile> {
     super.initState();
   }
 
-  Future<void> doBlob() async {
-    InternalTransactionBean itb;
+  Future<void> doBlobHash() async {
 
-    //context.loaderOverlay.show();
+    context.loaderOverlay.show();
 
-    // InternalTransactionBean itb = BuilderItb.blob(
-    //     Globals.instance.selectedFromAddress,
-    //     message,
-    //     TKmTK.getTransactionTime());
+    File f = File(_selectedFile!.path);
+    Uint8List bytes = f.readAsBytesSync();
+    SHA3Digest sha3digest = SHA3Digest(256);
+    Uint8List hash = sha3digest.process(Uint8List.fromList(bytes));
+    String b64UrlHash = StringUtilities.convertFromBase64ToBase64UrlSafe(base64.encode(hash));
+
+    InternalTransactionBean itb = BuilderItb.blob(
+        Globals.instance.selectedFromAddress,
+        b64UrlHash,
+        TKmTK.getTransactionTime());
 
     SimpleKeyPair skp =
     await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
 
-    // TransactionBean tb = await TkmWallet.createGenericTransaction(
-    //     itb, skp, Globals.instance.selectedFromAddress);
+    TransactionBean tb = await TkmWallet.createGenericTransaction(
+        itb, skp, Globals.instance.selectedFromAddress);
 
-    // String tbJson = jsonEncode(tb.toJson());
-    // String payHexBody = StringUtilities.convertToHex(tbJson);
-    //
-    // ti = TransactionInput(payHexBody);
-    //
-    // Globals.instance.ti = ti;
-    //
-    // TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
-    //
-    // String? singleInclusionTransactionHash = payTbox.singleInclusionTransactionHash;
-    //
-    // Globals.instance.sith = singleInclusionTransactionHash!;
-    //
-    // FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
-    //
-    // Globals.instance.feeBean = feeBean;
-    //
-    // context.loaderOverlay.hide();
-    //
-    // if (feeBean.disk != null) {
-    //   Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
-    // }
+    String tbJson = jsonEncode(tb.toJson());
+    String payHexBody = StringUtilities.convertToHex(tbJson);
+
+    ti = TransactionInput(payHexBody);
+
+    Globals.instance.ti = ti;
+
+    TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+
+    String? singleInclusionTransactionHash = payTbox.singleInclusionTransactionHash;
+
+    Globals.instance.sith = singleInclusionTransactionHash!;
+
+    FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
+
+    Globals.instance.feeBean = feeBean;
+
+    context.loaderOverlay.hide();
+
+    if (feeBean.disk != null) {
+      Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+    }
 
   }
 
