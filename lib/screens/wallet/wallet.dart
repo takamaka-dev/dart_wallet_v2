@@ -139,7 +139,12 @@ class _WalletState extends State<Wallet> {
                               ],
                             )),
                         const SizedBox(height: 25),
-                        _error ? const Text("Invalid wallet credentials!", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)) : const Text(""),
+                        _error
+                            ? const Text("Invalid wallet credentials!",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red))
+                            : const Text(""),
                         const SizedBox(height: 25),
                         CupertinoButton(
                             color: Styles.takamakaColor,
@@ -207,11 +212,144 @@ class _WalletState extends State<Wallet> {
     BalanceRequestBean brb =
         BalanceRequestBean(Globals.instance.selectedFromAddress);
     BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(
-        await ConsumerHelper.doRequest(HttpMethods.POST,
-            ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!, brb.toJson())));
+        await ConsumerHelper.doRequest(
+            HttpMethods.POST,
+            ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!,
+            brb.toJson())));
   }
 
   Widget getUnlockedWallet() {
+    final List<Widget> menuItems = [
+      Flexible(
+          child: Container(
+        height: 50,
+        //width: cellwidth
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Styles.takamakaColor,
+            border: const Border(
+              right: BorderSide(width: 1.0, color: Colors.white),
+            )),
+        child: CupertinoButton(
+            color: Styles.takamakaColor,
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            borderRadius: BorderRadius.zero,
+            onPressed: () => {
+                  Navigator.of(context).push(
+                      CupertinoPageRoute<void>(builder: (BuildContext context) {
+                    return const Pay();
+                  }))
+                },
+            child: const Center(child: Icon(CupertinoIcons.paperplane))),
+      )),
+      Flexible(
+          child: Container(
+        height: 50,
+        //width: cellwidth
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Styles.takamakaColor,
+            border: const Border(
+              right: BorderSide(width: 1.0, color: Colors.white),
+            )),
+        child: CupertinoButton(
+            color: Styles.takamakaColor,
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            alignment: Alignment.topLeft,
+            borderRadius: BorderRadius.zero,
+            // Rimuove il bordo arrotondato
+
+            onPressed: () => {
+              Navigator.of(context).push(
+                  CupertinoPageRoute<void>(
+                      builder: (BuildContext context) {
+                        return const Blob();
+                      }))
+            },
+            child: const Center(
+                child:
+                Icon(CupertinoIcons.doc_on_clipboard))),
+      )),
+      Flexible(
+          child: Container(
+        height: 50,
+        //width: cellwidth
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Styles.takamakaColor,
+            border: const Border(
+              right: BorderSide(width: 1.0, color: Colors.white),
+            )),
+        child: CupertinoButton(
+            color: Styles.takamakaColor,
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            borderRadius: BorderRadius.zero,
+            // Rimuove il bordo arrotondato
+
+            onPressed: () => {
+              Navigator.of(context).push(
+                  CupertinoPageRoute<void>(
+                      builder: (BuildContext context) {
+                        return const Stake();
+                      }))
+            },
+            child: const Center(
+                child:
+                Icon(CupertinoIcons.layers_alt_fill))),
+      )),
+      Flexible(
+          child: Container(
+            height: 50,
+            //width: cellwidth
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: Styles.takamakaColor,
+                border: const Border(
+                  right: BorderSide(width: 1.0, color: Colors.white),
+                )),
+            child: CupertinoButton(
+                color: Styles.takamakaColor,
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+                borderRadius: BorderRadius.zero,
+                // Rimuove il bordo arrotondato
+
+                onPressed: () => {
+                  Navigator.of(context).push(
+                      CupertinoPageRoute<void>(
+                          builder: (BuildContext context) {
+                            return const Pay();
+                          }))
+                },
+                child: const Center(
+                    child: Icon(CupertinoIcons.arrow_down))),
+          )),
+      Flexible(
+          child: Container(
+            height: 50,
+
+            //width: cellwidth
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: Styles.takamakaColor,
+                border: const Border(
+                  right: BorderSide(width: 1.0, color: Colors.white),
+                )),
+            child: CupertinoButton(
+                color: Styles.takamakaColor,
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+                borderRadius: BorderRadius.zero,
+                // Rimuove il bordo arrotondato
+
+                onPressed: () => {_launchURLBrowser()},
+                child: const Center(
+                    child:
+                    Icon(CupertinoIcons.location_solid))),
+          )),
+    ];
     return ChangeNotifierProvider.value(
       value: Globals.instance,
       child: Consumer<Globals>(
@@ -236,131 +374,9 @@ class _WalletState extends State<Wallet> {
                         color: Colors.grey.shade100,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                              child: Container(
-                            decoration: const BoxDecoration(
-                                border: Border(
-                              right: BorderSide(
-                                color: Colors.white,
-                                width: 1.0,
-                              ),
-                            )),
-                            child: CupertinoButton(
-                                color: Styles.takamakaColor,
-                                alignment: Alignment.topLeft,
-                                borderRadius: BorderRadius.zero,
-                                // Rimuove il bordo arrotondato
-
-                                onPressed: () => {
-                                      Navigator.of(context).push(
-                                          CupertinoPageRoute<void>(
-                                              builder: (BuildContext context) {
-                                        return const Pay();
-                                      }))
-                                    },
-                                child: const Center(
-                                    child: Icon(CupertinoIcons.paperplane))),
-                          )),
-                          Expanded(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.white,
-                                        width: 1.0,
-                                      ),
-                                    )),
-                                child: CupertinoButton(
-                                    color: Styles.takamakaColor,
-                                    alignment: Alignment.topLeft,
-                                    borderRadius: BorderRadius.zero,
-                                    // Rimuove il bordo arrotondato
-
-                                    onPressed: () => {
-                                      Navigator.of(context).push(
-                                          CupertinoPageRoute<void>(
-                                              builder: (BuildContext context) {
-                                                return const Stake();
-                                              }))
-                                    },
-                                    child: const Center(
-                                        child:
-                                        Icon(CupertinoIcons.layers_alt_fill))),
-                              )),
-                          Expanded(
-                              child: Container(
-                            decoration: const BoxDecoration(
-                                border: Border(
-                              right: BorderSide(
-                                color: Colors.white,
-                                width: 2.0,
-                              ),
-                            )),
-                            child: CupertinoButton(
-                                color: Styles.takamakaColor,
-                                alignment: Alignment.topLeft,
-                                borderRadius: BorderRadius.zero,
-                                // Rimuove il bordo arrotondato
-
-                                onPressed: () => {
-                                      Navigator.of(context).push(
-                                          CupertinoPageRoute<void>(
-                                              builder: (BuildContext context) {
-                                        return const Blob();
-                                      }))
-                                    },
-                                child: const Center(
-                                    child:
-                                        Icon(CupertinoIcons.doc_on_clipboard))),
-                          )),
-                          Expanded(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.white,
-                                        width: 1.0,
-                                      ),
-                                    )),
-                                child: CupertinoButton(
-                                    color: Styles.takamakaColor,
-                                    alignment: Alignment.topLeft,
-                                    borderRadius: BorderRadius.zero,
-                                    // Rimuove il bordo arrotondato
-
-                                    onPressed: () => {
-                                      Navigator.of(context).push(
-                                          CupertinoPageRoute<void>(
-                                              builder: (BuildContext context) {
-                                                return const Pay();
-                                              }))
-                                    },
-                                    child: const Center(
-                                        child: Icon(CupertinoIcons.arrow_down))),
-                              )),
-                          Expanded(
-                              child: Container(
-                            decoration: const BoxDecoration(
-                                border: Border(
-                              right: BorderSide(
-                                color: Colors.white,
-                                width: 1.0,
-                              ),
-                            )),
-                            child: CupertinoButton(
-                                color: Styles.takamakaColor,
-                                alignment: Alignment.topLeft,
-                                borderRadius: BorderRadius.zero,
-                                // Rimuove il bordo arrotondato
-
-                                onPressed: () => {_launchURLBrowser()},
-                                child: const Center(
-                                    child:
-                                        Icon(CupertinoIcons.location_solid))),
-                          ))
-                        ],
+                        children: List.generate(menuItems.length, (index) {
+                          return menuItems[index];
+                        }),
                       ),
                     ),
                     Container(
@@ -455,14 +471,17 @@ class _WalletState extends State<Wallet> {
                                           fontWeight: FontWeight.bold))
                                 ]),
                             const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                walletAddress == null
+                            SizedBox(
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: walletAddress == null
                                     ? const CircularProgressIndicator()
                                     : Text(walletAddress!,
+                                        softWrap: true,
+                                        maxLines: 10,
                                         style: const TextStyle(
-                                            color: Colors.white))
-                              ],
+                                            color: Colors.white)),
+                              ),
                             ),
                             const SizedBox(height: 20),
                             crc == null
@@ -529,8 +548,10 @@ class _WalletState extends State<Wallet> {
                                               color: Colors.grey.shade200,
                                               minSize: 20,
                                               // impostiamo la larghezza minima del pulsante
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 4, horizontal: 8),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 4,
+                                                      horizontal: 8),
                                               onPressed: () async {
                                                 context.loaderOverlay.show();
                                                 kb = await WalletUtils
@@ -636,8 +657,8 @@ class _WalletState extends State<Wallet> {
   Future<void> fetchMyObjects() async {
     context.loaderOverlay.show();
 
-    final response = await ConsumerHelper.doRequest(
-        HttpMethods.GET, ApiList().apiMap[Globals.instance.selectedNetwork]!['changes']!, {});
+    final response = await ConsumerHelper.doRequest(HttpMethods.GET,
+        ApiList().apiMap[Globals.instance.selectedNetwork]!['changes']!, {});
 
     final myApiResponse = Changes.fromJson(jsonDecode(response));
     Globals.instance.changes = myApiResponse;
@@ -646,8 +667,10 @@ class _WalletState extends State<Wallet> {
         BalanceRequestBean(Globals.instance.selectedFromAddress);
 
     BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(
-        await ConsumerHelper.doRequest(HttpMethods.POST,
-            ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!, brb.toJson())));
+        await ConsumerHelper.doRequest(
+            HttpMethods.POST,
+            ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!,
+            brb.toJson())));
 
     Globals.instance.brb = brespb;
     context.loaderOverlay.hide();
