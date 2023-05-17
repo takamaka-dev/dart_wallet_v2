@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,7 +68,7 @@ class _HomeState extends State<Home> {
             Container(
                 constraints: const BoxConstraints(maxWidth: 700),
                 padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
-                child: Center()),
+                child: const Center()),
             Container(
                 alignment: Alignment.bottomCenter,
                 child: Column(
@@ -95,7 +93,7 @@ class _HomeState extends State<Home> {
                                     Text('New Wallet'),
                                   ],
                                 )),
-                            SizedBox(width: 50),
+                            const SizedBox(height: 50),
                             CupertinoButton(
                                 color: Styles.takamakaColor,
                                 onPressed: _restoreWallet,
