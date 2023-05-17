@@ -37,42 +37,49 @@ class _BlobTextState extends State<BlobText> {
   }
 
   Future<void> doBlobText() async {
-    context.loaderOverlay.show();
+
 
     String message = _controllerMessage.text.trim();
 
-    InternalTransactionBean itb = BuilderItb.blob(
-        Globals.instance.selectedFromAddress,
-        message,
-        TKmTK.getTransactionTime());
+    if(message.isEmpty){
+      Navigator.of(context).restorablePush(_dialogBuilderError);
+    }else {
+      context.loaderOverlay.show();
+      InternalTransactionBean itb = BuilderItb.blob(
+          Globals.instance.selectedFromAddress,
+          message,
+          TKmTK.getTransactionTime());
 
-    SimpleKeyPair skp =
-    await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
+      SimpleKeyPair skp =
+      await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
 
-    TransactionBean tb = await TkmWallet.createGenericTransaction(
-        itb, skp, Globals.instance.selectedFromAddress);
+      TransactionBean tb = await TkmWallet.createGenericTransaction(
+          itb, skp, Globals.instance.selectedFromAddress);
 
-    String tbJson = jsonEncode(tb.toJson());
-    String payHexBody = StringUtilities.convertToHex(tbJson);
+      String tbJson = jsonEncode(tb.toJson());
+      String payHexBody = StringUtilities.convertToHex(tbJson);
 
-    ti = TransactionInput(payHexBody);
+      ti = TransactionInput(payHexBody);
 
-    Globals.instance.ti = ti;
+      Globals.instance.ti = ti;
 
-    TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+      TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(
+          tbJson, skp);
 
-    String? singleInclusionTransactionHash = payTbox.singleInclusionTransactionHash;
+      String? singleInclusionTransactionHash = payTbox
+          .singleInclusionTransactionHash;
 
-    Globals.instance.sith = singleInclusionTransactionHash!;
+      Globals.instance.sith = singleInclusionTransactionHash!;
 
-    FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
+      FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
 
-    Globals.instance.feeBean = feeBean;
+      Globals.instance.feeBean = feeBean;
 
-    context.loaderOverlay.hide();
+      context.loaderOverlay.hide();
 
-    if (feeBean.disk != null) {
-      Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+      if (feeBean.disk != null) {
+        Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+      }
     }
 
   }
@@ -135,6 +142,28 @@ class _BlobTextState extends State<BlobText> {
     );
   }
 
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogBuilderError(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Error!'),
+          content: const Text('To upload a text you have to type something in the Text Area!'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Ok'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -159,7 +188,7 @@ class _BlobTextState extends State<BlobText> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const <Widget>[
-                        Text("Upload Simple Text",
+                        Text("Send Simple Text",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white)),
                       ],
@@ -172,14 +201,14 @@ class _BlobTextState extends State<BlobText> {
             child: Column(
               children: [
                 CupertinoTextField(
-                  textAlign: TextAlign.center,
+                  maxLines: 20,
                   controller: _controllerMessage,
                   placeholder: "Type here your text",
                 ),
                 const SizedBox(height: 30),
                 CupertinoButton(
                     color: Styles.takamakaColor,
-                    onPressed: () => {},
+                    onPressed: () => {doBlobText()},
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,

@@ -1,4 +1,5 @@
 import 'package:dart_wallet_v2/screens/transactions/blob/blob_file.dart';
+import 'package:dart_wallet_v2/screens/transactions/blob/blob_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -123,7 +124,7 @@ class Blob extends StatelessWidget {
                       onPressed: () => {
                         Navigator.of(context).push(CupertinoPageRoute<void>(
                             builder: (BuildContext context) {
-                              return const BlobFile();
+                              return const BlobText();
                             }))
                       },
                       child: Column(
