@@ -28,12 +28,12 @@ class _StakeState extends State<Stake> {
     List<Widget> temp = [];
 
     final response = await ConsumerHelper.doRequest(
-        HttpMethods.POST, ApiList().apiMap['test']!["listnodes"]!, {});
+        HttpMethods.POST, ApiList().apiMap[Globals.instance.selectedNetwork]!["listnodes"]!, {});
 
     Globals.instance.snl = StakeNodeList.fromJsonArray(response);
 
     final responseAcceptedBets = await ConsumerHelper.doRequest(
-        HttpMethods.GET, ApiList().apiMap['test']!['acceptedbets']!, {});
+        HttpMethods.GET, ApiList().apiMap[Globals.instance.selectedNetwork]!['acceptedbets']!, {});
 
     AcceptedBetByHolderListBean abhl =
         AcceptedBetByHolderListBean.fromJsonArray(responseAcceptedBets);
@@ -52,7 +52,7 @@ class _StakeState extends State<Stake> {
 
         String qTeslaAddressVersion = await ConsumerHelper.doRequest(
             HttpMethods.GET,
-            ApiList().apiMap['test']!['stakenodemap']! + sn.shortAddress, {});
+            ApiList().apiMap[Globals.instance.selectedNetwork]!['stakenodemap']! + sn.shortAddress, {});
 
         BigInt amountTkBigint = BigInt.from(0);
         if (coveredBets.containsKey(qTeslaAddressVersion)) {

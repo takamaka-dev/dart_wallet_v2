@@ -21,6 +21,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (Globals.instance.selectedNetwork.isEmpty) {
+      Globals.instance.selectedNetwork = "test";
+    }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Dart Wallet',

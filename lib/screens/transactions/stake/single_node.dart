@@ -78,7 +78,7 @@ class SingleNode extends StatelessWidget {
               onPressed: () async {
                 context.loaderOverlay.show();
                 final response = await ConsumerHelper.doRequest(
-                    HttpMethods.POST, ApiList().apiMap['test']!["tx"]!, Globals.instance.ti.toJson());
+                    HttpMethods.POST, ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!, Globals.instance.ti.toJson());
                 if (response == '{"TxIsVerified":"true"}') {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);

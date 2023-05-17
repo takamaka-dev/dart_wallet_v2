@@ -27,6 +27,7 @@ class Blob extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   children: <Widget>[
                     CupertinoButton(
+
                       onPressed: () {
                         Navigator.pop(
                             context); // Navigate back when back button is pressed
@@ -45,64 +46,97 @@ class Blob extends StatelessWidget {
                 )),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
+            padding: const EdgeInsets.all(70),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  CupertinoButton(
-                      color: Styles.takamakaColor,
-                      onPressed: () => {
-                            Navigator.of(context).push(CupertinoPageRoute<void>(
-                                builder: (BuildContext context) {
-                              return const BlobFile();
-                            }))
-                          },
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Icon(CupertinoIcons.arrow_up_to_line_alt),
-                            SizedBox(width: 10),
-                            Text('Upload File')
-                          ]))
-                ]),
-                const SizedBox(height: 20),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center
-
-                    , children: [
-                  CupertinoButton(
-                      color: Styles.takamakaColor,
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(color: Styles.takamakaColor, width: 1.0),
+                      right: BorderSide(color: Styles.takamakaColor, width: 1.0),
+                      top: BorderSide(color: Styles.takamakaColor, width: 1.0),
+                      bottom: BorderSide(color: Styles.takamakaColor, width: 1.0)
+                    )
+                  ),
+                  width: double.infinity,
+                  child: CupertinoButton(
+                      color: Colors.grey.shade200,
                       onPressed: () => {
                         Navigator.of(context).push(CupertinoPageRoute<void>(
                             builder: (BuildContext context) {
                               return const BlobFile();
                             }))
                       },
-                      child: Row(
+                      child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: const [
-                            Icon(CupertinoIcons.arrow_up_to_line_alt),
-                            SizedBox(width: 10),
-                            Text('Upload Simple text')
+                            SizedBox(height: 10),
+                            Text('Upload File', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500)),
+                            SizedBox(height: 20),
+                            Icon(CupertinoIcons.doc_on_clipboard, color: Colors.black54),
+                            SizedBox(height: 10),
+
                           ]))
-                ]),
-                const SizedBox(height: 20),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  CupertinoButton(
-                      color: Styles.takamakaColor,
+                ),
+                const SizedBox(height: 60),
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          left: BorderSide(color: Styles.takamakaColor, width: 1.0),
+                          right: BorderSide(color: Styles.takamakaColor, width: 1.0),
+                          top: BorderSide(color: Styles.takamakaColor, width: 1.0),
+                          bottom: BorderSide(color: Styles.takamakaColor, width: 1.0)
+                      )
+                  ),
+                  width: double.infinity,
+                  child: CupertinoButton(
+                      color: Colors.grey.shade200,
+                      onPressed: () => {
+                        Navigator.of(context).push(CupertinoPageRoute<void>(
+                            builder: (BuildContext context) {
+                              return const BlobFile();
+                            }))
+                      },
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            SizedBox(height: 10),
+                            Text('Upload Simple Text', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500)),
+                            SizedBox(height: 20),
+                            Icon(CupertinoIcons.text_bubble_fill, color:Colors.black54),
+                            SizedBox(height: 10),
+
+                          ])),
+                ),
+                const SizedBox(height: 60),
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          left: BorderSide(color: Styles.takamakaColor, width: 1.0),
+                          right: BorderSide(color: Styles.takamakaColor, width: 1.0),
+                          top: BorderSide(color: Styles.takamakaColor, width: 1.0),
+                          bottom: BorderSide(color: Styles.takamakaColor, width: 1.0)
+                      )
+                  ),
+                  width: double.infinity,
+                  child: CupertinoButton(
+                      color: Colors.grey.shade200,
                       onPressed: () => {},
-                      child: Row(
+                      child:Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: const [
-                            Icon(CupertinoIcons.arrow_up_to_line_alt),
-                            SizedBox(width: 10),
-                            Text('Upload Rich text')
-                          ]))
-                ]),
+                            SizedBox(height: 10),
+                            Text('Upload Rich Text', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500)),
+                            SizedBox(height: 20),
+                            Icon(CupertinoIcons.doc_chart_fill, color: Colors.black54),
+                            SizedBox(height: 10),
+
+                          ])),
+                ),
               ],
             ),
           )

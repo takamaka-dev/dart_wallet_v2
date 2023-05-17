@@ -208,7 +208,7 @@ class _WalletState extends State<Wallet> {
         BalanceRequestBean(Globals.instance.selectedFromAddress);
     BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(
         await ConsumerHelper.doRequest(HttpMethods.POST,
-            ApiList().apiMap['test']!['balance']!, brb.toJson())));
+            ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!, brb.toJson())));
   }
 
   Widget getUnlockedWallet() {
@@ -635,8 +635,9 @@ class _WalletState extends State<Wallet> {
 
   Future<void> fetchMyObjects() async {
     context.loaderOverlay.show();
+
     final response = await ConsumerHelper.doRequest(
-        HttpMethods.GET, ApiList().apiMap['test']!['changes']!, {});
+        HttpMethods.GET, ApiList().apiMap[Globals.instance.selectedNetwork]!['changes']!, {});
 
     final myApiResponse = Changes.fromJson(jsonDecode(response));
     Globals.instance.changes = myApiResponse;
@@ -646,7 +647,7 @@ class _WalletState extends State<Wallet> {
 
     BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(
         await ConsumerHelper.doRequest(HttpMethods.POST,
-            ApiList().apiMap['test']!['balance']!, brb.toJson())));
+            ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!, brb.toJson())));
 
     Globals.instance.brb = brespb;
     context.loaderOverlay.hide();

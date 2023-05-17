@@ -132,7 +132,7 @@ class _PayState extends State<Pay> {
     }
 
     /*final response = await ConsumerHelper.doRequest(
-        HttpMethods.POST, ApiList().apiMap['test']!["tx"]!, ti.toJson());
+        HttpMethods.POST, ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!, ti.toJson());
     print(response);
 
     if (response == '{"TxIsVerified":"true"}') {
@@ -160,7 +160,7 @@ class _PayState extends State<Pay> {
               onPressed: () async {
                 context.loaderOverlay.show();
                 final response = await ConsumerHelper.doRequest(
-                    HttpMethods.POST, ApiList().apiMap['test']!["tx"]!, Globals.instance.ti.toJson());
+                    HttpMethods.POST, ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!, Globals.instance.ti.toJson());
                 if (response == '{"TxIsVerified":"true"}') {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);
