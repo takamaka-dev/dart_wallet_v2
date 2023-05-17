@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
                     children: [
                       tryRenderWallets(),
                       Center(
-                          child: Row(
+                          child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                             CupertinoButton(
