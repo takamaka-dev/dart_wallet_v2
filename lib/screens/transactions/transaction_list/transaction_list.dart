@@ -1,5 +1,6 @@
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:dart_wallet_v2/screens/transactions/transaction_list/single_transaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -14,7 +15,7 @@ class TransactionList extends StatefulWidget {
 
 class _TransactionListState extends State<TransactionList> {
 
-  List<TransactionResult> transactionList = [];
+  List<Widget> transactionList = [];
 
 
   Future<bool> _initTransactionListInterface() async {
@@ -26,8 +27,12 @@ class _TransactionListState extends State<TransactionList> {
 
     TransactionResultList trl = TransactionResultList.fromJsonArray(response);
 
+    trl.transactions.forEach((element) {
+      transactionList.add(SingleTransaction(element));
+    });
+
     setState(() {
-      transactionList = trl.transactions;
+      //transactionList = trl.transactions;
     });
 
     return true;
@@ -65,7 +70,7 @@ class _TransactionListState extends State<TransactionList> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const <Widget>[
-                          Text("Pay section",
+                          Text("Latest transactions",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white)),
                         ],
@@ -76,9 +81,7 @@ class _TransactionListState extends State<TransactionList> {
             Container(
               padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
               child: Column(
-                children: const [
-                  Text("Transaction list page!")
-                ],
+                children: transactionList,
               ),
             )
           ],
