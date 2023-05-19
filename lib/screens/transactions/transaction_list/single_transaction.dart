@@ -8,7 +8,18 @@ class SingleTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(tm.sith);
+
+    IconData i = CupertinoIcons.paperplane;
+
+    if (tm.transactionType == "STAKE") {
+      i = CupertinoIcons.hand_raised_fill;
+    }
+
+    return Row(
+      children: [
+
+      ],
+    );
   }
 
 }
