@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SingleTransaction extends StatelessWidget {
   const SingleTransaction(this.tm, {super.key});
@@ -31,7 +32,6 @@ class SingleTransaction extends StatelessWidget {
         ),
         child: Column(
           children: [
-
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -49,9 +49,11 @@ class SingleTransaction extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                       borderRadius: BorderRadius.zero,
-                      // Rimuove il bordo arrotondato
-
-                      onPressed: () => {},
+                      onPressed: () => {
+                            _launchURLBrowser(
+                                ApiList().apiMap['test']!['trxinfoexp']! +
+                                    tm.sith)
+                          },
                       child: Column(children: [
                         Row(
                           children: [
@@ -91,5 +93,14 @@ class SingleTransaction extends StatelessWidget {
             const SizedBox(height: 20)
           ],
         ));
+  }
+
+  Future<dynamic> _launchURLBrowser(String s) async {
+    Uri url = Uri.parse(s);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
