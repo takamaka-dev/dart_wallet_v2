@@ -8,6 +8,7 @@ import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/blob/blob.dart';
 import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/stake.dart';
+import 'package:dart_wallet_v2/screens/transactions/transaction_list/transaction_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -220,6 +221,29 @@ class _WalletState extends State<Wallet> {
 
   Widget getUnlockedWallet() {
     final List<Widget> menuItems = [
+      Flexible(
+          child: Container(
+            height: 50,
+            //width: cellwidth
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: Styles.takamakaColor,
+                border: const Border(
+                  right: BorderSide(width: 1.0, color: Colors.white),
+                )),
+            child: CupertinoButton(
+                color: Styles.takamakaColor,
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+                borderRadius: BorderRadius.zero,
+                onPressed: () => {
+                  Navigator.of(context).push(
+                      CupertinoPageRoute<void>(builder: (BuildContext context) {
+                        return TransactionList();
+                      }))
+                },
+                child: const Center(child: Icon(CupertinoIcons.list_bullet))),
+          )),
       Flexible(
           child: Container(
         height: 50,
