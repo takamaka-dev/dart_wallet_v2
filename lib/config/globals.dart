@@ -47,7 +47,7 @@ class Globals with ChangeNotifier {
     _feeBean = value;
   }
 
-  BalanceResponseBean _brb = BalanceResponseBean();
+  BalanceResponseBean _brb = BalanceResponseBean("", BigInt.from(0), BigInt.from(0), null, null, 0, "");
 
   BalanceResponseBean get brb => _brb;
 

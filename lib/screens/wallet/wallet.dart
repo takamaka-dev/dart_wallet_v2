@@ -436,9 +436,7 @@ class _WalletState extends State<Wallet> {
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white)),
                                         Text(
-                                            ((Globals.instance.brb
-                                                            .greenBalance ??
-                                                        BigInt.from(0)) /
+                                            ((Globals.instance.brb.greenBalance ?? BigInt.from(0)) /
                                                     BigInt.from(10).pow(9))
                                                 .toStringAsFixed(2),
                                             style: const TextStyle(
@@ -468,8 +466,7 @@ class _WalletState extends State<Wallet> {
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white)),
                                         Text(
-                                            ((Globals.instance.brb.redBalance ??
-                                                        BigInt.from(0)) /
+                                            ((Globals.instance.brb.redBalance ?? BigInt.from(0)) /
                                                     BigInt.from(10).pow(9))
                                                 .toStringAsFixed(2),
                                             style: const TextStyle(
@@ -690,11 +687,12 @@ class _WalletState extends State<Wallet> {
     BalanceRequestBean brb =
         BalanceRequestBean(Globals.instance.selectedFromAddress);
 
-    BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(
-        await ConsumerHelper.doRequest(
-            HttpMethods.POST,
-            ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!,
-            brb.toJson())));
+    final request = await ConsumerHelper.doRequest(
+        HttpMethods.POST,
+        ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!,
+        brb.toJson());
+
+    BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(request));
 
     Globals.instance.brb = brespb;
     context.loaderOverlay.hide();
