@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/screens/tag_list/tagList.dart';
