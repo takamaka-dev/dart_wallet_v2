@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
+import 'package:dart_wallet_v2/screens/tag_list/tagList.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,19 +21,36 @@ class BlobFile extends StatefulWidget {
 
 class _BlobFileState extends State<BlobFile> {
   File? _selectedFile;
+
+  List<String> availableMetadata = [];
+
   void _openFilePicker() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
       File selectedFile = File(result.files.single.path!);
+
+      TkmMetadata tkmMetaData = await MetadataUtils.collectMetadata(
+          selectedFile, ["ciao", "pippo"]);
+
+      Map<String, dynamic>? metaDatas = tkmMetaData.extraMetadata;
+
+      availableMetadata = [];
+
+      metaDatas?.forEach((key, value) {
+        availableMetadata.add("$key - " + value);
+      });
+
       setState(() {
         _selectedFile = selectedFile;
+        availableMetadata = tkmMetaData.tags!;
       });
     }
   }
 
   FeeBean currentFeeBean = FeeBean();
   late TransactionInput ti;
+
   Future<bool> _initBlobInterface() async {
     setState(() {
       _selectedFile = null;
@@ -59,7 +77,7 @@ class _BlobFileState extends State<BlobFile> {
     //     TKmTK.getTransactionTime());
 
     SimpleKeyPair skp =
-    await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
+        await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
 
     // TransactionBean tb = await TkmWallet.createGenericTransaction(
     //     itb, skp, Globals.instance.selectedFromAddress);
@@ -86,7 +104,6 @@ class _BlobFileState extends State<BlobFile> {
     // if (feeBean.disk != null) {
     //   Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
     // }
-
   }
 
   @pragma('vm:entry-point')
@@ -97,7 +114,8 @@ class _BlobFileState extends State<BlobFile> {
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('Alert'),
-          content: Text('The transaction is ready for confirmation ${Globals.instance.feeBean}'),
+          content: Text(
+              'The transaction is ready for confirmation ${Globals.instance.feeBean}'),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
@@ -109,7 +127,9 @@ class _BlobFileState extends State<BlobFile> {
               onPressed: () async {
                 context.loaderOverlay.show();
                 final response = await ConsumerHelper.doRequest(
-                    HttpMethods.POST, ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!, Globals.instance.ti.toJson());
+                    HttpMethods.POST,
+                    ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!,
+                    Globals.instance.ti.toJson());
                 if (response == '{"TxIsVerified":"true"}') {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);
@@ -132,7 +152,9 @@ class _BlobFileState extends State<BlobFile> {
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('Success!'),
-          content: Text('The transaction has been properly verified!' "\n Sith: " + Globals.instance.sith),
+          content: Text(
+              'The transaction has been properly verified!' "\n Sith: " +
+                  Globals.instance.sith),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
@@ -165,8 +187,7 @@ class _BlobFileState extends State<BlobFile> {
                         Navigator.pop(
                             context); // Navigate back when back button is pressed
                       },
-                      child:
-                      const Icon(Icons.arrow_back, color: Colors.white),
+                      child: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -196,8 +217,14 @@ class _BlobFileState extends State<BlobFile> {
                         ])),
                 const SizedBox(height: 16),
                 Text(
-                  _selectedFile != null ? 'Selected file: ${_selectedFile!.path}' : 'No file selected',
+                  _selectedFile != null
+                      ? 'Selected file: ${_selectedFile!.path}'
+                      : 'No file selected',
                 ),
+                const SizedBox(height: 10),
+                TagList(availableMetadata, MainAxisAlignment.center,
+                    Colors.grey.shade300, Colors.red.shade300),
+                const SizedBox(height: 10),
                 const SizedBox(height: 30),
                 CupertinoButton(
                     color: Styles.takamakaColor,
