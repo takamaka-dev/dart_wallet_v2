@@ -17,22 +17,15 @@ class BlobText extends StatefulWidget {
 }
 
 class _BlobTextState extends State<BlobText> {
-  Int8List? _bytes;
+
   final TextEditingController _controllerMessage = TextEditingController();
 
   FeeBean currentFeeBean = FeeBean();
   late TransactionInput ti;
-  Future<bool> _initBlobInterface() async {
-    setState(() {
-      _bytes = null;
-    });
 
-    return true;
-  }
 
   @override
   void initState() {
-    _initBlobInterface();
     super.initState();
   }
 
@@ -200,11 +193,38 @@ class _BlobTextState extends State<BlobText> {
             padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
             child: Column(
               children: [
+                Row(
+                  children: [Text("Insert message here below:", style: TextStyle(color: Colors.black.withOpacity(0.6), fontWeight: FontWeight.w600)),],
+                ),
+                SizedBox(height: 10),
                 CupertinoTextField(
                   maxLines: 20,
                   controller: _controllerMessage,
                   placeholder: "Type here your text",
                 ),
+                SizedBox(height: 10),
+                Row(
+                  children: [Text("Insert tags:", style: TextStyle(color: Colors.black.withOpacity(0.6), fontWeight: FontWeight.w600)),],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Flexible(
+                      child: CupertinoTextField(
+                        placeholder: "Words",
+                        onChanged: (value) => {},
+                      ),
+                    ),
+                    CupertinoButton(child: Icon(CupertinoIcons.plus), onPressed: () => {
+
+                    })
+                  ],
+                ),
+
+                SizedBox(height: 10),
+
+
+
                 const SizedBox(height: 30),
                 CupertinoButton(
                     color: Styles.takamakaColor,
