@@ -45,8 +45,6 @@ class _BlobTextState extends State<BlobText> {
     _tagController.text = "";
   }
 
-
-
   Future<void> doBlobText() async {
     String message = _controllerMessage.text.trim();
 
@@ -197,7 +195,8 @@ class _BlobTextState extends State<BlobText> {
                           Navigator.pop(
                               context); // Navigate back when back button is pressed
                         },
-                        child: const Icon(Icons.arrow_back, color: Colors.white),
+                        child:
+                            const Icon(Icons.arrow_back, color: Colors.white),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -235,7 +234,10 @@ class _BlobTextState extends State<BlobText> {
                           style: TextStyle(
                               color: Colors.black.withOpacity(0.6),
                               fontWeight: FontWeight.w600)),
-                      _errorEmptyTag == true ? const Text("Error: the input is empty!", style: TextStyle(color: Colors.red)) : const Text("")
+                      _errorEmptyTag == true
+                          ? const Text("Error: the input is empty!",
+                              style: TextStyle(color: Colors.red))
+                          : const Text("")
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -250,7 +252,8 @@ class _BlobTextState extends State<BlobText> {
                       ),
                       CupertinoButton(
                           child: const Icon(CupertinoIcons.plus),
-                          onPressed: () => {updateTagsList(_tagController.text)})
+                          onPressed: () =>
+                              {updateTagsList(_tagController.text)})
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -275,6 +278,5 @@ class _BlobTextState extends State<BlobText> {
         ),
       ),
     );
-
   }
 }
