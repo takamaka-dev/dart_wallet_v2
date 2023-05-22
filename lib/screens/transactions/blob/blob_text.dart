@@ -256,7 +256,7 @@ class _BlobTextState extends State<BlobText> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  TagList(tags, MainAxisAlignment.spaceBetween, Styles.takamakaColor.withOpacity(0.9), Colors.red.shade300),
+                  TagList(tags, Colors.white, MainAxisAlignment.spaceBetween, Styles.takamakaColor.withOpacity(0.9), Colors.red.shade300),
                   const SizedBox(height: 30),
                   CupertinoButton(
                       color: Styles.takamakaColor,

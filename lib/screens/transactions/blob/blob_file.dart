@@ -20,11 +20,18 @@ class BlobFile extends StatefulWidget {
 }
 
 class _BlobFileState extends State<BlobFile> {
+
+  List<String> tags = [];
+  bool _errorEmptyTag = false;
+
   File? _selectedFile;
 
-  List<String> availableMetadata = [];
+  late List<String> availableMetadata = [];
+
+  final TextEditingController _tagController = TextEditingController();
 
   void _openFilePicker() async {
+
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
@@ -35,15 +42,16 @@ class _BlobFileState extends State<BlobFile> {
 
       Map<String, dynamic>? metaDatas = tkmMetaData.extraMetadata;
 
-      availableMetadata = [];
-
       metaDatas?.forEach((key, value) {
-        availableMetadata.add("$key - " + value);
+        if (value != null && value != "") {
+          availableMetadata.add("$key - " + value);
+        }
+
       });
 
       setState(() {
         _selectedFile = selectedFile;
-        availableMetadata = tkmMetaData.tags!;
+        availableMetadata = availableMetadata;
       });
     }
   }
@@ -57,6 +65,20 @@ class _BlobFileState extends State<BlobFile> {
     });
 
     return true;
+  }
+
+  void updateTagsList(String value) {
+    if (value.isNotEmpty) {
+      setState(() {
+        _errorEmptyTag = false;
+        tags.add(value);
+      });
+    } else {
+      setState(() {
+        _errorEmptyTag = true;
+      });
+    }
+    _tagController.text = "";
   }
 
   @override
@@ -75,6 +97,8 @@ class _BlobFileState extends State<BlobFile> {
     //     Globals.instance.selectedFromAddress,
     //     message,
     //     TKmTK.getTransactionTime());
+
+    //ce l'hai in availableMetadata
 
     SimpleKeyPair skp =
         await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
@@ -222,9 +246,26 @@ class _BlobFileState extends State<BlobFile> {
                       : 'No file selected',
                 ),
                 const SizedBox(height: 10),
-                TagList(availableMetadata, MainAxisAlignment.center,
+                TagList(availableMetadata, Colors.black45, MainAxisAlignment.center,
                     Colors.grey.shade300, Colors.red.shade300),
                 const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Flexible(
+                      child: CupertinoTextField(
+                        placeholder: "Words",
+                        controller: _tagController,
+                        onChanged: (value) => {},
+                      ),
+                    ),
+                    CupertinoButton(
+                        child: const Icon(CupertinoIcons.plus),
+                        onPressed: () =>
+                        {updateTagsList(_tagController.text)})
+                  ],
+                ),
+                const SizedBox(height: 10),
+                TagList(tags, Colors.white, MainAxisAlignment.spaceBetween, Styles.takamakaColor.withOpacity(0.9), Colors.red.shade300),
                 const SizedBox(height: 30),
                 CupertinoButton(
                     color: Styles.takamakaColor,

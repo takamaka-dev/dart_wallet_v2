@@ -3,16 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TagList extends StatefulWidget {
-  TagList(this.tags, this.tagAlignment, this.tagsBrickColor, this.deleteButtonColor, {super.key});
+  TagList(this.tags, this.tagTextColor, this.tagAlignment, this.tagsBrickColor, this.deleteButtonColor, {super.key});
 
   MainAxisAlignment tagAlignment;
   Color tagsBrickColor;
   Color deleteButtonColor;
-  List<String> tags = [];
+  Color tagTextColor;
+  List<String> tags;
 
   @override
   State<StatefulWidget> createState() => _TagListState(
       tags,
+      tagTextColor,
       tagAlignment,
       tagsBrickColor,
       deleteButtonColor
@@ -21,12 +23,13 @@ class TagList extends StatefulWidget {
 
 class _TagListState extends State<TagList> {
 
-  _TagListState(this.tags, this.tagAlignment, this.tagsBrickColor, this.deleteButtonColor);
+  _TagListState(this.tags, this.tagTextColor, this.tagAlignment, this.tagsBrickColor, this.deleteButtonColor);
 
   Color tagsBrickColor;
   Color deleteButtonColor;
+  Color tagTextColor;
   MainAxisAlignment tagAlignment;
-  List<String> tags = [];
+  List<String> tags;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +71,7 @@ class _TagListState extends State<TagList> {
           child: Row(
             mainAxisAlignment: tagAlignment,
             children: [
-              Expanded(child: Text(tag)),
+              Expanded(child: Text(tag, style: TextStyle(color: tagTextColor))),
               RawMaterialButton(
                   elevation: 2.0,
                   fillColor: deleteButtonColor,
