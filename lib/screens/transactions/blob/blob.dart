@@ -32,9 +32,9 @@ class Blob extends StatelessWidget {
                         },
                         child: const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
+                        children: <Widget>[
                           Text("Blob selection",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white)),
@@ -51,10 +51,10 @@ class Blob extends StatelessWidget {
                   Container(
                       decoration: BoxDecoration(
                           border: Border(
-                              left: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                              right: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                              top: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                              bottom: BorderSide(color: Styles.takamakaColor, width: 1.0)
+                              left: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                              right: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                              top: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                              bottom: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0)
                           )
                       ),
                       width: double.infinity,
@@ -66,10 +66,10 @@ class Blob extends StatelessWidget {
                                   return const BlobFile();
                                 }))
                           },
-                          child: Column(
+                          child: const Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
-                              children: const [
+                              children: [
                                 SizedBox(height: 10),
                                 Text('Upload File', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500)),
                                 SizedBox(height: 20),
@@ -82,10 +82,10 @@ class Blob extends StatelessWidget {
                   Container(
                       decoration: BoxDecoration(
                           border: Border(
-                              left: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                              right: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                              top: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                              bottom: BorderSide(color: Styles.takamakaColor, width: 1.0)
+                              left: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                              right: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                              top: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                              bottom: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0)
                           )
                       ),
                       width: double.infinity,
@@ -97,10 +97,10 @@ class Blob extends StatelessWidget {
                                   return const BlobHash();
                                 }))
                           },
-                          child: Column(
+                          child: const Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
-                              children: const [
+                              children: [
                                 SizedBox(height: 10),
                                 Text('Upload File Hash', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500)),
                                 SizedBox(height: 20),
@@ -113,10 +113,10 @@ class Blob extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                         border: Border(
-                            left: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                            right: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                            top: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                            bottom: BorderSide(color: Styles.takamakaColor, width: 1.0)
+                            left: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                            right: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                            top: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                            bottom: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0)
                         )
                     ),
                     width: double.infinity,
@@ -128,10 +128,10 @@ class Blob extends StatelessWidget {
                                 return const BlobText();
                               }))
                         },
-                        child: Column(
+                        child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children: [
                               SizedBox(height: 10),
                               Text('Upload Simple Text', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500)),
                               SizedBox(height: 20),
@@ -140,24 +140,24 @@ class Blob extends StatelessWidget {
 
                             ])),
                   ),
-                  const SizedBox(height: 60),
+                  /*const SizedBox(height: 60),
                   Container(
                     decoration: BoxDecoration(
                         border: Border(
-                            left: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                            right: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                            top: BorderSide(color: Styles.takamakaColor, width: 1.0),
-                            bottom: BorderSide(color: Styles.takamakaColor, width: 1.0)
+                            left: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                            right: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                            top: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0),
+                            bottom: BorderSide(color:Styles.takamakaColor.withOpacity(0.7),width:2.0)
                         )
                     ),
                     width: double.infinity,
                     child: CupertinoButton(
                         color: Colors.grey.shade200,
                         onPressed: () => {},
-                        child:Column(
+                        child:const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children: [
                               SizedBox(height: 10),
                               Text('Upload Rich Text', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500)),
                               SizedBox(height: 20),
@@ -165,7 +165,7 @@ class Blob extends StatelessWidget {
                               SizedBox(height: 10),
 
                             ])),
-                  ),
+                  ),*/
                 ],
               ),
             )
