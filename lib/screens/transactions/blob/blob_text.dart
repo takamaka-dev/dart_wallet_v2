@@ -114,10 +114,10 @@ class _BlobTextState extends State<BlobText> {
                     ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!,
                     Globals.instance.ti.toJson());
                 if (response == '{"TxIsVerified":"true"}') {
-                  context.loaderOverlay.hide();
                   Navigator.pop(context);
                   Navigator.of(context).restorablePush(_dialogBuilder);
                 }
+                context.loaderOverlay.hide();
               },
               child: const Text('Confirm'),
             )
