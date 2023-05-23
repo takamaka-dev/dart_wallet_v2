@@ -172,6 +172,17 @@ class _BlobFileState extends State<BlobFile> {
   }
 
   void deleteMetaData(String metaData) {
+    Map<String, dynamic>? emt = {};
+
+    Globals.instance.tkmMetaData.extraMetadata?.forEach((key, value) {
+      String splittedMetaTagWithKey = metaData.split(" - ")[0];
+      if (key != splittedMetaTagWithKey) {
+        emt.putIfAbsent(key, () => value);
+      }
+    });
+
+    Globals.instance.tkmMetaData.extraMetadata = emt;
+
     setState(() {
       availableMetadata.removeWhere((element) => element == metaData);
     });
@@ -204,103 +215,108 @@ class _BlobFileState extends State<BlobFile> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: double.infinity,
-            child: Container(
-                color: Styles.takamakaColor,
-                child: Stack(
-                  alignment: Alignment.centerLeft,
-                  children: <Widget>[
-                    CupertinoButton(
-                      onPressed: () {
-                        Navigator.pop(
-                            context); // Navigate back when back button is pressed
-                      },
-                      child: const Icon(Icons.arrow_back, color: Colors.white),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Text("Upload File Binary",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white)),
-                      ],
-                    ),
-                  ],
-                )),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
-            child: Column(
-              children: [
-                CupertinoButton(
-                    color: Styles.takamakaColor,
-                    onPressed: _openFilePicker,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Icon(CupertinoIcons.doc_fill),
-                          SizedBox(width: 10),
-                          Text('Select File')
-                        ])),
-                const SizedBox(height: 16),
-                Text(
-                  _selectedFile != null
-                      ? 'Selected file: ${_selectedFile!.path}'
-                      : 'No file selected',
-                ),
-                const SizedBox(height: 10),
-                TagList(
-                    availableMetadata,
-                    Colors.black45,
-                    MainAxisAlignment.center,
-                    Colors.grey.shade300,
-                    Colors.red.shade300,
-                    deleteMetaData
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Flexible(
-                      child: CupertinoTextField(
-                        placeholder: "Words",
-                        controller: _tagController,
-                        onChanged: (value) => {},
+    return SingleChildScrollView(
+      child: CupertinoPageScaffold(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: Container(
+                  color: Styles.takamakaColor,
+                  child: Stack(
+                    alignment: Alignment.centerLeft,
+                    children: <Widget>[
+                      CupertinoButton(
+                        onPressed: () {
+                          Navigator.pop(
+                              context); // Navigate back when back button is pressed
+                        },
+                        child: const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                    ),
-                    CupertinoButton(
-                        child: const Icon(CupertinoIcons.plus),
-                        onPressed: () => {updateTagsList(_tagController.text)})
-                  ],
-                ),
-                const SizedBox(height: 10),
-                TagList(tags, Colors.white, MainAxisAlignment.spaceBetween,
-                    Styles.takamakaColor.withOpacity(0.9), Colors.red.shade300, deleteTag),
-                const SizedBox(height: 30),
-                CupertinoButton(
-                    color: Styles.takamakaColor,
-                    onPressed: () => {
-                      doBlob()
-                    },
-                    child: Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Icon(CupertinoIcons.paperplane),
-                          SizedBox(width: 10),
-                          Text('Send')
-                        ])),
-                const SizedBox(height: 30),
-              ],
+                        children: const <Widget>[
+                          Text("Upload File Binary",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                    ],
+                  )),
             ),
-          ),
-        ],
-      ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
+              child: Column(
+                children: [
+                  CupertinoButton(
+                      color: Styles.takamakaColor,
+                      onPressed: _openFilePicker,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(CupertinoIcons.doc_fill),
+                            SizedBox(width: 10),
+                            Text('Select File')
+                          ])),
+                  const SizedBox(height: 16),
+                  Text(
+                    _selectedFile != null
+                        ? 'Selected file: ${_selectedFile!.path}'
+                        : 'No file selected',
+                  ),
+                  const SizedBox(height: 10),
+                  TagList(
+                      availableMetadata,
+                      Colors.black45,
+                      MainAxisAlignment.center,
+                      Colors.grey.shade300,
+                      Colors.red.shade300,
+                      deleteMetaData
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: CupertinoTextField(
+                          placeholder: "Words",
+                          controller: _tagController,
+                          onChanged: (value) => {},
+                        ),
+                      ),
+                      CupertinoButton(
+                          child: const Icon(CupertinoIcons.plus),
+                          onPressed: () => {updateTagsList(_tagController.text)})
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  TagList(tags, Colors.white, MainAxisAlignment.spaceBetween,
+                      Styles.takamakaColor.withOpacity(0.9), Colors.red.shade300, deleteTag),
+                  const SizedBox(height: 30),
+                  CupertinoButton(
+                      color: Styles.takamakaColor,
+                      onPressed: () => {
+                        doBlob()
+                      },
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(CupertinoIcons.paperplane),
+                            SizedBox(width: 10),
+                            Text('Send')
+                          ])),
+                  const SizedBox(height: 30),
+                ],
+              ),
+            ),
+          ],
+        ),
+      )
     );
+
+
+
   }
 }
