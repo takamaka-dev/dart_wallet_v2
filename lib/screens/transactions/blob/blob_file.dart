@@ -20,7 +20,6 @@ class BlobFile extends StatefulWidget {
 }
 
 class _BlobFileState extends State<BlobFile> {
-
   List<String> tags = [];
   bool _errorEmptyTag = false;
 
@@ -31,22 +30,21 @@ class _BlobFileState extends State<BlobFile> {
   final TextEditingController _tagController = TextEditingController();
 
   void _openFilePicker() async {
-
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
       File selectedFile = File(result.files.single.path!);
 
-      TkmMetadata tkmMetaData = await MetadataUtils.collectMetadata(
-          selectedFile, ["ciao", "pippo"]);
+      Globals.instance.tkmMetaData =
+          await MetadataUtils.collectMetadata(selectedFile, tags);
 
-      Map<String, dynamic>? metaDatas = tkmMetaData.extraMetadata;
+      Map<String, dynamic>? metaDatas =
+          Globals.instance.tkmMetaData.extraMetadata;
 
       metaDatas?.forEach((key, value) {
         if (value != null && value != "") {
           availableMetadata.add("$key - " + value);
         }
-
       });
 
       setState(() {
@@ -89,45 +87,44 @@ class _BlobFileState extends State<BlobFile> {
   }
 
   Future<void> doBlob() async {
-    InternalTransactionBean itb;
+    context.loaderOverlay.show();
+    String message = jsonEncode(Globals.instance.tkmMetaData.toJson());
 
-    //context.loaderOverlay.show();
-
-    // InternalTransactionBean itb = BuilderItb.blob(
-    //     Globals.instance.selectedFromAddress,
-    //     message,
-    //     TKmTK.getTransactionTime());
-
-    //ce l'hai in availableMetadata
+    InternalTransactionBean itb = BuilderItb.blob(
+        Globals.instance.selectedFromAddress,
+        message,
+        TKmTK.getTransactionTime());
 
     SimpleKeyPair skp =
         await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
 
-    // TransactionBean tb = await TkmWallet.createGenericTransaction(
-    //     itb, skp, Globals.instance.selectedFromAddress);
+    TransactionBean tb = await TkmWallet.createGenericTransaction(
+        itb, skp, Globals.instance.selectedFromAddress);
 
-    // String tbJson = jsonEncode(tb.toJson());
-    // String payHexBody = StringUtilities.convertToHex(tbJson);
-    //
-    // ti = TransactionInput(payHexBody);
-    //
-    // Globals.instance.ti = ti;
-    //
-    // TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
-    //
-    // String? singleInclusionTransactionHash = payTbox.singleInclusionTransactionHash;
-    //
-    // Globals.instance.sith = singleInclusionTransactionHash!;
-    //
-    // FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
-    //
-    // Globals.instance.feeBean = feeBean;
-    //
-    // context.loaderOverlay.hide();
-    //
-    // if (feeBean.disk != null) {
-    //   Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
-    // }
+    String tbJson = jsonEncode(tb.toJson());
+    String payHexBody = StringUtilities.convertToHex(tbJson);
+
+    ti = TransactionInput(payHexBody);
+
+    Globals.instance.ti = ti;
+
+    TransactionBox payTbox =
+        await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+
+    String? singleInclusionTransactionHash =
+        payTbox.singleInclusionTransactionHash;
+
+    Globals.instance.sith = singleInclusionTransactionHash!;
+
+    FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
+
+    Globals.instance.feeBean = feeBean;
+
+    context.loaderOverlay.hide();
+
+    if (feeBean.disk != null) {
+      Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+    }
   }
 
   @pragma('vm:entry-point')
@@ -166,6 +163,18 @@ class _BlobFileState extends State<BlobFile> {
         );
       },
     );
+  }
+
+  void deleteTag(String tag) {
+    setState(() {
+      tags.removeWhere((element) => element == tag);
+    });
+  }
+
+  void deleteMetaData(String metaData) {
+    setState(() {
+      availableMetadata.removeWhere((element) => element == metaData);
+    });
   }
 
   @pragma('vm:entry-point')
@@ -216,7 +225,7 @@ class _BlobFileState extends State<BlobFile> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const <Widget>[
-                        Text("Upload File Hash",
+                        Text("Upload File Binary",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white)),
                       ],
@@ -246,8 +255,14 @@ class _BlobFileState extends State<BlobFile> {
                       : 'No file selected',
                 ),
                 const SizedBox(height: 10),
-                TagList(availableMetadata, Colors.black45, MainAxisAlignment.center,
-                    Colors.grey.shade300, Colors.red.shade300),
+                TagList(
+                    availableMetadata,
+                    Colors.black45,
+                    MainAxisAlignment.center,
+                    Colors.grey.shade300,
+                    Colors.red.shade300,
+                    deleteMetaData
+                ),
                 const SizedBox(height: 10),
                 Row(
                   children: [
@@ -260,16 +275,18 @@ class _BlobFileState extends State<BlobFile> {
                     ),
                     CupertinoButton(
                         child: const Icon(CupertinoIcons.plus),
-                        onPressed: () =>
-                        {updateTagsList(_tagController.text)})
+                        onPressed: () => {updateTagsList(_tagController.text)})
                   ],
                 ),
                 const SizedBox(height: 10),
-                TagList(tags, Colors.white, MainAxisAlignment.spaceBetween, Styles.takamakaColor.withOpacity(0.9), Colors.red.shade300),
+                TagList(tags, Colors.white, MainAxisAlignment.spaceBetween,
+                    Styles.takamakaColor.withOpacity(0.9), Colors.red.shade300, deleteTag),
                 const SizedBox(height: 30),
                 CupertinoButton(
                     color: Styles.takamakaColor,
-                    onPressed: () => {},
+                    onPressed: () => {
+                      doBlob()
+                    },
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,

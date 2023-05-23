@@ -7,6 +7,14 @@ import 'api/single_change.dart';
 
 class Globals with ChangeNotifier {
 
+  TkmMetadata _tkmMetaData = TkmMetadata();
+
+  TkmMetadata get tkmMetaData => _tkmMetaData;
+
+  set tkmMetaData(TkmMetadata value) {
+    _tkmMetaData = value;
+  }
+
   StakeNodeList _snl = StakeNodeList([]);
 
   StakeNodeList get snl => _snl;

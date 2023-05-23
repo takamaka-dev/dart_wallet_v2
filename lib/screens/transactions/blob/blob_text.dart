@@ -175,6 +175,12 @@ class _BlobTextState extends State<BlobText> {
     );
   }
 
+  void deleteTag(String tag) {
+    setState(() {
+      tags.removeWhere((element) => element == tag);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -256,7 +262,7 @@ class _BlobTextState extends State<BlobText> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  TagList(tags, Colors.white, MainAxisAlignment.spaceBetween, Styles.takamakaColor.withOpacity(0.9), Colors.red.shade300),
+                  TagList(tags, Colors.white, MainAxisAlignment.spaceBetween, Styles.takamakaColor.withOpacity(0.9), Colors.red.shade300, deleteTag),
                   const SizedBox(height: 30),
                   CupertinoButton(
                       color: Styles.takamakaColor,

@@ -2,14 +2,17 @@ import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+typedef void VoidCallback(String tag);
+
 class TagList extends StatefulWidget {
-  TagList(this.tags, this.tagTextColor, this.tagAlignment, this.tagsBrickColor, this.deleteButtonColor, {super.key});
+  TagList(this.tags, this.tagTextColor, this.tagAlignment, this.tagsBrickColor, this.deleteButtonColor, this.vcaDelete, {super.key});
 
   MainAxisAlignment tagAlignment;
   Color tagsBrickColor;
   Color deleteButtonColor;
   Color tagTextColor;
   List<String> tags;
+  VoidCallback vcaDelete;
 
   @override
   State<StatefulWidget> createState() => _TagListState(
@@ -17,19 +20,21 @@ class TagList extends StatefulWidget {
       tagTextColor,
       tagAlignment,
       tagsBrickColor,
-      deleteButtonColor
+      deleteButtonColor,
+      vcaDelete
   );
 }
 
 class _TagListState extends State<TagList> {
 
-  _TagListState(this.tags, this.tagTextColor, this.tagAlignment, this.tagsBrickColor, this.deleteButtonColor);
+  _TagListState(this.tags, this.tagTextColor, this.tagAlignment, this.tagsBrickColor, this.deleteButtonColor, this.vcaDelete);
 
   Color tagsBrickColor;
   Color deleteButtonColor;
   Color tagTextColor;
   MainAxisAlignment tagAlignment;
   List<String> tags;
+  VoidCallback vcaDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +53,6 @@ class _TagListState extends State<TagList> {
         }),
       ),
     );
-  }
-
-  void deleteTag(String tag) {
-    setState(() {
-      tags.removeWhere((element) => element == tag);
-    });
   }
 
   Widget renderSingleTag(String tag) {
@@ -87,7 +86,7 @@ class _TagListState extends State<TagList> {
                     color: Colors.white,
                   ),
                   onPressed: () => {
-                    deleteTag(tag)
+                    vcaDelete(tag)
                   })
             ],
           )),
