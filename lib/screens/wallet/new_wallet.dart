@@ -1,5 +1,5 @@
+import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
-import 'package:dart_wallet_v2/screens/wallet/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,7 +8,7 @@ import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class NewWallet extends StatelessWidget {
-  NewWallet({required this.onRefresh});
+  NewWallet({super.key, required this.onRefresh});
 
   final VoidCallback onRefresh;
   String password = "";
@@ -33,15 +33,6 @@ class NewWallet extends StatelessWidget {
               ],
             ),
             Container(
-              /*decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.shade400,
-                          spreadRadius: 1,
-                          blurRadius: 8)
-                    ],
-                  ),*/
               constraints: const BoxConstraints(maxWidth: 700),
               padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
               child: Column(
@@ -92,8 +83,13 @@ class NewWallet extends StatelessWidget {
 
   _openWallet(BuildContext context) async {
     context.loaderOverlay.show();
-    await WalletUtils.initWallet(
-        'wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);
+    /*await WalletUtils.initWallet(
+        'wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);*/
+
+    Globals.instance.generatedWordsPreInitWallet = await WordsUtils.generateWords();
+
+
+
     onRefresh();
     context.loaderOverlay.hide();
     Navigator.pop(context,true);

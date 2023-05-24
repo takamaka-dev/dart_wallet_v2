@@ -6,6 +6,14 @@ import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 class Globals with ChangeNotifier {
 
+  List<String> _generatedWordsPreInitWallet = [];
+
+  List<String> get generatedWordsPreInitWallet => _generatedWordsPreInitWallet;
+
+  set generatedWordsPreInitWallet(List<String> value) {
+    _generatedWordsPreInitWallet = value;
+  }
+
   String _walletPassword = "";
 
   String get walletPassword => _walletPassword;

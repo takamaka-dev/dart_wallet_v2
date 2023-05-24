@@ -142,31 +142,6 @@ class _BlobTextState extends State<BlobText> {
   }
 
   @pragma('vm:entry-point')
-  static Route<Object?> _dialogBuilder(
-      BuildContext context, Object? arguments) {
-    return CupertinoDialogRoute<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return CupertinoAlertDialog(
-          title: const Text('Success!'),
-          content: Text(
-              'The transaction has been properly verified!' "\n Sith: " +
-                  Globals.instance.sith),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: const Text('Thank you'),
-            )
-          ],
-        );
-      },
-    );
-  }
-
-  @pragma('vm:entry-point')
   static Route<Object?> _dialogBuilderError(
       BuildContext context, Object? arguments) {
     return CupertinoDialogRoute<void>(
