@@ -48,8 +48,8 @@ class _HomeState extends State<Home> {
       return  WalletListWidget(wallets!).build(context);
     }
 
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         SizedBox(height: 20),
         Text("No wallets has been added yet!"),
         SizedBox(height: 20)
@@ -84,10 +84,10 @@ class _HomeState extends State<Home> {
                             CupertinoButton(
                                 color: Styles.takamakaColor,
                                 onPressed: _newWallet,
-                                child: Row(
+                                child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
-                                  children: const [
+                                  children: [
                                     Icon(CupertinoIcons.plus),
                                     SizedBox(width: 10),
                                     Text('New Wallet'),
@@ -97,10 +97,10 @@ class _HomeState extends State<Home> {
                             CupertinoButton(
                                 color: Styles.takamakaColor,
                                 onPressed: _restoreWallet,
-                                child: Row(
+                                child: const Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
-                                    children: const [
+                                    children: [
                                       Icon(CupertinoIcons.arrow_3_trianglepath),
                                       SizedBox(width: 10),
                                       Text('Restore Wallet')

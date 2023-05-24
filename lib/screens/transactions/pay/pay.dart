@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
+import 'package:dart_wallet_v2/screens/transactions/splash_page/error.dart';
+import 'package:dart_wallet_v2/screens/transactions/splash_page/success.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -88,8 +90,8 @@ class _PayState extends State<Pay> {
       itb = BuilderItb.pay(
           Globals.instance.selectedFromAddress,
           _controllerToAddress.text,
-          TKmTK.unitStringTK(_controller.text),
-          TKmTK.unitStringTK(_controller.text),
+          TKmTK.unitStringTK(_controller.text.split(" TKG")[0]),
+          TKmTK.unitTK(0),
           _controllerMessage.text,
           TKmTK.getTransactionTime());
     } else {
@@ -97,7 +99,7 @@ class _PayState extends State<Pay> {
           Globals.instance.selectedFromAddress,
           _controllerToAddress.text,
           TKmTK.unitTK(0),
-          TKmTK.unitStringTK(_controller.text),
+          TKmTK.unitStringTK(_controller.text.split(" TKR")[1]),
           _controllerMessage.text,
           TKmTK.getTransactionTime());
     }
@@ -164,7 +166,17 @@ class _PayState extends State<Pay> {
                 if (response == '{"TxIsVerified":"true"}') {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);
-                  Navigator.of(context).restorablePush(_dialogBuilder);
+                  Navigator.of(context).push(
+                      CupertinoPageRoute<void>(builder: (BuildContext context) {
+                        return SuccessSplashPage(Globals.instance.sith);
+                      }));
+                } else {
+                  context.loaderOverlay.hide();
+                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                      CupertinoPageRoute<void>(builder: (BuildContext context) {
+                        return const ErrorSplashPage();
+                      }));
                 }
               },
               child: const Text('Confirm'),
@@ -175,7 +187,7 @@ class _PayState extends State<Pay> {
     );
   }
 
-  @pragma('vm:entry-point')
+  /*@pragma('vm:entry-point')
   static Route<Object?> _dialogBuilder(
       BuildContext context, Object? arguments) {
     return CupertinoDialogRoute<void>(
@@ -196,7 +208,7 @@ class _PayState extends State<Pay> {
         );
       },
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -220,9 +232,9 @@ class _PayState extends State<Pay> {
                         child:
                             const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
+                        children: <Widget>[
                           Text("Pay section",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white)),
@@ -318,10 +330,10 @@ class _PayState extends State<Pay> {
                   CupertinoButton(
                       color: Styles.takamakaColor,
                       onPressed: () => {doPay()},
-                      child: Row(
+                      child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
+                          children: [
                             Icon(CupertinoIcons.paperplane),
                             SizedBox(width: 10),
                             Text('Send')

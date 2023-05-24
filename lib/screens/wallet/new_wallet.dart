@@ -71,9 +71,9 @@ class NewWallet extends StatelessWidget {
                   CupertinoButton(
                       color: Styles.takamakaColor,
                       onPressed: () => {_openWallet(context)},
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(CupertinoIcons.plus),
                           Text(' Create wallet'),
                         ],

@@ -17,7 +17,6 @@ import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Wallet extends StatefulWidget {
@@ -212,7 +211,7 @@ class _WalletState extends State<Wallet> {
   Future<void> doGetBalance() async {
     BalanceRequestBean brb =
         BalanceRequestBean(Globals.instance.selectedFromAddress);
-    BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(
+    BalanceResponseBean.fromJson(jsonDecode(
         await ConsumerHelper.doRequest(
             HttpMethods.POST,
             ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!,
@@ -223,27 +222,27 @@ class _WalletState extends State<Wallet> {
     final List<Widget> menuItems = [
       Flexible(
           child: Container(
-            height: 50,
-            //width: cellwidth
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                color: Styles.takamakaColor,
-                border: const Border(
-                  right: BorderSide(width: 1.0, color: Colors.white),
-                )),
-            child: CupertinoButton(
-                color: Styles.takamakaColor,
-                alignment: Alignment.topLeft,
-                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-                borderRadius: BorderRadius.zero,
-                onPressed: () => {
+        height: 50,
+        //width: cellwidth
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Styles.takamakaColor,
+            border: const Border(
+              right: BorderSide(width: 1.0, color: Colors.white),
+            )),
+        child: CupertinoButton(
+            color: Styles.takamakaColor,
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            borderRadius: BorderRadius.zero,
+            onPressed: () => {
                   Navigator.of(context).push(
                       CupertinoPageRoute<void>(builder: (BuildContext context) {
-                        return TransactionList();
-                      }))
+                    return const TransactionList();
+                  }))
                 },
-                child: const Center(child: Icon(CupertinoIcons.list_bullet))),
-          )),
+            child: const Center(child: Icon(CupertinoIcons.list_bullet))),
+      )),
       Flexible(
           child: Container(
         height: 50,
@@ -285,15 +284,12 @@ class _WalletState extends State<Wallet> {
             // Rimuove il bordo arrotondato
 
             onPressed: () => {
-              Navigator.of(context).push(
-                  CupertinoPageRoute<void>(
-                      builder: (BuildContext context) {
-                        return const Blob();
-                      }))
-            },
-            child: const Center(
-                child:
-                Icon(CupertinoIcons.doc_on_clipboard))),
+                  Navigator.of(context).push(
+                      CupertinoPageRoute<void>(builder: (BuildContext context) {
+                    return const Blob();
+                  }))
+                },
+            child: const Center(child: Icon(CupertinoIcons.doc_on_clipboard))),
       )),
       Flexible(
           child: Container(
@@ -313,66 +309,59 @@ class _WalletState extends State<Wallet> {
             // Rimuove il bordo arrotondato
 
             onPressed: () => {
-              Navigator.of(context).push(
-                  CupertinoPageRoute<void>(
-                      builder: (BuildContext context) {
-                        return const Stake();
-                      }))
-            },
-            child: const Center(
-                child:
-                Icon(CupertinoIcons.layers_alt_fill))),
+                  Navigator.of(context).push(
+                      CupertinoPageRoute<void>(builder: (BuildContext context) {
+                    return const Stake();
+                  }))
+                },
+            child: const Center(child: Icon(CupertinoIcons.layers_alt_fill))),
       )),
       Flexible(
           child: Container(
-            height: 50,
-            //width: cellwidth
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                color: Styles.takamakaColor,
-                border: const Border(
-                  right: BorderSide(width: 1.0, color: Colors.white),
-                )),
-            child: CupertinoButton(
-                color: Styles.takamakaColor,
-                alignment: Alignment.topLeft,
-                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-                borderRadius: BorderRadius.zero,
-                // Rimuove il bordo arrotondato
+        height: 50,
+        //width: cellwidth
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Styles.takamakaColor,
+            border: const Border(
+              right: BorderSide(width: 1.0, color: Colors.white),
+            )),
+        child: CupertinoButton(
+            color: Styles.takamakaColor,
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            borderRadius: BorderRadius.zero,
+            // Rimuove il bordo arrotondato
 
-                onPressed: () => {
+            onPressed: () => {
                   Navigator.of(context).push(
-                      CupertinoPageRoute<void>(
-                          builder: (BuildContext context) {
-                            return const Pay();
-                          }))
+                      CupertinoPageRoute<void>(builder: (BuildContext context) {
+                    return const Pay();
+                  }))
                 },
-                child: const Center(
-                    child: Icon(CupertinoIcons.arrow_down))),
-          )),
+            child: const Center(child: Icon(CupertinoIcons.arrow_down))),
+      )),
       Flexible(
           child: Container(
-            height: 50,
+        height: 50,
 
-            //width: cellwidth
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                color: Styles.takamakaColor,
-                border: const Border(
-                  right: BorderSide(width: 1.0, color: Colors.white),
-                )),
-            child: CupertinoButton(
-                color: Styles.takamakaColor,
-                alignment: Alignment.topLeft,
-                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-                borderRadius: BorderRadius.zero,
-                // Rimuove il bordo arrotondato
+        //width: cellwidth
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Styles.takamakaColor,
+            border: const Border(
+              right: BorderSide(width: 1.0, color: Colors.white),
+            )),
+        child: CupertinoButton(
+            color: Styles.takamakaColor,
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            borderRadius: BorderRadius.zero,
+            // Rimuove il bordo arrotondato
 
-                onPressed: () => {_launchURLBrowser()},
-                child: const Center(
-                    child:
-                    Icon(CupertinoIcons.location_solid))),
-          )),
+            onPressed: () => {_launchURLBrowser()},
+            child: const Center(child: Icon(CupertinoIcons.location_solid))),
+      )),
     ];
     return ChangeNotifierProvider.value(
       value: Globals.instance,
@@ -436,7 +425,9 @@ class _WalletState extends State<Wallet> {
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white)),
                                         Text(
-                                            ((Globals.instance.brb.greenBalance ?? BigInt.from(0)) /
+                                            ((Globals.instance.brb
+                                                            .greenBalance ??
+                                                        BigInt.from(0)) /
                                                     BigInt.from(10).pow(9))
                                                 .toStringAsFixed(2),
                                             style: const TextStyle(
@@ -466,7 +457,8 @@ class _WalletState extends State<Wallet> {
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white)),
                                         Text(
-                                            ((Globals.instance.brb.redBalance ?? BigInt.from(0)) /
+                                            ((Globals.instance.brb.redBalance ??
+                                                        BigInt.from(0)) /
                                                     BigInt.from(10).pow(9))
                                                 .toStringAsFixed(2),
                                             style: const TextStyle(
@@ -482,9 +474,9 @@ class _WalletState extends State<Wallet> {
                               ],
                             ),
                             const SizedBox(height: 50),
-                            Row(
+                            const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text("Your Takamaka Address:",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
@@ -509,8 +501,8 @@ class _WalletState extends State<Wallet> {
                                 ? const CircularProgressIndicator()
                                 : Column(
                                     children: [
-                                      Row(
-                                        children: const [
+                                      const Row(
+                                        children: [
                                           Text("Your CRC: ",
                                               style: TextStyle(
                                                   color: Colors.white,
@@ -533,8 +525,8 @@ class _WalletState extends State<Wallet> {
                                 ? const CircularProgressIndicator()
                                 : Column(
                                     children: [
-                                      Row(
-                                        children: const [
+                                      const Row(
+                                        children: [
                                           Text("Your Wallet Index: ",
                                               style: TextStyle(
                                                   color: Colors.white,
@@ -659,10 +651,10 @@ class _WalletState extends State<Wallet> {
                                     model.recoveryWords = "",
                                     _initWalletInterface()
                                   },
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
-                                children: const [
+                                children: [
                                   Icon(CupertinoIcons.arrow_right_square),
                                   SizedBox(width: 10),
                                   Text('Logout'),
@@ -692,7 +684,8 @@ class _WalletState extends State<Wallet> {
         ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!,
         brb.toJson());
 
-    BalanceResponseBean brespb = BalanceResponseBean.fromJson(jsonDecode(request));
+    BalanceResponseBean brespb =
+        BalanceResponseBean.fromJson(jsonDecode(request));
 
     Globals.instance.brb = brespb;
     context.loaderOverlay.hide();
