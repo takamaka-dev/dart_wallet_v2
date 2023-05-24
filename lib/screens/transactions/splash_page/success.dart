@@ -17,14 +17,16 @@ class SuccessSplashPage extends StatelessWidget {
         splash: SingleChildScrollView(
           child: Column(
             children: [
-              Icon(CupertinoIcons.hand_thumbsup_fill, size: 50,
-                  color: Styles.takamakaColor.withOpacity(0.9)),
-              const SizedBox(height: 30),
+              Icon(CupertinoIcons.hand_thumbsup_fill,
+                  size: 50, color: Styles.takamakaColor.withOpacity(0.9)),
+              const SizedBox(height: 20),
               const Text("The transaction has been successfully verified!"),
               const SizedBox(height: 10),
               const Text("SITH"),
-              const SizedBox(height: 20),
-              SelectableText(sith, style: const TextStyle(fontWeight: FontWeight.bold),)
+              const SizedBox(height: 10),
+              SelectableText(sith,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black))
             ],
           ),
         ),
