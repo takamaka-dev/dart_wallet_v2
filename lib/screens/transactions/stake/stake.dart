@@ -98,9 +98,9 @@ class _StakeState extends State<Stake> {
                         child:
                             const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
+                        children: <Widget>[
                           Text("Stake section",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white)),

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
+import 'package:dart_wallet_v2/screens/transactions/splash_page/error.dart';
+import 'package:dart_wallet_v2/screens/transactions/splash_page/success.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +121,17 @@ class _BlobHashState extends State<BlobHash> {
                 if (response == '{"TxIsVerified":"true"}') {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);
-                  Navigator.of(context).restorablePush(_dialogBuilder);
+                  Navigator.of(context).push(
+                      CupertinoPageRoute<void>(builder: (BuildContext context) {
+                        return SuccessSplashPage(Globals.instance.sith);
+                      }));
+                } else {
+                  context.loaderOverlay.hide();
+                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                      CupertinoPageRoute<void>(builder: (BuildContext context) {
+                        return const ErrorSplashPage();
+                      }));
                 }
               },
               child: const Text('Confirm'),
