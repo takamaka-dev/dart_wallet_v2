@@ -25,6 +25,7 @@ class _NewWalletState extends State<NewWallet> {
 
   bool errorWalletName = false;
   bool errorPassword = false;
+  bool errorCanProceed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +87,7 @@ class _NewWalletState extends State<NewWallet> {
                             ],
                           )
                         : const Text(""),
-                    !canProceed
+                    errorCanProceed
                         ? Column(
                             children: [
                               Text("Please accept the licence agreement!",
@@ -110,7 +111,7 @@ class _NewWalletState extends State<NewWallet> {
                     const SizedBox(height: 30),
                     errorPassword
                         ? Column(children: [
-                            Text("The password fields do not match",
+                            Text("The password fields are empty or do not match",
                                 style: TextStyle(
                                     color: Colors.red.withOpacity(0.8))),
                             const SizedBox(height: 20)
@@ -151,6 +152,9 @@ class _NewWalletState extends State<NewWallet> {
                             // This is called when the user toggles the switch.
                             setState(() {
                               canProceed = value ?? false;
+                              if(value!) {
+                                errorCanProceed = false;
+                              }
                             });
                           },
                         ),
@@ -160,7 +164,7 @@ class _NewWalletState extends State<NewWallet> {
                     ),
                     const SizedBox(height: 50),
                     CupertinoButton(
-                        color: canProceed || errorWalletName
+                        color: !canProceed || errorWalletName
                             ? Styles.takamakaColor.withOpacity(0.7)
                             : Styles.takamakaColor,
                         onPressed: () => {_openWallet(context)},
@@ -182,21 +186,30 @@ class _NewWalletState extends State<NewWallet> {
   }
 
   _openWallet(BuildContext context) async {
+    if (controllerWalletName.text.isEmpty) {
+      setState(() {
+        errorWalletName = true;
+      });
+      return;
+    }
+
     if (controllerPassword.text != controllerRepassword.text ||
         controllerRepassword.text.isEmpty ||
         controllerRepassword.text.isEmpty) {
       setState(() {
         errorPassword = true;
       });
+      return;
     }
 
-    if (controllerWalletName.text.isEmpty) {
+    if (!canProceed) {
       setState(() {
-        errorWalletName = true;
+        errorCanProceed = true;
       });
+      return;
     }
 
-    if (!canProceed && !errorWalletName && !errorPassword) {
+    if (!errorCanProceed && !errorWalletName && !errorPassword) {
       Globals.instance.generatedWordsPreInitWallet =
           await WordsUtils.generateWords();
 

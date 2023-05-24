@@ -362,10 +362,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_rust_bridge
-      sha256: "36e11b79ac7011d9203313468c5827fe1215b0fa03df384cfe2891a68ed74ed5"
+      sha256: "42f363d4e7a0ba242f9e51c08e64ac9c3d38d7bdb4f6219bbd5ff04d1937e9f3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.75.3"
+    version: "1.76.0"
   flutter_spinkit:
     dependency: "direct main"
     description:
