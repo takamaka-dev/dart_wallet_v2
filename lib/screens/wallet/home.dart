@@ -81,6 +81,7 @@ class _HomeState extends State<Home> {
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                SizedBox(height: 50),
                             CupertinoButton(
                                 color: Styles.takamakaColor,
                                 onPressed: _newWallet,
@@ -93,7 +94,7 @@ class _HomeState extends State<Home> {
                                     Text('New Wallet'),
                                   ],
                                 )),
-                            const SizedBox(height: 50),
+                            const SizedBox(height: 30),
                             CupertinoButton(
                                 color: Styles.takamakaColor,
                                 onPressed: _restoreWallet,
