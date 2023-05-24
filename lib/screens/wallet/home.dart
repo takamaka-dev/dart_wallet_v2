@@ -1,3 +1,4 @@
+import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<String>? wallets;
+  List<String>? wallets = Globals.instance.wallets.isEmpty ? null : Globals.instance.wallets;
 
   @override
   void initState() {
@@ -115,7 +116,7 @@ class _HomeState extends State<Home> {
   Future<void> _newWallet() async {
     Navigator.of(context).push(CupertinoPageRoute<void>(
       builder: (BuildContext context) {
-        return NewWallet(onRefresh: () {
+        return NewWallet(/*onRefresh: () {
           FileSystemUtils.getWalletsInWalletsDir(
                   dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
               .then((value) => {
@@ -123,7 +124,7 @@ class _HomeState extends State<Home> {
                       wallets = value;
                     })
                   });
-        });
+        }*/);
       },
     ));
   }

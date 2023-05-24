@@ -1,31 +1,29 @@
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:dart_wallet_v2/screens/wallet/new_wallet_save_words_step.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:glass/glass.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class NewWallet extends StatefulWidget {
-  const NewWallet({super.key, required this.onRefresh});
-
-  final VoidCallback onRefresh;
+  const NewWallet({super.key});
 
   @override
-  State<StatefulWidget> createState() => _NewWalletState(onRefresh);
+  State<StatefulWidget> createState() => _NewWalletState();
 }
 
 class _NewWalletState extends State<NewWallet> {
-  _NewWalletState(this.onRefresh);
-
+  TextEditingController controllerWalletName = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   TextEditingController controllerRepassword = TextEditingController();
 
-  final VoidCallback onRefresh;
+  bool canProceed = false;
+
   String password = "";
   String walletName = "";
 
+  bool errorWalletName = false;
   bool errorPassword = false;
 
   @override
@@ -78,10 +76,36 @@ class _NewWalletState extends State<NewWallet> {
                             fontSize: 25, color: Colors.grey.shade600),
                         "Add a new wallet"),
                     const SizedBox(height: 50),
+                    errorWalletName
+                        ? Column(
+                            children: [
+                              Text("Please insert a wallet name to proceed!",
+                                  style: TextStyle(
+                                      color: Colors.red.withOpacity(0.8))),
+                              const SizedBox(height: 20)
+                            ],
+                          )
+                        : const Text(""),
+                    !canProceed
+                        ? Column(
+                            children: [
+                              Text("Please accept the licence agreement!",
+                                  style: TextStyle(
+                                      color: Colors.red.withOpacity(0.8))),
+                              const SizedBox(height: 20)
+                            ],
+                          )
+                        : Text(""),
                     CupertinoTextField(
                       textAlign: TextAlign.center,
                       placeholder: "Wallet name",
-                      onChanged: (value) => {walletName = value},
+                      controller: controllerWalletName,
+                      onChanged: (value) => {
+                        setState(() {
+                          errorWalletName = false;
+                        }),
+                        walletName = value
+                      },
                     ),
                     const SizedBox(height: 30),
                     errorPassword
@@ -97,7 +121,12 @@ class _NewWalletState extends State<NewWallet> {
                       textAlign: TextAlign.center,
                       placeholder: "Password",
                       controller: controllerPassword,
-                      onChanged: (value) => {password = value},
+                      onChanged: (value) => {
+                        setState(() {
+                          errorPassword = false;
+                        }),
+                        password = value
+                      },
                     ),
                     const SizedBox(height: 50),
                     CupertinoTextField(
@@ -105,11 +134,35 @@ class _NewWalletState extends State<NewWallet> {
                       textAlign: TextAlign.center,
                       controller: controllerRepassword,
                       placeholder: "Retype password",
-                      onChanged: (value) => {password = value},
+                      onChanged: (value) => {
+                        setState(() {
+                          errorPassword = false;
+                        })
+                      },
+                    ),
+                    const SizedBox(height: 50),
+                    Row(
+                      children: [
+                        CupertinoSwitch(
+                          // This bool value toggles the switch.
+                          value: canProceed,
+                          activeColor: CupertinoColors.activeBlue,
+                          onChanged: (bool? value) {
+                            // This is called when the user toggles the switch.
+                            setState(() {
+                              canProceed = value ?? false;
+                            });
+                          },
+                        ),
+                        const Text(
+                            "I realized that if I lose my backup words, I will no longer be able to access my wallet")
+                      ],
                     ),
                     const SizedBox(height: 50),
                     CupertinoButton(
-                        color: Styles.takamakaColor,
+                        color: canProceed || errorWalletName
+                            ? Styles.takamakaColor.withOpacity(0.7)
+                            : Styles.takamakaColor,
                         onPressed: () => {_openWallet(context)},
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -129,21 +182,28 @@ class _NewWalletState extends State<NewWallet> {
   }
 
   _openWallet(BuildContext context) async {
-    if (controllerPassword.text != controllerRepassword.text) {
+    if (controllerPassword.text != controllerRepassword.text ||
+        controllerRepassword.text.isEmpty ||
+        controllerRepassword.text.isEmpty) {
       setState(() {
         errorPassword = true;
       });
-    } else {
-      context.loaderOverlay.show();
-      /*await WalletUtils.initWallet(
-        'wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);*/
+    }
 
+    if (controllerWalletName.text.isEmpty) {
+      setState(() {
+        errorWalletName = true;
+      });
+    }
+
+    if (!canProceed && !errorWalletName && !errorPassword) {
       Globals.instance.generatedWordsPreInitWallet =
           await WordsUtils.generateWords();
 
-      onRefresh();
-      context.loaderOverlay.hide();
-      Navigator.pop(context, true);
+      Navigator.of(context)
+          .push(CupertinoPageRoute<void>(builder: (BuildContext context) {
+        return const NewWalletSaveWordsStep();
+      }));
     }
   }
 }

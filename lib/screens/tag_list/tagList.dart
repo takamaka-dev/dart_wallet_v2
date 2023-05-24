@@ -38,6 +38,7 @@ class _TagListState extends State<TagList> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       width: double.infinity,
       alignment: Alignment.center,
@@ -56,22 +57,23 @@ class _TagListState extends State<TagList> {
   }
 
   Widget renderSingleTag(String tag) {
-    return SizedBox(
+    return Container(
       height: 50,
-      width: 300,
+      alignment: Alignment.center,
+      width: tag.length <= 5 ? tag.length == 1 ? tag.length*80 : tag.length*45 : tag.length*25,
       //width: cellwidth
 
       child: CupertinoButton(
           color: tagsBrickColor,
-          alignment: Alignment.topLeft,
+          alignment: Alignment.center,
           padding: const EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 0.0),
           borderRadius: BorderRadius.zero,
           onPressed: () => {},
           child: Row(
             mainAxisAlignment: tagAlignment,
             children: [
-              Expanded(child: Text(tag, style: TextStyle(color: tagTextColor))),
-              RawMaterialButton(
+              Expanded(child: Text(tag, textAlign: TextAlign.center, style: TextStyle(color: tagTextColor))),
+              deleteButtonColor.value != 0 ? RawMaterialButton(
                   elevation: 2.0,
                   fillColor: deleteButtonColor,
                   shape: const RoundedRectangleBorder(
@@ -87,7 +89,7 @@ class _TagListState extends State<TagList> {
                   ),
                   onPressed: () => {
                     vcaDelete(tag)
-                  })
+                  }) : const Text("")
             ],
           )),
     );
