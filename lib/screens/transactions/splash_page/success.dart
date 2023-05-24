@@ -1,6 +1,8 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/wallet/home.dart';
+import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -30,7 +32,7 @@ class SuccessSplashPage extends StatelessWidget {
             ],
           ),
         ),
-        nextScreen: const Home(),
+        nextScreen: Wallet(Globals.instance.walletName),
         splashTransition: SplashTransition.scaleTransition,
         pageTransitionType: PageTransitionType.topToBottom,
         backgroundColor: Colors.white);

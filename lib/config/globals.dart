@@ -1,11 +1,47 @@
-import 'package:cryptography/cryptography.dart';
+import 'dart:typed_data';
+
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
-import 'api/single_change.dart';
-
 class Globals with ChangeNotifier {
+
+  String _walletPassword = "";
+
+  String get walletPassword => _walletPassword;
+
+  set walletPassword(String value) {
+    _walletPassword = value;
+  }
+
+  int _selectedWalletIndex = -1;
+  int get selectedWalletIndex => _selectedWalletIndex;
+
+  set selectedWalletIndex(int value) {
+    _selectedWalletIndex = value;
+  }
+
+  Map<String, dynamic> _kb = {};
+
+  Int8List _bytes = Int8List(0);
+
+  String _crc = "";
+
+  String _walletAddress = "";
+
+  Map<String, dynamic> get kb => _kb;
+
+  set kb(Map<String, dynamic> value) {
+    _kb = value;
+  }
+
+  String _walletName = "";
+
+  String get walletName => _walletName;
+
+  set walletName(String value) {
+    _walletName = value;
+  }
 
   TkmMetadata _tkmMetaData = TkmMetadata();
 
@@ -55,7 +91,8 @@ class Globals with ChangeNotifier {
     _feeBean = value;
   }
 
-  BalanceResponseBean _brb = BalanceResponseBean("", BigInt.from(0), BigInt.from(0), null, null, 0, "");
+  BalanceResponseBean _brb = BalanceResponseBean(
+      "", BigInt.from(0), BigInt.from(0), null, null, 0, "");
 
   BalanceResponseBean get brb => _brb;
 
@@ -86,7 +123,6 @@ class Globals with ChangeNotifier {
 
   Changes _changes = Changes(changes: []);
 
-
   Changes get changes => _changes;
 
   set changes(Changes value) {
@@ -113,4 +149,21 @@ class Globals with ChangeNotifier {
     super.notifyListeners();
   }
 
+  Int8List get bytes => _bytes;
+
+  set bytes(Int8List value) {
+    _bytes = value;
+  }
+
+  String get crc => _crc;
+
+  set crc(String value) {
+    _crc = value;
+  }
+
+  String get walletAddress => _walletAddress;
+
+  set walletAddress(String value) {
+    _walletAddress = value;
+  }
 }

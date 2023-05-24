@@ -33,7 +33,8 @@ class _WalletState extends State<Wallet> {
 
   final TextEditingController _walletIndexNumberController =
       TextEditingController(text: '0');
-  TextEditingController _selectedIndexController = TextEditingController();
+
+  final TextEditingController _selectedIndexController = Globals.instance.selectedWalletIndex < 0 ? TextEditingController() : TextEditingController(text: Globals.instance.selectedWalletIndex.toString());
 
   final String _url = 'https://exp.takamaka.dev/';
 
@@ -50,10 +51,12 @@ class _WalletState extends State<Wallet> {
 
   Future<bool> _initWalletInterface() async {
     setState(() {
-      crc = null;
-      walletAddress = null;
-      _bytes = null;
-      kb = null;
+      crc = Globals.instance.crc.isEmpty ? null : Globals.instance.crc;
+      walletAddress = Globals.instance.walletAddress.isEmpty ? null : Globals.instance.walletAddress;
+      _bytes = Globals.instance.bytes.isEmpty ? null : Globals.instance.bytes;
+      kb = Globals.instance.kb.keys.isEmpty ? null : Globals.instance.kb;
+      selectedIndex = Globals.instance.selectedWalletIndex < 0 ? null : Globals.instance.selectedWalletIndex;
+      password = Globals.instance.walletPassword.isEmpty ? "" : Globals.instance.walletPassword;
     });
 
     return true;
@@ -68,7 +71,7 @@ class _WalletState extends State<Wallet> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        child: kb == null ? getLockedWallet() : getUnlockedWallet());
+        child: Globals.instance.generatedSeed.isEmpty ? getLockedWallet() : getUnlockedWallet());
   }
 
   Future<dynamic> _launchURLBrowser() async {
@@ -134,7 +137,9 @@ class _WalletState extends State<Wallet> {
                                   obscureText: true,
                                   textAlign: TextAlign.center,
                                   placeholder: "Password",
-                                  onChanged: (value) => {password = value},
+                                  onChanged: (value) => {
+                                    Globals.instance.walletPassword = value,
+                                    password = value},
                                 ),
                               ],
                             )),
@@ -157,6 +162,9 @@ class _WalletState extends State<Wallet> {
                                     walletName,
                                     dotenv.get('WALLET_EXTENSION'),
                                     password);
+
+                                Globals.instance.kb = kb!;
+
                                 SimpleKeyPair keypair =
                                     await WalletUtils.getNewKeypairED25519(
                                         kb!['seed'],
@@ -175,7 +183,15 @@ class _WalletState extends State<Wallet> {
                                     await WalletUtils.testBitMap(walletAddress!)
                                         .buffer
                                         .asInt8List();
+
+                                Globals.instance.crc = crc!;
+                                Globals.instance.walletAddress = walletAddress!;
+                                Globals.instance.bytes = _bytes!;
+
                                 fetchMyObjects();
+
+                                Globals.instance.walletName = walletName;
+
                                 setState(() {
                                   kb = kb;
                                   crc = crc;
@@ -188,6 +204,9 @@ class _WalletState extends State<Wallet> {
                                   _selectedIndexController.text =
                                       selectedIndex.toString();
                                 });
+
+                                Globals.instance.selectedWalletIndex = selectedIndex!;
+
                                 model.generatedSeed = kb!['seed'];
                                 model.recoveryWords = kb!['words'];
                                 context.loaderOverlay.hide();
@@ -574,6 +593,9 @@ class _WalletState extends State<Wallet> {
                                                         dotenv.get(
                                                             'WALLET_EXTENSION'),
                                                         password);
+
+                                                Globals.instance.kb = kb!;
+
                                                 SimpleKeyPair keypair =
                                                     await WalletUtils
                                                         .getNewKeypairED25519(
@@ -601,6 +623,13 @@ class _WalletState extends State<Wallet> {
                                                             walletAddress!)
                                                     .buffer
                                                     .asInt8List();
+
+                                                Globals.instance.crc = crc!;
+                                                Globals.instance.walletAddress = walletAddress!;
+                                                Globals.instance.bytes = _bytes!;
+
+                                                Globals.instance.selectedWalletIndex = int.parse(_selectedIndexController.text);
+
                                                 fetchMyObjects();
                                                 setState(() {
                                                   kb = kb;
