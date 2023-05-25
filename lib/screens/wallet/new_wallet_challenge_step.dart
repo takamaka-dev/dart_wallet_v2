@@ -121,7 +121,7 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
                   "Your wallet has been created properly!",
                   softWrap: true,
                   maxLines: 10))),
-      SizedBox(height: 20),
+      const SizedBox(height: 20),
       CupertinoButton(
           color: Styles.takamakaColor,
           onPressed: () => {
