@@ -1,10 +1,14 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:dart_wallet_v2/screens/wallet/home.dart';
+import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:page_transition/page_transition.dart';
 
 class NewWalletChallengeStep extends StatefulWidget {
   NewWalletChallengeStep(this.startWordsChallenge, {super.key});
@@ -29,6 +33,8 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
 
   bool testEnded = false;
   int currentIndexCheckWord = 0;
+
+  bool loadingCreationWallet = false;
 
   void _initNewWalletChallengeStep() {
     setState(() {
@@ -100,7 +106,39 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
         dotenv.get('WALLET_EXTENSION'), Globals.instance.walletPassword);
     context.loaderOverlay.hide();
 
-    return [];
+    return [
+      Center(
+          child: Icon(
+            CupertinoIcons.smiley,
+            color: Styles.takamakaColor.withOpacity(0.9),
+            size: 80,
+          )),
+      const SizedBox(height: 20),
+      const SizedBox(
+          child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                  "Your wallet has been created properly!",
+                  softWrap: true,
+                  maxLines: 10))),
+      SizedBox(height: 20),
+      CupertinoButton(
+          color: Styles.takamakaColor,
+          onPressed: () => {
+            Navigator.of(context).push(CupertinoPageRoute<void>(
+                builder: (BuildContext context) {
+                  return const Home();
+                }))
+          },
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(CupertinoIcons.arrow_right),
+              SizedBox(width: 5),
+              Text('Proceed'),
+            ],
+          ))
+    ];
   }
 
   List<Widget> renderCheckPage() {
@@ -157,9 +195,12 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
         controller: controller,
       ),
       const SizedBox(height: 20),
-      CupertinoButton(
+      loadingCreationWallet ? const CircularProgressIndicator() : CupertinoButton(
           color: Styles.takamakaColor,
           onPressed: () => {
+                setState(() {
+                  loadingCreationWallet = true;
+                }),
                 if (controller.text == currentWordCheck)
                   {
                     startWordsChallenge.remove(currentIndexCheckWord),

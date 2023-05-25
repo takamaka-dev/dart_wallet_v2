@@ -212,7 +212,8 @@ class _NewWalletState extends State<NewWallet> {
     if (!errorCanProceed && !errorWalletName && !errorPassword) {
       Globals.instance.generatedWordsPreInitWallet =
           await WordsUtils.generateWords();
-
+      Globals.instance.walletName = walletName;
+      Globals.instance.walletPassword = password;
       Navigator.of(context)
           .push(CupertinoPageRoute<void>(builder: (BuildContext context) {
         return const NewWalletSaveWordsStep();
