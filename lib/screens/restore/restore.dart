@@ -89,10 +89,10 @@ class Restore extends StatelessWidget {
                   CupertinoButton(
                       color: Styles.takamakaColor,
                       onPressed: () => {_restoreWallet(context)},
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
+                        children: [
                           Icon(CupertinoIcons.refresh),
                           SizedBox(width: 10),
                           Text('Restore Wallet'),

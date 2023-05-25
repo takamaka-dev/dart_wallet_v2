@@ -39,6 +39,9 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
   void _initNewWalletChallengeStep() {
     setState(() {
       if (startWordsChallenge.keys.isEmpty) {
+        setState(() {
+          loadingCreationWallet = true;
+        });
         testEnded = true;
       } else {
         currentIndexCheckWord = startWordsChallenge.keys.toList().first;
@@ -198,9 +201,6 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
       loadingCreationWallet ? const CircularProgressIndicator() : CupertinoButton(
           color: Styles.takamakaColor,
           onPressed: () => {
-                setState(() {
-                  loadingCreationWallet = true;
-                }),
                 if (controller.text == currentWordCheck)
                   {
                     startWordsChallenge.remove(currentIndexCheckWord),

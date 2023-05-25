@@ -34,7 +34,11 @@ class _WalletState extends State<Wallet> {
   final TextEditingController _walletIndexNumberController =
       TextEditingController(text: '0');
 
-  final TextEditingController _selectedIndexController = Globals.instance.selectedWalletIndex < 0 ? TextEditingController() : TextEditingController(text: Globals.instance.selectedWalletIndex.toString());
+  final TextEditingController _selectedIndexController =
+      Globals.instance.selectedWalletIndex < 0
+          ? TextEditingController()
+          : TextEditingController(
+              text: Globals.instance.selectedWalletIndex.toString());
 
   final String _url = 'https://exp.takamaka.dev/';
 
@@ -52,11 +56,17 @@ class _WalletState extends State<Wallet> {
   Future<bool> _initWalletInterface() async {
     setState(() {
       crc = Globals.instance.crc.isEmpty ? null : Globals.instance.crc;
-      walletAddress = Globals.instance.walletAddress.isEmpty ? null : Globals.instance.walletAddress;
+      walletAddress = Globals.instance.walletAddress.isEmpty
+          ? null
+          : Globals.instance.walletAddress;
       _bytes = Globals.instance.bytes.isEmpty ? null : Globals.instance.bytes;
       kb = Globals.instance.kb.keys.isEmpty ? null : Globals.instance.kb;
-      selectedIndex = Globals.instance.selectedWalletIndex < 0 ? null : Globals.instance.selectedWalletIndex;
-      password = Globals.instance.walletPassword.isEmpty ? "" : Globals.instance.walletPassword;
+      selectedIndex = Globals.instance.selectedWalletIndex < 0
+          ? null
+          : Globals.instance.selectedWalletIndex;
+      password = Globals.instance.walletPassword.isEmpty
+          ? ""
+          : Globals.instance.walletPassword;
     });
 
     return true;
@@ -71,7 +81,9 @@ class _WalletState extends State<Wallet> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        child: Globals.instance.generatedSeed.isEmpty ? getLockedWallet() : getUnlockedWallet());
+        child: Globals.instance.generatedSeed.isEmpty
+            ? getLockedWallet()
+            : getUnlockedWallet());
   }
 
   Future<dynamic> _launchURLBrowser() async {
@@ -139,7 +151,8 @@ class _WalletState extends State<Wallet> {
                                   placeholder: "Password",
                                   onChanged: (value) => {
                                     Globals.instance.walletPassword = value,
-                                    password = value},
+                                    password = value
+                                  },
                                 ),
                               ],
                             )),
@@ -205,7 +218,8 @@ class _WalletState extends State<Wallet> {
                                       selectedIndex.toString();
                                 });
 
-                                Globals.instance.selectedWalletIndex = selectedIndex!;
+                                Globals.instance.selectedWalletIndex =
+                                    selectedIndex!;
 
                                 model.generatedSeed = kb!['seed'];
                                 model.recoveryWords = kb!['words'];
@@ -230,11 +244,10 @@ class _WalletState extends State<Wallet> {
   Future<void> doGetBalance() async {
     BalanceRequestBean brb =
         BalanceRequestBean(Globals.instance.selectedFromAddress);
-    BalanceResponseBean.fromJson(jsonDecode(
-        await ConsumerHelper.doRequest(
-            HttpMethods.POST,
-            ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!,
-            brb.toJson())));
+    BalanceResponseBean.fromJson(jsonDecode(await ConsumerHelper.doRequest(
+        HttpMethods.POST,
+        ApiList().apiMap[Globals.instance.selectedNetwork]!['balance']!,
+        brb.toJson())));
   }
 
   Widget getUnlockedWallet() {
@@ -625,10 +638,16 @@ class _WalletState extends State<Wallet> {
                                                     .asInt8List();
 
                                                 Globals.instance.crc = crc!;
-                                                Globals.instance.walletAddress = walletAddress!;
-                                                Globals.instance.bytes = _bytes!;
+                                                Globals.instance.walletAddress =
+                                                    walletAddress!;
+                                                Globals.instance.bytes =
+                                                    _bytes!;
 
-                                                Globals.instance.selectedWalletIndex = int.parse(_selectedIndexController.text);
+                                                Globals.instance
+                                                        .selectedWalletIndex =
+                                                    int.parse(
+                                                        _selectedIndexController
+                                                            .text);
 
                                                 fetchMyObjects();
                                                 setState(() {

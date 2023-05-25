@@ -60,71 +60,66 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          middle: Text('Home'),
-        ),
-        child: Column(
-          children: [
-            Container(
-                constraints: const BoxConstraints(maxWidth: 700),
-                padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
-                child: const Center()),
-            Container(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      tryRenderWallets(),
-                      Center(
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(height: 50),
-                            CupertinoButton(
-                                color: Styles.takamakaColor,
-                                onPressed: _newWallet,
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(CupertinoIcons.plus),
-                                    SizedBox(width: 10),
-                                    Text('New Wallet'),
-                                  ],
-                                )),
-                            const SizedBox(height: 30),
-                            CupertinoButton(
-                                color: Styles.takamakaColor,
-                                onPressed: _restoreWallet,
-                                child: const Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(CupertinoIcons.arrow_3_trianglepath),
-                                      SizedBox(width: 10),
-                                      Text('Restore Wallet')
-                                    ])),
-                          ]))
-                    ]))
-          ],
-        ));
+    return SingleChildScrollView(
+      child: CupertinoPageScaffold(
+          navigationBar: const CupertinoNavigationBar(
+            middle: Text('Home'),
+          ),
+          child: Column(
+            children: [
+              Container(
+                  constraints: const BoxConstraints(maxWidth: 700),
+                  padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
+                  child: const Center()),
+              Container(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        tryRenderWallets(),
+                        Center(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(height: 50),
+                                  CupertinoButton(
+                                      color: Styles.takamakaColor,
+                                      onPressed: _newWallet,
+                                      child: const Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(CupertinoIcons.plus),
+                                          SizedBox(width: 10),
+                                          Text('New Wallet'),
+                                        ],
+                                      )),
+                                  const SizedBox(height: 30),
+                                  CupertinoButton(
+                                      color: Styles.takamakaColor,
+                                      onPressed: _restoreWallet,
+                                      child: const Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(CupertinoIcons.arrow_3_trianglepath),
+                                            SizedBox(width: 10),
+                                            Text('Restore Wallet')
+                                          ])),
+                                  const SizedBox(height: 50),
+                                ]))
+                      ]))
+            ],
+          )),
+    );
   }
 
   Future<void> _newWallet() async {
     Navigator.of(context).push(CupertinoPageRoute<void>(
       builder: (BuildContext context) {
-        return NewWallet(/*onRefresh: () {
-          FileSystemUtils.getWalletsInWalletsDir(
-                  dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
-              .then((value) => {
-                    setState(() {
-                      wallets = value;
-                    })
-                  });
-        }*/);
+        return const NewWallet();
       },
     ));
   }
