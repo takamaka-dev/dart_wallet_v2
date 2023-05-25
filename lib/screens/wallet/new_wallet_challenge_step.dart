@@ -13,8 +13,7 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return CupertinoPageScaffold(child: Text("ciao"));
   }
 
 }

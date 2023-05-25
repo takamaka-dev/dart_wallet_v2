@@ -5,7 +5,6 @@ import 'package:dart_wallet_v2/screens/wallet/new_wallet_challenge_step.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class NewWalletSaveWordsStep extends StatefulWidget {
   const NewWalletSaveWordsStep({super.key});
 
@@ -15,7 +14,6 @@ class NewWalletSaveWordsStep extends StatefulWidget {
 
 class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
   bool canProceed = false;
-
 
   void deleteTag(String foo) {
     return;
@@ -46,7 +44,7 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text("New wallet (step 1/3)",
+                            Text("New wallet (step 2/3)",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(color: Colors.white)),
                           ],
@@ -61,10 +59,25 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                   children: [
                     Center(
                         child: Icon(
-                      Icons.wallet,
+                      Icons.screen_lock_portrait_rounded,
                       color: Styles.takamakaColor.withOpacity(0.9),
                       size: 80,
                     )),
+                    const SizedBox(height: 20),
+                    const SizedBox(
+                        child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Text("The wallet has been created..!",
+                                softWrap: true,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                                maxLines: 10))),
+                    const SizedBox(height: 10),
+                    const SizedBox(
+                        child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Text("We have created your wallet, but to complete the operation you must save your 25 words in a safe place, please note that if you lose them you will no longer have the opportunity to regenerate your wallet",
+                                softWrap: true,
+                                maxLines: 10))),
                     const SizedBox(height: 20),
                     TagList(
                         Globals.instance.generatedWordsPreInitWallet,
@@ -91,20 +104,20 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                             ? Styles.takamakaColor
                             : Styles.takamakaColor.withOpacity(0.2),
                         onPressed: () => {
-                            canProceed ?
-                              Navigator.of(context).push(
-                                  CupertinoPageRoute<void>(
-                                      builder: (BuildContext context) {
-                                return NewWalletChallengeStep();
-                              })) : print("not allowed")
+                              canProceed
+                                  ? Navigator.of(context).push(
+                                      CupertinoPageRoute<void>(
+                                          builder: (BuildContext context) {
+                                      return const NewWalletChallengeStep();
+                                    }))
+                                  : print("not allowed")
                             },
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(CupertinoIcons.arrow_right),
-                            Text(canProceed
-                                ? ' Proceed'
-                                : ' Please confirm the statement above to proceed!'),
+                            Icon(CupertinoIcons.arrow_right),
+                            SizedBox(width: 5),
+                            Text('Proceed'),
                           ],
                         ))
                   ],
