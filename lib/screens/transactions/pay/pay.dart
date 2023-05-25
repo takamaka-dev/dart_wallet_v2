@@ -84,7 +84,7 @@ class _PayState extends State<Pay> {
   Future<void> doPay() async {
     InternalTransactionBean itb;
 
-    //context.loaderOverlay.show();
+    context.loaderOverlay.show();
 
     if (currentToken == "TKG") {
       itb = BuilderItb.pay(

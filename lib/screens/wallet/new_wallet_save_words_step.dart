@@ -4,6 +4,8 @@ import 'package:dart_wallet_v2/screens/tag_list/tagList.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet_challenge_step.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 class NewWalletSaveWordsStep extends StatefulWidget {
   const NewWalletSaveWordsStep({super.key});
@@ -108,7 +110,10 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                                   ? Navigator.of(context).push(
                                       CupertinoPageRoute<void>(
                                           builder: (BuildContext context) {
-                                      return const NewWalletChallengeStep();
+                                            Map<int, String> startWordsChallenge = WordsUtils.startWordsChallenge(
+                                                int.parse(dotenv.get('ITERATIONS_CHALLENGE_NUMBER')),
+                                                Globals.instance.generatedWordsPreInitWallet);
+                                      return NewWalletChallengeStep(startWordsChallenge);
                                     }))
                                   : print("not allowed")
                             },
