@@ -50,13 +50,13 @@ class _TagListState extends State<TagList> {
         runSpacing: 8.0,
         alignment: WrapAlignment.spaceEvenly,
         children: List.generate(tags.length, (index) {
-          return renderSingleTag(tags[index]);
+          return renderSingleTag(tags[index], index);
         }),
       ),
     );
   }
 
-  Widget renderSingleTag(String tag) {
+  Widget renderSingleTag(String tag, index) {
     return Container(
       height: 50,
       alignment: Alignment.center,
@@ -72,7 +72,7 @@ class _TagListState extends State<TagList> {
           child: Row(
             mainAxisAlignment: tagAlignment,
             children: [
-              Expanded(child: Text(tag, textAlign: TextAlign.center, style: TextStyle(color: tagTextColor))),
+              Expanded(child: Text("${index+1} - $tag", textAlign: TextAlign.center, style: TextStyle(color: tagTextColor))),
               deleteButtonColor.value != 0 ? RawMaterialButton(
                   elevation: 2.0,
                   fillColor: deleteButtonColor,

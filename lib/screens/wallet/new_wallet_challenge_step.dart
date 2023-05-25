@@ -19,25 +19,24 @@ class NewWalletChallengeStep extends StatefulWidget {
 class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
   _NewWalletChallengeStepState(this.startWordsChallenge);
 
+  TextEditingController controller = TextEditingController();
+
+  bool wordMissmatch = false;
+
   Map<int, String> startWordsChallenge;
 
   String currentWordCheck = "";
 
   bool testEnded = false;
+  int currentIndexCheckWord = 0;
 
   void _initNewWalletChallengeStep() {
-    setState(() async {
+    setState(() {
       if (startWordsChallenge.keys.isEmpty) {
-        context.loaderOverlay.show();
-        await WalletUtils.initWallet(
-            'wallets',
-            Globals.instance.walletName,
-            dotenv.get('WALLET_EXTENSION'),
-            Globals.instance.walletPassword);
-        context.loaderOverlay.hide();
         testEnded = true;
       } else {
-        currentWordCheck = startWordsChallenge[startWordsChallenge.keys.toList().first]!;
+        currentIndexCheckWord = startWordsChallenge.keys.toList().first;
+        currentWordCheck = startWordsChallenge[currentIndexCheckWord]!;
       }
     });
   }
@@ -83,15 +82,107 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [],
-                ),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children:
+                        testEnded ? renderSuccessPage() : renderCheckPage()),
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> renderSuccessPage() {
+    context.loaderOverlay.show();
+    WalletUtils.initWallet('wallets', Globals.instance.walletName,
+        dotenv.get('WALLET_EXTENSION'), Globals.instance.walletPassword);
+    context.loaderOverlay.hide();
+
+    return [];
+  }
+
+  List<Widget> renderCheckPage() {
+    return [
+      Center(
+          child: Icon(
+        Icons.checklist_rtl_rounded,
+        color: Styles.takamakaColor.withOpacity(0.9),
+        size: 80,
+      )),
+      const SizedBox(height: 20),
+      const SizedBox(
+          child: Align(
+              alignment: Alignment.topLeft,
+              child: Text("Well... now let's check.!!",
+                  softWrap: true,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  maxLines: 10))),
+      const SizedBox(height: 10),
+      const SizedBox(
+          child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                  "After you have saved the 25 words let's check whether you actually did so!",
+                  softWrap: true,
+                  maxLines: 10))),
+      const SizedBox(height: 40),
+      const SizedBox(
+          child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                  "Now you will have to write the words that will be required of you.",
+                  softWrap: true,
+                  maxLines: 10))),
+      const SizedBox(height: 20),
+      SizedBox(
+          child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                  "Write the word at index n. ${currentIndexCheckWord + 1}",
+                  softWrap: true,
+                  maxLines: 10))),
+      const SizedBox(height: 20),
+      wordMissmatch
+          ? Column(children: [
+              Text("Error, please try again!",
+                  style: TextStyle(
+                      color: Colors.red.withOpacity(0.8), fontSize: 14)),
+              const SizedBox(height: 10)
+            ])
+          : const Text(""),
+      CupertinoTextField(
+        placeholder: "Type here check word",
+        controller: controller,
+      ),
+      const SizedBox(height: 20),
+      CupertinoButton(
+          color: Styles.takamakaColor,
+          onPressed: () => {
+                if (controller.text == currentWordCheck)
+                  {
+                    startWordsChallenge.remove(currentIndexCheckWord),
+                    Navigator.of(context).push(CupertinoPageRoute<void>(
+                        builder: (BuildContext context) {
+                      return NewWalletChallengeStep(startWordsChallenge);
+                    }))
+                  }
+                else
+                  {
+                    setState(() {
+                      wordMissmatch = true;
+                    })
+                  }
+              },
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(CupertinoIcons.arrow_right),
+              SizedBox(width: 5),
+              Text('Proceed'),
+            ],
+          ))
+    ];
   }
 }
