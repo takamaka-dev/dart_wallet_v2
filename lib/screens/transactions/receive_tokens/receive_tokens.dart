@@ -58,11 +58,11 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
       color = "red";
     }
 
-    BigInt val = BigInt.parse(_controller.text)*BigInt.from(10).pow(9);
+    BigInt value = TKmTK.unitStringTK(_controller.text.split(" ${currentToken!.toUpperCase()}")[0]);
 
     ReceiveToken rt = ReceiveToken(
         color,
-        val.toString(),
+        value.toString(),
         Globals.instance.selectedFromAddress,
         _controllerMessage.text
     );
