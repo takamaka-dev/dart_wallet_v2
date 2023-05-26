@@ -99,7 +99,7 @@ class _PayState extends State<Pay> {
           Globals.instance.selectedFromAddress,
           _controllerToAddress.text,
           TKmTK.unitTK(0),
-          TKmTK.unitStringTK(_controller.text.split(" TKR")[1]),
+          TKmTK.unitStringTK(_controller.text.split(" TKR")[0]),
           _controllerMessage.text,
           TKmTK.getTransactionTime());
     }
