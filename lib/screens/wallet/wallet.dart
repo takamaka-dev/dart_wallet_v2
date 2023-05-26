@@ -7,6 +7,7 @@ import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/blob/blob.dart';
 import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
+import 'package:dart_wallet_v2/screens/transactions/receive_tokens/receive_tokens.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/stake.dart';
 import 'package:dart_wallet_v2/screens/transactions/transaction_list/transaction_list.dart';
 import 'package:flutter/cupertino.dart';
@@ -375,7 +376,7 @@ class _WalletState extends State<Wallet> {
             onPressed: () => {
                   Navigator.of(context).push(
                       CupertinoPageRoute<void>(builder: (BuildContext context) {
-                    return const Pay();
+                    return const ReceiveTokens();
                   }))
                 },
             child: const Center(child: Icon(CupertinoIcons.arrow_down))),
