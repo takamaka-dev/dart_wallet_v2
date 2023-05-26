@@ -212,7 +212,7 @@ class _PayState extends State<Pay> {
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Pay section",
+                          Text("Pay",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white)),
                         ],

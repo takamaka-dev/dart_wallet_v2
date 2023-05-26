@@ -209,7 +209,7 @@ class _StakeProceedState extends State<StakeProceed> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const <Widget>[
-                          Text("Stake proceed section",
+                          Text("Stake proceed",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white)),
                         ],

@@ -101,7 +101,7 @@ class _StakeState extends State<Stake> {
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Stake section",
+                          Text("Stake",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white)),
                         ],
