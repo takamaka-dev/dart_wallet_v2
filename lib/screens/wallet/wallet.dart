@@ -521,10 +521,8 @@ class _WalletState extends State<Wallet> {
                                 alignment: Alignment.topLeft,
                                 child: walletAddress == null
                                     ? const CircularProgressIndicator()
-                                    : Text(walletAddress!,
-                                        softWrap: true,
-                                        maxLines: 10,
-                                        style: const TextStyle(
+                                    : SelectableText(walletAddress!,
+                                     style: const TextStyle(
                                             color: Colors.white)),
                               ),
                             ),
