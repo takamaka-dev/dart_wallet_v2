@@ -149,6 +149,9 @@ class _WalletState extends State<Wallet> {
                                   obscureText: true,
                                   textAlign: TextAlign.center,
                                   placeholder: "Password",
+                                  onSubmitted: (String v) => {
+                                    loginWallet(model)
+                                  },
                                   onChanged: (value) => {
                                     Globals.instance.walletPassword = value,
                                     password = value
@@ -168,68 +171,7 @@ class _WalletState extends State<Wallet> {
                             color: Styles.takamakaColor,
                             child: const Text("Login"),
                             onPressed: () async {
-                              try {
-                                context.loaderOverlay.show();
-                                kb = await WalletUtils.initWallet(
-                                    'wallets',
-                                    walletName,
-                                    dotenv.get('WALLET_EXTENSION'),
-                                    password);
-
-                                Globals.instance.kb = kb!;
-
-                                SimpleKeyPair keypair =
-                                    await WalletUtils.getNewKeypairED25519(
-                                        kb!['seed'],
-                                        index: int.parse(
-                                            _walletIndexNumberController.text));
-
-                                Globals.instance.generatedSeed = kb!['seed'];
-                                Globals.instance.currentIndex = int.parse(
-                                    _walletIndexNumberController.text);
-
-                                crc = await WalletUtils.getCrc32(keypair);
-                                walletAddress =
-                                    await WalletUtils.getTakamakaAddress(
-                                        keypair);
-                                _bytes =
-                                    await WalletUtils.testBitMap(walletAddress!)
-                                        .buffer
-                                        .asInt8List();
-
-                                Globals.instance.crc = crc!;
-                                Globals.instance.walletAddress = walletAddress!;
-                                Globals.instance.bytes = _bytes!;
-
-                                fetchMyObjects();
-
-                                Globals.instance.walletName = walletName;
-
-                                setState(() {
-                                  kb = kb;
-                                  crc = crc;
-                                  walletAddress = walletAddress;
-                                  Globals.instance.selectedFromAddress =
-                                      walletAddress!;
-                                  _bytes = _bytes;
-                                  selectedIndex = int.parse(
-                                      _walletIndexNumberController.text);
-                                  _selectedIndexController.text =
-                                      selectedIndex.toString();
-                                });
-
-                                Globals.instance.selectedWalletIndex =
-                                    selectedIndex!;
-
-                                model.generatedSeed = kb!['seed'];
-                                model.recoveryWords = kb!['words'];
-                                context.loaderOverlay.hide();
-                              } on ArgumentError catch (_) {
-                                context.loaderOverlay.hide();
-                                setState(() {
-                                  _error = true;
-                                });
-                              }
+                              loginWallet(model);
                             })
                       ],
                     ),
@@ -239,6 +181,71 @@ class _WalletState extends State<Wallet> {
                 ],
               ))),
     );
+  }
+
+  Future<void> loginWallet(var model) async {
+    try {
+      context.loaderOverlay.show();
+      kb = await WalletUtils.initWallet(
+          'wallets',
+          walletName,
+          dotenv.get('WALLET_EXTENSION'),
+          password);
+
+      Globals.instance.kb = kb!;
+
+      SimpleKeyPair keypair =
+          await WalletUtils.getNewKeypairED25519(
+          kb!['seed'],
+          index: int.parse(
+              _walletIndexNumberController.text));
+
+      Globals.instance.generatedSeed = kb!['seed'];
+      Globals.instance.currentIndex = int.parse(
+          _walletIndexNumberController.text);
+
+      crc = await WalletUtils.getCrc32(keypair);
+      walletAddress =
+          await WalletUtils.getTakamakaAddress(
+          keypair);
+      _bytes =
+          await WalletUtils.testBitMap(walletAddress!)
+          .buffer
+          .asInt8List();
+
+      Globals.instance.crc = crc!;
+      Globals.instance.walletAddress = walletAddress!;
+      Globals.instance.bytes = _bytes!;
+
+      fetchMyObjects();
+
+      Globals.instance.walletName = walletName;
+
+      setState(() {
+        kb = kb;
+        crc = crc;
+        walletAddress = walletAddress;
+        Globals.instance.selectedFromAddress =
+        walletAddress!;
+        _bytes = _bytes;
+        selectedIndex = int.parse(
+            _walletIndexNumberController.text);
+        _selectedIndexController.text =
+            selectedIndex.toString();
+      });
+
+      Globals.instance.selectedWalletIndex =
+      selectedIndex!;
+
+      model.generatedSeed = kb!['seed'];
+      model.recoveryWords = kb!['words'];
+      context.loaderOverlay.hide();
+    } on ArgumentError catch (_) {
+      context.loaderOverlay.hide();
+      setState(() {
+        _error = true;
+      });
+    }
   }
 
   Future<void> doGetBalance() async {
