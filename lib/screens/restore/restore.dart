@@ -43,67 +43,77 @@ class Restore extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      child: Column(
-        children: [
-          Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-            CupertinoButton(
-              onPressed: () {
-                Navigator.pop(context); // Navigate back when back button is pressed
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-
-          ]),
-          Container(
-            constraints: const BoxConstraints(maxWidth: 700),
-            padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Center(
-                      child: Image.asset('images/logo_small.png', width: 100)),
-                  const SizedBox(height: 30),
-                  Text(
-                      style:
-                      TextStyle(fontSize: 25, color: Colors.grey.shade600),
-                      "Restore your wallet"),
-                  const SizedBox(height: 30),
-                  CupertinoTextField(
-                    placeholder: "Words",
-                    onChanged: (value) => {words = value},
-                  ),
-                  const SizedBox(height: 30),
-                  CupertinoTextField(
-                    placeholder: "Wallet Name",
-                    onChanged: (value) => {walletName = value},
-                  ),
-                  const SizedBox(height: 30),
-                  CupertinoTextField(
-                    obscureText: true,
-                    placeholder: "Password",
-                    onChanged: (value) => {password = value},
-                  ),
-                  const SizedBox(height: 30),
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: Container(
+              color: Styles.takamakaColor,
+              child: Stack(
+                alignment: Alignment.centerLeft,
+                children: <Widget>[
                   CupertinoButton(
-                      color: Styles.takamakaColor,
-                      onPressed: () => {_restoreWallet(context)},
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(CupertinoIcons.refresh),
-                          SizedBox(width: 10),
-                          Text('Restore Wallet'),
-                        ],
-                      ))
-                ]),
-          ).asGlass(
-              tintColor: Colors.transparent,
-              clipBorderRadius: BorderRadius.circular(15.0))
-        ],
-      )
-    ));
+                    onPressed: () {
+                      Navigator.pop(
+                          context); // Navigate back when back button is pressed
+                    },
+                    child: const Icon(Icons.arrow_back, color: Colors.white),
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Restore wallet",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ],
+              )),
+        ),
+        Container(
+          constraints: const BoxConstraints(maxWidth: 700),
+          padding: const EdgeInsets.fromLTRB(100, 80, 100, 50),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                    child: Icon(
+                  CupertinoIcons.arrow_up_bin,
+                  color: Styles.takamakaColor.withOpacity(0.7),
+                  size: 60,
+                )),
+                const SizedBox(height: 30),
+                Text(
+                    style: TextStyle(fontSize: 25, color: Colors.grey.shade600),
+                    "Please choose a name and a password below"),
+                const SizedBox(height: 30),
+
+                CupertinoTextField(
+                  placeholder: "Wallet Name",
+                  onChanged: (value) => {walletName = value},
+                ),
+                const SizedBox(height: 30),
+                CupertinoTextField(
+                  obscureText: true,
+                  placeholder: "Password",
+                  onChanged: (value) => {password = value},
+                ),
+                const SizedBox(height: 30),
+                CupertinoButton(
+                    color: Styles.takamakaColor,
+                    onPressed: () => {_restoreWallet(context)},
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(CupertinoIcons.refresh),
+                        SizedBox(width: 10),
+                        Text('Restore Wallet'),
+                      ],
+                    ))
+              ]),
+        )
+      ],
+    )));
   }
 }

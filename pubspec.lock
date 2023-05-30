@@ -362,10 +362,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_rust_bridge
-      sha256: "42f363d4e7a0ba242f9e51c08e64ac9c3d38d7bdb4f6219bbd5ff04d1937e9f3"
+      sha256: "02ae507b284332ff725644d47c2e10e80a3f4821f1c61b5efb33ba892f33501c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.76.0"
+    version: "1.77.0"
   flutter_spinkit:
     dependency: "direct main"
     description:
@@ -483,10 +483,11 @@ packages:
   io_takamaka_core_wallet:
     dependency: "direct main"
     description:
-      path: "../io_takamaka_core_wallet"
-      relative: true
-    source: path
-    version: "2.0.0"
+      name: io_takamaka_core_wallet
+      sha256: e0fd2361c580130a297c5adc17701c3cdec9884a3f8821a9efa5f6cee2c231b8
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   js:
     dependency: transitive
     description:
@@ -920,10 +921,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "1a5848f598acc5b7d8f7c18b8cb834ab667e59a13edc3c93e9d09cf38cc6bc87"
+      sha256: eed4e6a1164aa9794409325c3b707ff424d4d1c2a785e7db67f8bbda00e36e51
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.34"
+    version: "6.0.35"
   url_launcher_ios:
     dependency: transitive
     description:

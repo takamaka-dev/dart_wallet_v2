@@ -6,6 +6,8 @@ import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 class Globals with ChangeNotifier {
 
+  List<String> restoreNewWalletsWords = [];
+
   List<String> wallets = [];
 
   List<String> _generatedWordsPreInitWallet = [];
