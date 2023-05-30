@@ -206,9 +206,9 @@ class _StakeProceedState extends State<StakeProceed> {
                         child:
                             const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
+                        children: <Widget>[
                           Text("Stake proceed",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white)),
@@ -262,6 +262,7 @@ class _StakeProceedState extends State<StakeProceed> {
                   CupertinoTextField(
                     textAlign: TextAlign.center,
                     controller: _controller_2,
+                    onTap: () => {_controller_2.text = ""},
                     onChanged: (value) => {updateTokenValue(value)},
                     placeholder: "Amount (USD)",
                   ),
@@ -269,6 +270,7 @@ class _StakeProceedState extends State<StakeProceed> {
                   CupertinoTextField(
                     textAlign: TextAlign.center,
                     controller: _controller,
+                    onTap: () => {_controller.text = ""},
                     onChanged: (value) => {updateCurrencyValue(value)},
                     placeholder: "TKG",
                   ),
@@ -282,10 +284,10 @@ class _StakeProceedState extends State<StakeProceed> {
                   CupertinoButton(
                       color: Styles.takamakaColor,
                       onPressed: () => {doStake()},
-                      child: Row(
+                      child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
+                          children: [
                             Icon(CupertinoIcons.paperplane),
                             SizedBox(width: 10),
                             Text('Stake')
