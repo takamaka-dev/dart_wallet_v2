@@ -61,7 +61,7 @@ class _NewWalletState extends State<NewWallet> {
                     )),
               ),
               Container(
-                padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -158,8 +158,14 @@ class _NewWalletState extends State<NewWallet> {
                             });
                           },
                         ),
-                        const Text(
-                            "I realized that if I lose my backup words, I will no longer be able to access my wallet")
+                        const SizedBox(
+                            child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                    "I realized that if I lose my backup words, I will no longer be able to access my wallet",
+                                    softWrap: true,
+                                    maxLines: 10))),
+
                       ],
                     ),
                     const SizedBox(height: 50),

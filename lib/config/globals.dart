@@ -1,7 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:dart_wallet_v2/config/api/changes.dart';
+import 'package:dart_wallet_v2/screens/wallet/home.dart';
+import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 class Globals with ChangeNotifier {
@@ -177,5 +180,13 @@ class Globals with ChangeNotifier {
 
   set walletAddress(String value) {
     _walletAddress = value;
+  }
+
+  void resetAndOpenPage(context) {
+    Navigator.pushAndRemoveUntil<void>(
+      context,
+      MaterialPageRoute<void>(builder: (BuildContext context) => Wallet(walletName)),
+      ModalRoute.withName('/'),
+    );
   }
 }

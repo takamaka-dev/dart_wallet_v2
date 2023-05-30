@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:provider/provider.dart';
 
 class Stake extends StatefulWidget {
   const Stake({super.key});
@@ -15,6 +16,7 @@ class Stake extends StatefulWidget {
 
 class _StakeState extends State<Stake> {
   List<Widget> _widgetList = <Widget>[];
+  bool errorLoading = false;
 
   @override
   void initState() {
@@ -24,57 +26,93 @@ class _StakeState extends State<Stake> {
   }
 
   Future<void> _initStakeInterface() async {
-    context.loaderOverlay.show();
-    List<Widget> temp = [];
+    try {
+      context.loaderOverlay.show();
+      List<Widget> temp = [];
 
-    final response = await ConsumerHelper.doRequest(
-        HttpMethods.POST, ApiList().apiMap[Globals.instance.selectedNetwork]!["listnodes"]!, {});
+      final response = await ConsumerHelper.doRequest(
+          HttpMethods.POST,
+          ApiList().apiMap[Globals.instance.selectedNetwork]!["listnodes"]!,
+          {});
 
-    Globals.instance.snl = StakeNodeList.fromJsonArray(response);
+      Globals.instance.snl = StakeNodeList.fromJsonArray(response);
 
-    final responseAcceptedBets = await ConsumerHelper.doRequest(
-        HttpMethods.GET, ApiList().apiMap[Globals.instance.selectedNetwork]!['acceptedbets']!, {});
+      final responseAcceptedBets = await ConsumerHelper.doRequest(
+          HttpMethods.GET,
+          ApiList().apiMap[Globals.instance.selectedNetwork]!['acceptedbets']!,
+          {});
 
-    AcceptedBetByHolderListBean abhl =
-        AcceptedBetByHolderListBean.fromJsonArray(responseAcceptedBets);
+      AcceptedBetByHolderListBean abhl =
+          AcceptedBetByHolderListBean.fromJsonArray(responseAcceptedBets);
 
-    Map<String, int> coveredBets = {};
+      Map<String, int> coveredBets = {};
 
-    abhl.acceptedBets.forEach((element) {
-      if (element.holderAddressURL64 == Globals.instance.selectedFromAddress) {
-        coveredBets = element.coveredBets;
-      }
-    });
-
-    if (Globals.instance.snl.stakeNodeLists.isNotEmpty) {
-      for (int i = 0; i < Globals.instance.snl.stakeNodeLists.length; i++) {
-        StakeNode sn = Globals.instance.snl.stakeNodeLists[i];
-
-        String qTeslaAddressVersion = await ConsumerHelper.doRequest(
-            HttpMethods.GET,
-            ApiList().apiMap[Globals.instance.selectedNetwork]!['stakenodemap']! + sn.shortAddress, {});
-
-        BigInt amountTkBigint = BigInt.from(0);
-        if (coveredBets.containsKey(qTeslaAddressVersion)) {
-          amountTkBigint = BigInt.from(coveredBets[qTeslaAddressVersion]!);
+      abhl.acceptedBets.forEach((element) {
+        if (element.holderAddressURL64 ==
+            Globals.instance.selectedFromAddress) {
+          coveredBets = element.coveredBets;
         }
+      });
 
-        temp.add(SingleNode(
-            qTeslaAddressVersion,
-            sn.shortAddress,
-            sn.alias,
-            StringUtilities.convertFromBase64ToBase64UrlUnsafe(sn.identicon),
-            TKmTK.bigIntDoubleTK(amountTkBigint)));
+      if (Globals.instance.snl.stakeNodeLists.isNotEmpty) {
+        for (int i = 0; i < Globals.instance.snl.stakeNodeLists.length; i++) {
+          StakeNode sn = Globals.instance.snl.stakeNodeLists[i];
+
+          String qTeslaAddressVersion = await ConsumerHelper.doRequest(
+              HttpMethods.GET,
+              ApiList().apiMap[Globals.instance.selectedNetwork]![
+                      'stakenodemap']! +
+                  sn.shortAddress,
+              {});
+
+          BigInt amountTkBigint = BigInt.from(0);
+          if (coveredBets.containsKey(qTeslaAddressVersion)) {
+            amountTkBigint = BigInt.from(coveredBets[qTeslaAddressVersion]!);
+          }
+
+          temp.add(SingleNode(
+              qTeslaAddressVersion,
+              sn.shortAddress,
+              sn.alias,
+              StringUtilities.convertFromBase64ToBase64UrlUnsafe(sn.identicon),
+              TKmTK.bigIntDoubleTK(amountTkBigint)));
+        }
       }
-    }
 
-    setState(() {
-      _widgetList = temp;
-    });
-    context.loaderOverlay.hide();
+      setState(() {
+        _widgetList = temp;
+      });
+      context.loaderOverlay.hide();
+    } catch (e) {
+      print(e);
+      context.loaderOverlay.hide();
+      setState(() {
+        errorLoading = true;
+      });
+    }
   }
 
-
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogBuilderError(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Alert'),
+          content: const Text('Something went wrong, please try again'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () async {
+                Globals.instance.resetAndOpenPage(context);
+              },
+              child: const Text('Ok'),
+            )
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,8 +159,16 @@ class _StakeState extends State<Stake> {
   }
 
   List<Widget> tryRenderNodes() {
-    if (_widgetList.isEmpty) {
+    if (_widgetList.isEmpty && !errorLoading) {
       return [const CircularProgressIndicator()];
+    }
+    if (errorLoading) {
+      return [
+        const Text('Something went wrong, please try again'),
+        CupertinoButton(
+            child: const Text("OK"),
+            onPressed: () => {Globals.instance.resetAndOpenPage(context)})
+      ];
     }
 
     return _widgetList;

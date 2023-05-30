@@ -12,7 +12,6 @@ class Settings extends StatefulWidget {
 
   @override
   State<Settings> createState() => _SettingState();
-
 }
 
 class _SettingState extends State<Settings> {
@@ -22,6 +21,8 @@ class _SettingState extends State<Settings> {
     1: dotenv.get('TEST_NETWORK'),
     2: dotenv.get('PROD_NETWORK')
   };
+
+  late String selectedNetworkName;
 
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
@@ -41,6 +42,57 @@ class _SettingState extends State<Settings> {
                 child: child,
               ),
             ));
+  }
+
+  void _showActionSheet(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text(
+          'Networks',
+          style: TextStyle(fontSize: 22),
+        ),
+        message: const Text('Please choose an active network',
+            style: TextStyle(fontSize: 18)),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            /// This parameter indicates the action would be a default
+            /// default behavior, turns the action's text to bold text.
+            isDefaultAction: Globals.instance.selectedNetwork == networks[0]!,
+            onPressed: () {
+              Globals.instance.selectedNetwork = networks[0]!;
+              setState(() {
+                selectedNetworkName = Globals.instance.selectedNetwork;
+              });
+              Navigator.pop(context);
+            },
+            child: const Text('Local'),
+          ),
+          CupertinoActionSheetAction(
+            isDefaultAction: Globals.instance.selectedNetwork == networks[1]!,
+            onPressed: () {
+              Globals.instance.selectedNetwork = networks[1]!;
+              setState(() {
+                selectedNetworkName = Globals.instance.selectedNetwork;
+              });
+              Navigator.pop(context);
+            },
+            child: const Text('Test'),
+          ),
+          CupertinoActionSheetAction(
+            isDefaultAction: Globals.instance.selectedNetwork == networks[2]!,
+            onPressed: () {
+              Globals.instance.selectedNetwork = networks[2]!;
+              setState(() {
+                selectedNetworkName = Globals.instance.selectedNetwork;
+              });
+              Navigator.pop(context);
+            },
+            child: const Text('Prod'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -64,14 +116,18 @@ class _SettingState extends State<Settings> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            WalletUtils.renderQrImage(model.recoveryWords.isEmpty ? '' : model.recoveryWords)
+                            WalletUtils.renderQrImage(
+                                model.recoveryWords.isEmpty
+                                    ? ''
+                                    : model.recoveryWords)
                           ],
                         ),
                         const Text('Selected network: '),
                         CupertinoButton(
                           padding: EdgeInsets.zero,
                           // Display a CupertinoPicker with list of fruits.
-                          onPressed: () => _showDialog(
+                          onPressed: () => _showActionSheet(context),
+                          /*_showDialog(
                             CupertinoPicker(
                               magnification: 1.22,
                               squeeze: 1.2,
@@ -93,10 +149,11 @@ class _SettingState extends State<Settings> {
                                 );
                               }),
                             ),
-                          ),
+                          ),*/
                           // This displays the selected fruit name.
                           child: Text(
-                            _networkNames[_selectedNetwork],
+                            selectedNetworkName[0].toUpperCase() +
+                                selectedNetworkName.substring(1),
                             style: const TextStyle(
                               fontSize: 22.0,
                             ),
@@ -112,6 +169,9 @@ class _SettingState extends State<Settings> {
 
   @override
   void initState() {
+    setState(() {
+      selectedNetworkName = Globals.instance.selectedNetwork;
+    });
     super.initState();
   }
 }
