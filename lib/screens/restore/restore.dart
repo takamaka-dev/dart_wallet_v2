@@ -8,14 +8,19 @@ import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import '../../config/styles.dart';
 
 class Restore extends StatelessWidget {
-  Restore({required this.onRefresh});
+  Restore({super.key, required this.onRefresh});
 
   final VoidCallback onRefresh;
   String walletName = "";
   String password = "";
 
+  TextEditingController walletNameController = TextEditingController();
+  TextEditingController walletPasswordController = TextEditingController();
+
   Future<void> _restoreWallet(context) async {
-    context.loaderOverlay.show();
+    //context.loaderOverlay.show();
+    walletName = walletPasswordController.text;
+    password = walletPasswordController.text;
     List<String> wordList = [];
     if (Globals.instance.restoreNewWalletsWords.isNotEmpty) {
       wordList = Globals.instance.restoreNewWalletsWords;
@@ -35,7 +40,7 @@ class Restore extends StatelessWidget {
     await WalletUtils.getNewKeypairED25519(seed);
 
     onRefresh();
-    context.loaderOverlay.hide();
+    //context.loaderOverlay.hide();
     Navigator.pop(context, true);
   }
 
@@ -87,16 +92,14 @@ class Restore extends StatelessWidget {
                     style: TextStyle(fontSize: 25, color: Colors.grey.shade600),
                     "Please choose a name and a password below"),
                 const SizedBox(height: 30),
-
                 CupertinoTextField(
-                  placeholder: "Wallet Name",
-                  onChanged: (value) => {walletName = value},
-                ),
+                    placeholder: "Wallet Name",
+                    controller: walletNameController),
                 const SizedBox(height: 30),
                 CupertinoTextField(
                   obscureText: true,
                   placeholder: "Password",
-                  onChanged: (value) => {password = value},
+                  controller: walletPasswordController,
                 ),
                 const SizedBox(height: 30),
                 CupertinoButton(
