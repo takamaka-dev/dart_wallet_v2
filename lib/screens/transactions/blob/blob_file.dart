@@ -221,9 +221,9 @@ class _BlobFileState extends State<BlobFile> {
                       },
                       child: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
+                      children: <Widget>[
                         Text("Upload File Binary",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white)),
@@ -239,10 +239,10 @@ class _BlobFileState extends State<BlobFile> {
                 CupertinoButton(
                     color: Styles.takamakaColor,
                     onPressed: _openFilePicker,
-                    child: Row(
+                    child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
+                        children: [
                           Icon(CupertinoIcons.doc_fill),
                           SizedBox(width: 10),
                           Text('Select File')
@@ -288,10 +288,10 @@ class _BlobFileState extends State<BlobFile> {
                 CupertinoButton(
                     color: Styles.takamakaColor,
                     onPressed: () => {doBlob()},
-                    child: Row(
+                    child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
+                        children: [
                           Icon(CupertinoIcons.paperplane),
                           SizedBox(width: 10),
                           Text('Send')

@@ -1,4 +1,5 @@
 import 'package:dart_wallet_v2/config/globals.dart';
+import 'package:dart_wallet_v2/screens/restore/restore_part_1.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/cupertino.dart';
@@ -127,7 +128,8 @@ class _HomeState extends State<Home> {
   void _restoreWallet() {
     Navigator.of(context).push(CupertinoPageRoute<void>(
       builder: (BuildContext context) {
-        return Restore(onRefresh: () {
+        return const RestorePart1();
+        /*return Restore(onRefresh: () {
           FileSystemUtils.getWalletsInWalletsDir(
                   dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
               .then((value) => {
@@ -135,7 +137,7 @@ class _HomeState extends State<Home> {
                       wallets = value;
                     })
                   });
-        });
+        });*/
       },
     ));
   }

@@ -62,7 +62,7 @@ class Restore extends StatelessWidget {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("Restore wallet",
+                      Text("Restore wallet (2/2)",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.white)),
                     ],
