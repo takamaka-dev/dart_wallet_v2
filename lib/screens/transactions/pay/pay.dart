@@ -287,6 +287,7 @@ class _PayState extends State<Pay> {
                   CupertinoTextField(
                     textAlign: TextAlign.center,
                     controller: _controller_2,
+                    onTap: () => {_controller_2.text = ""},
                     onChanged: (value) => {updateTokenValue(value)},
                     placeholder: "Amount (USD)",
                   ),
@@ -294,6 +295,7 @@ class _PayState extends State<Pay> {
                   CupertinoTextField(
                     textAlign: TextAlign.center,
                     controller: _controller,
+                    onTap: () => {_controller.text = ""},
                     onChanged: (value) => {updateCurrencyValue(value)},
                     placeholder: currentToken == "TKG" ? "TKG" : "TKR",
                   ),
