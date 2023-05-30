@@ -12,10 +12,7 @@ import '/screens/splash/splash.dart';
 class SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
-    // 1 <-- SEE HERE
     return const CupertinoApp(
-
-      // 2 <-- SEE HERE
       theme: CupertinoThemeData(brightness: Brightness.light),
       home: CupertinoSimpleHomePage(),
     );
