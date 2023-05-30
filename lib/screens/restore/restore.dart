@@ -1,3 +1,4 @@
+import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -10,15 +11,14 @@ class Restore extends StatelessWidget {
   Restore({required this.onRefresh});
 
   final VoidCallback onRefresh;
-  String words = "";
   String walletName = "";
   String password = "";
 
   Future<void> _restoreWallet(context) async {
     context.loaderOverlay.show();
     List<String> wordList = [];
-    if (words.isNotEmpty) {
-      wordList = words.split(" ");
+    if (Globals.instance.restoreNewWalletsWords.isNotEmpty) {
+      wordList = Globals.instance.restoreNewWalletsWords;
     } else {
       throw Error();
     }
