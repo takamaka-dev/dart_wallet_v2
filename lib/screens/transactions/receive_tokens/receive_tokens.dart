@@ -58,19 +58,15 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
       color = "red";
     }
 
-    BigInt value = TKmTK.unitStringTK(_controller.text.split(" ${currentToken!.toUpperCase()}")[0]);
+    BigInt value = TKmTK.unitStringTK(
+        _controller.text.split(" ${currentToken!.toUpperCase()}")[0]);
 
-    ReceiveToken rt = ReceiveToken(
-        color,
-        value.toString(),
-        Globals.instance.selectedFromAddress,
-        _controllerMessage.text
-    );
+    ReceiveToken rt = ReceiveToken(color, value.toString(),
+        Globals.instance.selectedFromAddress, _controllerMessage.text);
 
     setState(() {
       qr = jsonEncode(rt.toJson());
     });
-
   }
 
   @override
@@ -116,7 +112,6 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                               color: Styles.takamakaColor, size: 100)
                           : WalletUtils.renderQrImage(qr)),
                   const SizedBox(height: 50),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -126,6 +121,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                             currentToken = "TKG";
                             _controller.text = "";
                             _controller_2.text = "";
+                            qr = "";
                           });
                         },
                         child: CircleAvatar(
@@ -143,6 +139,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                             currentToken = "TKR";
                             _controller.text = "";
                             _controller_2.text = "";
+                            qr = "";
                           });
                         },
                         child: CircleAvatar(
@@ -163,7 +160,12 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                     textAlign: TextAlign.center,
                     controller: _controller_2,
                     onTap: () => {_controller_2.text = ""},
-                    onChanged: (value) => {updateTokenValue(value)},
+                    onChanged: (value) => {
+                      updateTokenValue(value),
+                      setState(() {
+                        qr = "";
+                      })
+                    },
                     placeholder: "Amount (USD)",
                   ),
                   const SizedBox(height: 20),
@@ -171,21 +173,29 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                     textAlign: TextAlign.center,
                     controller: _controller,
                     onTap: () => {_controller.text = ""},
-                    onChanged: (value) => {updateCurrencyValue(value)},
+                    onChanged: (value) => {
+                      updateCurrencyValue(value),
+                      setState(() {
+                        qr = "";
+                      })
+                    },
                     placeholder: currentToken == "TKG" ? "TKG" : "TKR",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(
                     maxLines: 10,
                     controller: _controllerMessage,
+                    onChanged: (value) => {
+                      setState(() {
+                        qr = "";
+                      })
+                    },
                     placeholder: 'Enter your text here',
                   ),
                   const SizedBox(height: 30),
                   CupertinoButton(
                       color: Styles.takamakaColor,
-                      onPressed: () => {
-                        doGenerateQr()
-                      },
+                      onPressed: () => {doGenerateQr()},
                       child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
@@ -228,5 +238,4 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
       _controller_2.text = "$convertedValue USD";
     });
   }
-
 }
