@@ -612,7 +612,7 @@ class _WalletState extends State<Wallet> {
                                           SelectableText(walletAddress!,
                                               style: const TextStyle(
                                                   color: Colors.white)),
-                                          const SizedBox(width: 5),
+                                          const SizedBox(width: 10),
                                           CupertinoButton(
                                               color: Colors.grey.shade200,
                                               minSize: 20,
@@ -645,7 +645,8 @@ class _WalletState extends State<Wallet> {
                                                   children: [
                                                     Icon(
                                                         CupertinoIcons
-                                                            .arrow_up_doc,
+                                                            .doc_on_clipboard,
+                                                        size: 16,
                                                         color: Styles
                                                             .takamakaColor)
                                                   ]))
@@ -673,7 +674,7 @@ class _WalletState extends State<Wallet> {
                                               textAlign: TextAlign.start,
                                               style: const TextStyle(
                                                   color: Colors.white)),
-                                          const SizedBox(width: 5),
+                                          const SizedBox(width: 10),
                                           CupertinoButton(
                                               color: Colors.grey.shade200,
                                               minSize: 20,
@@ -704,7 +705,8 @@ class _WalletState extends State<Wallet> {
                                                   children: [
                                                     Icon(
                                                         CupertinoIcons
-                                                            .arrow_up_doc,
+                                                            .doc_on_clipboard,
+                                                        size: 16,
                                                         color: Styles
                                                             .takamakaColor)
                                                   ]))

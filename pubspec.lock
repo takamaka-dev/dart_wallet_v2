@@ -177,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  clipboard:
+    dependency: "direct main"
+    description:
+      name: clipboard
+      sha256: "2ec38f0e59878008ceca0ab122e4bfde98847f88ef0f83331362ba4521f565a9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.3"
   clock:
     dependency: transitive
     description:
@@ -410,10 +418,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_rust_bridge
-      sha256: "02ae507b284332ff725644d47c2e10e80a3f4821f1c61b5efb33ba892f33501c"
+      sha256: c039cb7b21d11665591557c1bf1d558f8db549a260cc69d455f30443a883f95c
       url: "https://pub.dev"
     source: hosted
-    version: "1.77.0"
+    version: "1.77.1"
   flutter_spinkit:
     dependency: "direct main"
     description:
@@ -539,10 +547,11 @@ packages:
   io_takamaka_core_wallet:
     dependency: "direct main"
     description:
-      path: "../io_takamaka_core_wallet"
-      relative: true
-    source: path
-    version: "2.0.2"
+      name: io_takamaka_core_wallet
+      sha256: b7d086764d79be52e56267664c16a4d45400168d49238a89050da9d2ffb4a016
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
   js:
     dependency: transitive
     description:
