@@ -9,7 +9,29 @@ import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 class Globals with ChangeNotifier {
 
-  List<String> restoreNewWalletsWords = [];
+  String _editTagValue = "";
+  int _editTagIndex = -1;
+
+  int get editTagIndex => _editTagIndex;
+
+  set editTagIndex(int value) {
+    _editTagIndex = value;
+  }
+
+  String get editTagValue => _editTagValue;
+
+  set editTagValue(String value) {
+    _editTagValue = value;
+  }
+
+  List<String> _restoreNewWalletsWords = [];
+
+  List<String> get restoreNewWalletsWords => _restoreNewWalletsWords;
+
+  set restoreNewWalletsWords(List<String> value) {
+    _restoreNewWalletsWords = value;
+    super.notifyListeners();
+  }
 
   List<String> wallets = [];
 
@@ -189,4 +211,5 @@ class Globals with ChangeNotifier {
       ModalRoute.withName('/'),
     );
   }
+
 }
