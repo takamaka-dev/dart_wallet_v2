@@ -32,6 +32,8 @@ class Wallet extends StatefulWidget {
 class _WalletState extends State<Wallet> {
   _WalletState(this.walletName);
 
+  FocusNode firstFocusNode = FocusNode();
+
   final TextEditingController _walletIndexNumberController =
       TextEditingController(text: '0');
 
@@ -77,6 +79,52 @@ class _WalletState extends State<Wallet> {
   void initState() {
     _initWalletInterface();
     super.initState();
+  }
+
+  Future<void> method(var model) async {
+    print("User clicked outside the Text Form Field");
+    context.loaderOverlay.show();
+    kb = await WalletUtils.initWallet(
+        'wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);
+
+    Globals.instance.kb = kb!;
+
+    SimpleKeyPair keypair = await WalletUtils.getNewKeypairED25519(kb!['seed'],
+        index: int.parse(_selectedIndexController.text));
+
+    Globals.instance.generatedSeed = kb!['seed'];
+    Globals.instance.currentIndex = int.parse(_selectedIndexController.text);
+
+    crc = await WalletUtils.getCrc32(keypair);
+    walletAddress = await WalletUtils.getTakamakaAddress(keypair);
+    _bytes = await WalletUtils.testBitMap(walletAddress!).buffer.asInt8List();
+
+    Globals.instance.crc = crc!;
+    Globals.instance.walletAddress = walletAddress!;
+    Globals.instance.bytes = _bytes!;
+
+    Globals.instance.selectedWalletIndex =
+        int.parse(_selectedIndexController.text);
+
+    fetchMyObjects();
+    setState(() {
+      kb = kb;
+      crc = crc;
+      walletAddress = walletAddress;
+      Globals.instance.selectedFromAddress = walletAddress!;
+      _bytes = _bytes;
+      selectedIndex = int.parse(_selectedIndexController.text);
+      _selectedIndexController.text = selectedIndex.toString();
+    });
+    model.generatedSeed = kb!['seed'];
+    model.recoveryWords = kb!['words'];
+    context.loaderOverlay.hide();
+  }
+
+  @override
+  void dispose() {
+    firstFocusNode.removeListener(() {});
+    super.dispose();
   }
 
   @override
@@ -150,9 +198,8 @@ class _WalletState extends State<Wallet> {
                                   obscureText: true,
                                   textAlign: TextAlign.center,
                                   placeholder: "Password",
-                                  onSubmitted: (String v) => {
-                                    loginWallet(model)
-                                  },
+                                  onSubmitted: (String v) =>
+                                      {loginWallet(model)},
                                   onChanged: (value) => {
                                     Globals.instance.walletPassword = value,
                                     password = value
@@ -188,31 +235,21 @@ class _WalletState extends State<Wallet> {
     try {
       context.loaderOverlay.show();
       kb = await WalletUtils.initWallet(
-          'wallets',
-          walletName,
-          dotenv.get('WALLET_EXTENSION'),
-          password);
+          'wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);
 
       Globals.instance.kb = kb!;
 
-      SimpleKeyPair keypair =
-          await WalletUtils.getNewKeypairED25519(
+      SimpleKeyPair keypair = await WalletUtils.getNewKeypairED25519(
           kb!['seed'],
-          index: int.parse(
-              _walletIndexNumberController.text));
+          index: int.parse(_walletIndexNumberController.text));
 
       Globals.instance.generatedSeed = kb!['seed'];
-      Globals.instance.currentIndex = int.parse(
-          _walletIndexNumberController.text);
+      Globals.instance.currentIndex =
+          int.parse(_walletIndexNumberController.text);
 
       crc = await WalletUtils.getCrc32(keypair);
-      walletAddress =
-          await WalletUtils.getTakamakaAddress(
-          keypair);
-      _bytes =
-          await WalletUtils.testBitMap(walletAddress!)
-          .buffer
-          .asInt8List();
+      walletAddress = await WalletUtils.getTakamakaAddress(keypair);
+      _bytes = await WalletUtils.testBitMap(walletAddress!).buffer.asInt8List();
 
       Globals.instance.crc = crc!;
       Globals.instance.walletAddress = walletAddress!;
@@ -226,17 +263,13 @@ class _WalletState extends State<Wallet> {
         kb = kb;
         crc = crc;
         walletAddress = walletAddress;
-        Globals.instance.selectedFromAddress =
-        walletAddress!;
+        Globals.instance.selectedFromAddress = walletAddress!;
         _bytes = _bytes;
-        selectedIndex = int.parse(
-            _walletIndexNumberController.text);
-        _selectedIndexController.text =
-            selectedIndex.toString();
+        selectedIndex = int.parse(_walletIndexNumberController.text);
+        _selectedIndexController.text = selectedIndex.toString();
       });
 
-      Globals.instance.selectedWalletIndex =
-      selectedIndex!;
+      Globals.instance.selectedWalletIndex = selectedIndex!;
 
       model.generatedSeed = kb!['seed'];
       model.recoveryWords = kb!['words'];
@@ -530,7 +563,7 @@ class _WalletState extends State<Wallet> {
                                 child: walletAddress == null
                                     ? const CircularProgressIndicator()
                                     : SelectableText(walletAddress!,
-                                     style: const TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.white)),
                               ),
                             ),
@@ -577,9 +610,24 @@ class _WalletState extends State<Wallet> {
                                           SizedBox(
                                             width: 100,
                                             child: CupertinoTextField(
+                                              onTap: () {
+                                                firstFocusNode.addListener(() {
+                                                  if (!firstFocusNode
+                                                      .hasFocus) {
+                                                    method(model);
+                                                  }
+                                                });
+                                              },
+                                              focusNode: firstFocusNode,
                                               controller:
                                                   _selectedIndexController,
                                               onChanged: (value) => {
+                                                firstFocusNode.addListener(() {
+                                                  if (!firstFocusNode
+                                                      .hasFocus) {
+                                                    method(model);
+                                                  }
+                                                }),
                                                 _selectedIndexController.text =
                                                     value,
                                                 _selectedIndexController
@@ -595,7 +643,7 @@ class _WalletState extends State<Wallet> {
                                             ),
                                           ),
                                           const SizedBox(width: 10),
-                                          CupertinoButton(
+                                          /*CupertinoButton(
                                               color: Colors.grey.shade200,
                                               minSize: 20,
                                               // impostiamo la larghezza minima del pulsante
@@ -686,7 +734,7 @@ class _WalletState extends State<Wallet> {
                                                       color:
                                                           Styles.takamakaColor),
                                                 ],
-                                              ))
+                                              ))*/
                                         ],
                                       )
                                     ],
