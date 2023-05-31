@@ -182,8 +182,10 @@ class _RestorePart1State extends State<RestorePart1> {
                                 Colors.white,
                                 MainAxisAlignment.spaceBetween,
                                 Styles.takamakaColor.withOpacity(0.9),
-                                Colors.red.shade300,
-                                deleteTag),
+                                Colors.transparent,
+                                deleteTag,
+                                true
+                            ),
                             const SizedBox(height: 30),
                             CupertinoButton(
                                 color: Globals.instance.restoreNewWalletsWords

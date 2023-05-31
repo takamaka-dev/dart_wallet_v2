@@ -87,7 +87,9 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                         MainAxisAlignment.center,
                         Styles.takamakaColor.withOpacity(0.6),
                         Colors.transparent,
-                        deleteTag),
+                        deleteTag,
+                        false
+                    ),
                     const SizedBox(height: 20),
                     CupertinoSwitch(
                       // This bool value toggles the switch.

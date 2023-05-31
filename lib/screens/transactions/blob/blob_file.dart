@@ -260,13 +260,17 @@ class _BlobFileState extends State<BlobFile> {
                     MainAxisAlignment.center,
                     Colors.grey.shade300,
                     Colors.red.shade300,
-                    deleteMetaData),
+                    deleteMetaData,
+                    false
+                ),
                 const SizedBox(height: 10),
                 Row(
                   children: [
                     Flexible(
                       child: CupertinoTextField(
                         placeholder: "Words",
+                        onSubmitted: (String value) =>
+                        {updateTagsList(value)},
                         controller: _tagController,
                         onChanged: (value) => {},
                       ),
@@ -283,7 +287,9 @@ class _BlobFileState extends State<BlobFile> {
                     MainAxisAlignment.spaceBetween,
                     Styles.takamakaColor.withOpacity(0.9),
                     Colors.red.shade300,
-                    deleteTag),
+                    deleteTag,
+                    false
+                ),
                 const SizedBox(height: 30),
                 CupertinoButton(
                     color: Styles.takamakaColor,

@@ -121,15 +121,15 @@ class _BlobTextState extends State<BlobText> {
                   Navigator.pop(context);
                   Navigator.of(context).push(
                       CupertinoPageRoute<void>(builder: (BuildContext context) {
-                        return SuccessSplashPage(Globals.instance.sith);
-                      }));
+                    return SuccessSplashPage(Globals.instance.sith);
+                  }));
                 } else {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);
                   Navigator.of(context).push(
                       CupertinoPageRoute<void>(builder: (BuildContext context) {
-                        return const ErrorSplashPage();
-                      }));
+                    return const ErrorSplashPage();
+                  }));
                 }
                 context.loaderOverlay.hide();
               },
@@ -192,9 +192,9 @@ class _BlobTextState extends State<BlobText> {
                         child:
                             const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
+                        children: <Widget>[
                           Text("Send Simple Text",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white)),
@@ -240,6 +240,8 @@ class _BlobTextState extends State<BlobText> {
                       Flexible(
                         child: CupertinoTextField(
                           placeholder: "Words",
+                          onSubmitted: (String value) =>
+                          {updateTagsList(value)},
                           controller: _tagController,
                           onChanged: (value) => {},
                         ),
@@ -251,15 +253,22 @@ class _BlobTextState extends State<BlobText> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  TagList(tags, Colors.white, MainAxisAlignment.spaceBetween, Styles.takamakaColor.withOpacity(0.9), Colors.red.shade300, deleteTag),
+                  TagList(
+                      tags,
+                      Colors.white,
+                      MainAxisAlignment.spaceBetween,
+                      Styles.takamakaColor.withOpacity(0.9),
+                      Colors.red.shade300,
+                      deleteTag,
+                      false),
                   const SizedBox(height: 30),
                   CupertinoButton(
                       color: Styles.takamakaColor,
                       onPressed: () => {doBlobText()},
-                      child: Row(
+                      child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
+                          children: [
                             Icon(CupertinoIcons.paperplane),
                             SizedBox(width: 10),
                             Text('Send')

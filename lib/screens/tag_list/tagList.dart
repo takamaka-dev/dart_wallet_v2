@@ -7,8 +7,9 @@ typedef void VoidCallback(String tag);
 
 class TagList extends StatefulWidget {
   TagList(this.tags, this.tagTextColor, this.tagAlignment, this.tagsBrickColor,
-      this.deleteButtonColor, this.vcaDelete, {super.key});
+      this.deleteButtonColor, this.vcaDelete, this.editMode, {super.key});
 
+  bool editMode;
   MainAxisAlignment tagAlignment;
   Color tagsBrickColor;
   Color deleteButtonColor;
