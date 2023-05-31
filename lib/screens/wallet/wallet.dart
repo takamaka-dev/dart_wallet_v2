@@ -12,6 +12,7 @@ import 'package:dart_wallet_v2/screens/transactions/stake/stake.dart';
 import 'package:dart_wallet_v2/screens/transactions/transaction_list/transaction_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:glass/glass.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -142,6 +143,50 @@ class _WalletState extends State<Wallet> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogBuilderCopiedAddress(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Alert'),
+          content: const Text('The address has been copied.'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogBuilderCopiedCrc(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Confirm'),
+          content: const Text('The Crc has been copied.'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget getLockedWallet() {
@@ -562,9 +607,50 @@ class _WalletState extends State<Wallet> {
                                 alignment: Alignment.topLeft,
                                 child: walletAddress == null
                                     ? const CircularProgressIndicator()
-                                    : SelectableText(walletAddress!,
-                                        style: const TextStyle(
-                                            color: Colors.white)),
+                                    : Row(
+                                        children: [
+                                          SelectableText(walletAddress!,
+                                              style: const TextStyle(
+                                                  color: Colors.white)),
+                                          const SizedBox(width: 5),
+                                          CupertinoButton(
+                                              color: Colors.grey.shade200,
+                                              minSize: 20,
+                                              // impostiamo la larghezza minima del pulsante
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 4,
+                                                      horizontal: 8),
+                                              onPressed: () async {
+                                                String notNullWalletAddress =
+                                                    walletAddress!;
+                                                Clipboard.setData(ClipboardData(
+                                                        text:
+                                                            notNullWalletAddress
+                                                                .trim()))
+                                                    .then(
+                                                  (value) {
+                                                    //only if ->
+                                                    Navigator.of(context)
+                                                        .restorablePush(
+                                                            _dialogBuilderCopiedAddress);
+                                                  },
+                                                );
+                                              },
+                                              child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Icon(
+                                                        CupertinoIcons
+                                                            .arrow_up_doc,
+                                                        color: Styles
+                                                            .takamakaColor)
+                                                  ]))
+                                        ],
+                                      ),
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -577,7 +663,7 @@ class _WalletState extends State<Wallet> {
                                           Text("Your CRC: ",
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontWeight: FontWeight.bold))
+                                                  fontWeight: FontWeight.bold)),
                                         ],
                                       ),
                                       const SizedBox(height: 5),
@@ -586,7 +672,42 @@ class _WalletState extends State<Wallet> {
                                           Text(crc!,
                                               textAlign: TextAlign.start,
                                               style: const TextStyle(
-                                                  color: Colors.white))
+                                                  color: Colors.white)),
+                                          const SizedBox(width: 5),
+                                          CupertinoButton(
+                                              color: Colors.grey.shade200,
+                                              minSize: 20,
+                                              // impostiamo la larghezza minima del pulsante
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 4,
+                                                      horizontal: 8),
+                                              onPressed: () async {
+                                                String notNullCrc = crc!;
+                                                Clipboard.setData(ClipboardData(
+                                                        text:
+                                                            notNullCrc.trim()))
+                                                    .then(
+                                                  (value) {
+                                                    //only if ->
+                                                    Navigator.of(context)
+                                                        .restorablePush(
+                                                            _dialogBuilderCopiedCrc);
+                                                  },
+                                                );
+                                              },
+                                              child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Icon(
+                                                        CupertinoIcons
+                                                            .arrow_up_doc,
+                                                        color: Styles
+                                                            .takamakaColor)
+                                                  ]))
                                         ],
                                       )
                                     ],

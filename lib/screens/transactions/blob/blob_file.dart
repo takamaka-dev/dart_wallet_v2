@@ -31,6 +31,8 @@ class _BlobFileState extends State<BlobFile> {
 
   final TextEditingController _tagController = TextEditingController();
 
+  num get maxFileDimension => 5242880; //5MB
+
   void _openFilePicker() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -42,6 +44,10 @@ class _BlobFileState extends State<BlobFile> {
 
       Map<String, dynamic>? metaDatas =
           Globals.instance.tkmMetaData.extraMetadata;
+      
+      if(int.parse(Globals.instance.tkmMetaData.extraMetadata!['FileSize']) > maxFileDimension){
+        Navigator.of(context).restorablePush(_dialogBuilderAlertFileSize);
+      }
 
       metaDatas?.forEach((key, value) {
         if (value != null && value != "") {
@@ -127,6 +133,30 @@ class _BlobFileState extends State<BlobFile> {
     if (feeBean.disk != null) {
       Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
     }
+  }
+
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogBuilderAlertFileSize(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Alert'),
+          content: const Text('The File is over 5 MB size and it will not be included'
+              ' in the transaction. It is advisable to use the hashing'
+              ' transaction instead.'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @pragma('vm:entry-point')

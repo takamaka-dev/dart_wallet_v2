@@ -67,6 +67,7 @@ dependencies:
   page_transition: ^2.0.9
   #io_takamaka_core_wallet: ^2.0.2
   flutter_typeahead: ^4.6.0
+  clipboard: ^0.1.3
 
 dev_dependencies:
   flutter_test:
