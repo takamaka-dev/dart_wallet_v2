@@ -43,8 +43,6 @@ class _WalletState extends State<Wallet> {
           : TextEditingController(
               text: Globals.instance.selectedWalletIndex.toString());
 
-  final String _url = 'https://exp.takamaka.dev/';
-
   final String walletName;
 
   bool _error = false;
@@ -136,7 +134,9 @@ class _WalletState extends State<Wallet> {
   }
 
   Future<dynamic> _launchURLBrowser() async {
-    Uri url = Uri.parse(_url);
+    Uri url = Uri.parse(Globals.instance.selectedNetwork == "prod"
+        ? 'https://exp.takamaka.dev/'
+        : 'https://testexplorer.takamaka.dev/');
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {
@@ -643,7 +643,7 @@ class _WalletState extends State<Wallet> {
                                             ),
                                           ),
                                           const SizedBox(width: 10),
-                                          /*CupertinoButton(
+                                          CupertinoButton(
                                               color: Colors.grey.shade200,
                                               minSize: 20,
                                               // impostiamo la larghezza minima del pulsante
@@ -734,7 +734,7 @@ class _WalletState extends State<Wallet> {
                                                       color:
                                                           Styles.takamakaColor),
                                                 ],
-                                              ))*/
+                                              ))
                                         ],
                                       )
                                     ],
