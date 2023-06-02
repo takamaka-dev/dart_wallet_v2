@@ -31,7 +31,7 @@ class _StakeState extends State<Stake> {
       List<Widget> temp = [];
 
       final response = await ConsumerHelper.doRequest(
-          HttpMethods.POST,
+          HttpMethods.GET,
           ApiList().apiMap[Globals.instance.selectedNetwork]!["listnodes"]!,
           {});
 

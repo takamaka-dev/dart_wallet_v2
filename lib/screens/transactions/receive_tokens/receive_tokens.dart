@@ -56,20 +56,25 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
     if (_controller.text.isEmpty) {
       Navigator.of(context).restorablePush(_dialogBuilderError);
     } else {
-      String color = "green";
-      if (currentToken == "TKR") {
-        color = "red";
+      try {
+        int.parse(_controller.text);
+        String color = "green";
+        if (currentToken == "TKR") {
+          color = "red";
+        }
+
+        BigInt value = TKmTK.unitStringTK(
+            _controller.text.split(" ${currentToken!.toUpperCase()}")[0]);
+
+        ReceiveToken rt = ReceiveToken(color, value.toString(),
+            Globals.instance.selectedFromAddress, _controllerMessage.text);
+
+        setState(() {
+          qr = jsonEncode(rt.toJson());
+        });
+      } catch(_) {
+        Navigator.of(context).restorablePush(_dialogBuilderError);
       }
-
-      BigInt value = TKmTK.unitStringTK(
-          _controller.text.split(" ${currentToken!.toUpperCase()}")[0]);
-
-      ReceiveToken rt = ReceiveToken(color, value.toString(),
-          Globals.instance.selectedFromAddress, _controllerMessage.text);
-
-      setState(() {
-        qr = jsonEncode(rt.toJson());
-      });
     }
   }
 

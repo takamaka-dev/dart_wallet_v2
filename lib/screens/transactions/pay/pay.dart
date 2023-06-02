@@ -86,56 +86,62 @@ class _PayState extends State<Pay> {
     if (_controller.text.isEmpty || _controllerToAddress.text.isEmpty) {
       Navigator.of(context).restorablePush(_dialogBuilderError);
     } else {
-      InternalTransactionBean itb;
+      try {
+        int.parse(_controller.text);
 
-      context.loaderOverlay.show();
-      if (currentToken == "TKG") {
-        itb = BuilderItb.pay(
-            Globals.instance.selectedFromAddress,
-            _controllerToAddress.text,
-            TKmTK.unitStringTK(_controller.text.split(" TKG")[0]),
-            TKmTK.unitTK(0),
-            _controllerMessage.text,
-            TKmTK.getTransactionTime());
-      } else {
-        itb = BuilderItb.pay(
-            Globals.instance.selectedFromAddress,
-            _controllerToAddress.text,
-            TKmTK.unitTK(0),
-            TKmTK.unitStringTK(_controller.text.split(" TKR")[0]),
-            _controllerMessage.text,
-            TKmTK.getTransactionTime());
-      }
+        InternalTransactionBean itb;
 
-      SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
-          Globals.instance.generatedSeed);
+        context.loaderOverlay.show();
+        if (currentToken == "TKG") {
+          itb = BuilderItb.pay(
+              Globals.instance.selectedFromAddress,
+              _controllerToAddress.text,
+              TKmTK.unitStringTK(_controller.text.split(" TKG")[0]),
+              TKmTK.unitTK(0),
+              _controllerMessage.text,
+              TKmTK.getTransactionTime());
+        } else {
+          itb = BuilderItb.pay(
+              Globals.instance.selectedFromAddress,
+              _controllerToAddress.text,
+              TKmTK.unitTK(0),
+              TKmTK.unitStringTK(_controller.text.split(" TKR")[0]),
+              _controllerMessage.text,
+              TKmTK.getTransactionTime());
+        }
 
-      TransactionBean tb = await TkmWallet.createGenericTransaction(
-          itb, skp, Globals.instance.selectedFromAddress);
+        SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
+            Globals.instance.generatedSeed);
 
-      String tbJson = jsonEncode(tb.toJson());
-      String payHexBody = StringUtilities.convertToHex(tbJson);
+        TransactionBean tb = await TkmWallet.createGenericTransaction(
+            itb, skp, Globals.instance.selectedFromAddress);
 
-      ti = TransactionInput(payHexBody);
+        String tbJson = jsonEncode(tb.toJson());
+        String payHexBody = StringUtilities.convertToHex(tbJson);
 
-      Globals.instance.ti = ti;
+        ti = TransactionInput(payHexBody);
 
-      TransactionBox payTbox =
-          await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+        Globals.instance.ti = ti;
 
-      String? singleInclusionTransactionHash =
-          payTbox.singleInclusionTransactionHash;
+        TransactionBox payTbox =
+            await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
 
-      Globals.instance.sith = singleInclusionTransactionHash!;
+        String? singleInclusionTransactionHash =
+            payTbox.singleInclusionTransactionHash;
 
-      FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
+        Globals.instance.sith = singleInclusionTransactionHash!;
 
-      Globals.instance.feeBean = feeBean;
+        FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
 
-      context.loaderOverlay.hide();
+        Globals.instance.feeBean = feeBean;
 
-      if (feeBean.disk != null) {
-        Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+        context.loaderOverlay.hide();
+
+        if (feeBean.disk != null) {
+          Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+        }
+      } catch (_) {
+        Navigator.of(context).restorablePush(_dialogBuilderError);
       }
     }
   }
@@ -148,8 +154,7 @@ class _PayState extends State<Pay> {
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('Alert'),
-          content: const Text(
-              'Your input is not valid, try again'),
+          content: const Text('Your input is not valid, try again'),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {

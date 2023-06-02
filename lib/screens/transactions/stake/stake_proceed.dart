@@ -118,45 +118,52 @@ class _StakeProceedState extends State<StakeProceed> {
     if (_controller.text.isEmpty) {
       Navigator.of(context).restorablePush(_dialogBuilderError);
     } else {
-      InternalTransactionBean itb;
+      try {
+        int.parse(_controller.text);
 
-      itb = BuilderItb.stake(
-          Globals.instance.selectedFromAddress,
-          _controllerToAddressQtesla.text,
-          TKmTK.unitStringTK(_controller.text),
-          _controllerMessage.text,
-          TKmTK.getTransactionTime());
+        InternalTransactionBean itb;
 
-      SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
-          Globals.instance.generatedSeed);
+        itb = BuilderItb.stake(
+            Globals.instance.selectedFromAddress,
+            _controllerToAddressQtesla.text,
+            TKmTK.unitStringTK(_controller.text),
+            _controllerMessage.text,
+            TKmTK.getTransactionTime());
 
-      TransactionBean tb = await TkmWallet.createGenericTransaction(
-          itb, skp, Globals.instance.selectedFromAddress);
+        SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
+            Globals.instance.generatedSeed);
 
-      String tbJson = jsonEncode(tb.toJson());
-      String payHexBody = StringUtilities.convertToHex(tbJson);
+        TransactionBean tb = await TkmWallet.createGenericTransaction(
+            itb, skp, Globals.instance.selectedFromAddress);
 
-      ti = TransactionInput(payHexBody);
+        String tbJson = jsonEncode(tb.toJson());
+        String payHexBody = StringUtilities.convertToHex(tbJson);
 
-      Globals.instance.ti = ti;
+        ti = TransactionInput(payHexBody);
 
-      TransactionBox payTbox =
-          await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+        Globals.instance.ti = ti;
 
-      String? singleInclusionTransactionHash =
-          payTbox.singleInclusionTransactionHash;
+        TransactionBox payTbox =
+        await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
 
-      Globals.instance.sith = singleInclusionTransactionHash!;
+        String? singleInclusionTransactionHash =
+            payTbox.singleInclusionTransactionHash;
 
-      FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
+        Globals.instance.sith = singleInclusionTransactionHash!;
 
-      Globals.instance.feeBean = feeBean;
+        FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
 
-      context.loaderOverlay.hide();
+        Globals.instance.feeBean = feeBean;
 
-      if (feeBean.disk != null) {
+        context.loaderOverlay.hide();
+
+        if (feeBean.disk != null) {
+          Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+        }
+      } catch(_) {
         Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
       }
+
     }
   }
 
