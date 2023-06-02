@@ -44,14 +44,16 @@ class _BlobFileState extends State<BlobFile> {
 
       Map<String, dynamic>? metaDatas =
           Globals.instance.tkmMetaData.extraMetadata;
-      
-      if(int.parse(Globals.instance.tkmMetaData.extraMetadata!['FileSize']) > maxFileDimension){
+
+      if (int.parse(Globals.instance.tkmMetaData.extraMetadata!['FileSize']) >
+          maxFileDimension) {
         Navigator.of(context).restorablePush(_dialogBuilderAlertFileSize);
       }
 
       metaDatas?.forEach((key, value) {
         if (value != null && value != "") {
-          availableMetadata.add("$key - " + value);
+          availableMetadata.add("$key - " +
+              (key != 'FileSize' ? value : value.toString() + ' Byte'));
         }
       });
 
@@ -96,6 +98,7 @@ class _BlobFileState extends State<BlobFile> {
 
   Future<void> doBlob() async {
     context.loaderOverlay.show();
+
     String message = jsonEncode(Globals.instance.tkmMetaData.toJson());
 
     InternalTransactionBean itb = BuilderItb.blob(
@@ -143,7 +146,8 @@ class _BlobFileState extends State<BlobFile> {
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('Alert'),
-          content: const Text('The File is over 5 MB size and it will not be included'
+          content: const Text(
+              'The File is over 5 MB size and it will not be included'
               ' in the transaction. It is advisable to use the hashing'
               ' transaction instead.'),
           actions: <Widget>[
@@ -291,16 +295,14 @@ class _BlobFileState extends State<BlobFile> {
                     Colors.grey.shade300,
                     Colors.red.shade300,
                     deleteMetaData,
-                    false
-                ),
+                    false),
                 const SizedBox(height: 10),
                 Row(
                   children: [
                     Flexible(
                       child: CupertinoTextField(
                         placeholder: "Words",
-                        onSubmitted: (String value) =>
-                        {updateTagsList(value)},
+                        onSubmitted: (String value) => {updateTagsList(value)},
                         controller: _tagController,
                         onChanged: (value) => {},
                       ),
@@ -318,8 +320,7 @@ class _BlobFileState extends State<BlobFile> {
                     Styles.takamakaColor.withOpacity(0.9),
                     Colors.red.shade300,
                     deleteTag,
-                    false
-                ),
+                    false),
                 const SizedBox(height: 30),
                 CupertinoButton(
                     color: Styles.takamakaColor,

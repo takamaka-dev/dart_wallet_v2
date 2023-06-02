@@ -196,31 +196,44 @@ class _WalletState extends State<Wallet> {
           builder: (context, model, child) => Scaffold(
                   body: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CupertinoButton(
-                        onPressed: () {
-                          Navigator.pop(
-                              context); // Navigate back when back button is pressed
-                        },
-                        child: const Icon(Icons.arrow_back),
-                      )
-                    ],
+                  SizedBox(
+                    width: double.infinity,
+                    child: Container(
+                        color: Styles.takamakaColor,
+                        child: Stack(
+                          alignment: Alignment.centerLeft,
+                          children: <Widget>[
+                            CupertinoButton(
+                              onPressed: () {
+                                Navigator.pop(
+                                    context); // Navigate back when back button is pressed
+                              },
+                              child:
+                              const Icon(Icons.arrow_back, color: Colors.white),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Wallet login",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white)),
+                              ],
+                            ),
+                          ],
+                        )),
                   ),
+                  const SizedBox(height: 20),
                   Container(
-                    constraints: const BoxConstraints(maxWidth: 700),
-                    padding: const EdgeInsets.fromLTRB(20, 50, 20, 50),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Icon(CupertinoIcons.lock,
+                        Icon(CupertinoIcons.lock_circle,
                             size: 60, color: Styles.takamakaColor),
                         Text(
                             style: TextStyle(
-                                fontSize: 25, color: Colors.grey.shade600),
+                                fontSize: 18, color: Colors.grey.shade600),
                             "Please insert your wallet password"),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 20),
                         SizedBox(
                             width: 200,
                             child: Column(
@@ -238,7 +251,7 @@ class _WalletState extends State<Wallet> {
                                                 .text.length));
                                   },
                                 ),
-                                const SizedBox(height: 50),
+                                const SizedBox(height: 20),
                                 CupertinoTextField(
                                   obscureText: true,
                                   textAlign: TextAlign.center,
@@ -252,7 +265,6 @@ class _WalletState extends State<Wallet> {
                                 ),
                               ],
                             )),
-                        const SizedBox(height: 25),
                         _error
                             ? const Text("Invalid wallet credentials!",
                                 style: TextStyle(
@@ -268,9 +280,7 @@ class _WalletState extends State<Wallet> {
                             })
                       ],
                     ),
-                  ).asGlass(
-                      tintColor: Colors.transparent,
-                      clipBorderRadius: BorderRadius.circular(15.0))
+                  )
                 ],
               ))),
     );

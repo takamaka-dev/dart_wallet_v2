@@ -91,7 +91,7 @@ class _RestorePart1State extends State<RestorePart1> {
                           )),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(50),
+                      padding: const EdgeInsets.all(20),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -103,7 +103,7 @@ class _RestorePart1State extends State<RestorePart1> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                         maxLines: 10))),
-                            const SizedBox(height: 30),
+                            const SizedBox(height: 15),
                             const SizedBox(
                                 child: Align(
                                     alignment: Alignment.topLeft,
@@ -116,7 +116,6 @@ class _RestorePart1State extends State<RestorePart1> {
                                 ? const Text("Error: the input is empty!",
                                     style: TextStyle(color: Colors.red))
                                 : const Text(""),
-                            const SizedBox(height: 10),
                             Row(children: [
                               Flexible(
                                 child: CupertinoTextField(
@@ -137,7 +136,6 @@ class _RestorePart1State extends State<RestorePart1> {
                                   onPressed: () =>
                                       {updateTagsList(_tagController.text)})
                             ]),
-                            const SizedBox(height: 16.0),
                             Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
@@ -169,7 +167,6 @@ class _RestorePart1State extends State<RestorePart1> {
                                                       color: Colors.black38,
                                                       fontWeight:
                                                           FontWeight.w600)))),
-                                      const SizedBox(height: 10)
                                     ],
                                   );
                                   /*return Text(suggestions[index]);*/
@@ -184,8 +181,7 @@ class _RestorePart1State extends State<RestorePart1> {
                                 Styles.takamakaColor.withOpacity(0.9),
                                 Colors.transparent,
                                 deleteTag,
-                                true
-                            ),
+                                true),
                             const SizedBox(height: 30),
                             CupertinoButton(
                                 color: Globals.instance.restoreNewWalletsWords
@@ -224,7 +220,8 @@ class _RestorePart1State extends State<RestorePart1> {
                                     SizedBox(width: 5),
                                     Text('Proceed'),
                                   ],
-                                ))
+                                )),
+                            const SizedBox(height: 30)
                           ]),
                     )
                   ],

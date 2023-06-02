@@ -76,7 +76,6 @@ class _NewWalletState extends State<NewWallet> {
                         style: TextStyle(
                             fontSize: 25, color: Colors.grey.shade600),
                         "Add a new wallet"),
-                    const SizedBox(height: 50),
                     errorWalletName
                         ? Column(
                             children: [
@@ -91,12 +90,13 @@ class _NewWalletState extends State<NewWallet> {
                         ? Column(
                             children: [
                               Text("Please accept the licence agreement!",
+                                  textAlign: TextAlign.justify,
                                   style: TextStyle(
                                       color: Colors.red.withOpacity(0.8))),
                               const SizedBox(height: 20)
                             ],
                           )
-                        : Text(""),
+                        : const Text(""),
                     CupertinoTextField(
                       textAlign: TextAlign.center,
                       placeholder: "Wallet name",
@@ -108,7 +108,6 @@ class _NewWalletState extends State<NewWallet> {
                         walletName = value
                       },
                     ),
-                    const SizedBox(height: 30),
                     errorPassword
                         ? Column(children: [
                             Text("The password fields are empty or do not match",
@@ -129,7 +128,7 @@ class _NewWalletState extends State<NewWallet> {
                         password = value
                       },
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
                     CupertinoTextField(
                       obscureText: true,
                       textAlign: TextAlign.center,
@@ -141,34 +140,30 @@ class _NewWalletState extends State<NewWallet> {
                         })
                       },
                     ),
-                    const SizedBox(height: 50),
-                    Row(
-                      children: [
-                        CupertinoSwitch(
-                          // This bool value toggles the switch.
-                          value: canProceed,
-                          activeColor: CupertinoColors.activeBlue,
-                          onChanged: (bool? value) {
-                            // This is called when the user toggles the switch.
-                            setState(() {
-                              canProceed = value ?? false;
-                              if(value!) {
-                                errorCanProceed = false;
-                              }
-                            });
-                          },
-                        ),
-                        const SizedBox(
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                    "I realized that if I lose my backup words, I will no longer be able to access my wallet",
-                                    softWrap: true,
-                                    maxLines: 10))),
-
-                      ],
+                    const SizedBox(height: 20),
+                    CupertinoSwitch(
+                      // This bool value toggles the switch.
+                      value: canProceed,
+                      activeColor: CupertinoColors.activeBlue,
+                      onChanged: (bool? value) {
+                        // This is called when the user toggles the switch.
+                        setState(() {
+                          canProceed = value ?? false;
+                          if(value!) {
+                            errorCanProceed = false;
+                          }
+                        });
+                      },
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 10),
+                    const SizedBox(
+                        child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                                "I realized that if I lose my backup words, I will no longer be able to access my wallet",
+                                softWrap: true,
+                                maxLines: 10))),
+                    const SizedBox(height: 30),
                     CupertinoButton(
                         color: !canProceed || errorWalletName
                             ? Styles.takamakaColor.withOpacity(0.7)
@@ -180,7 +175,8 @@ class _NewWalletState extends State<NewWallet> {
                             Icon(CupertinoIcons.plus),
                             Text(' Create wallet'),
                           ],
-                        ))
+                        )),
+                    const SizedBox(height: 50)
                   ],
                 ),
               )
