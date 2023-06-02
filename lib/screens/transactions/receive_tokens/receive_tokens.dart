@@ -53,20 +53,46 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
   }
 
   void doGenerateQr() {
-    String color = "green";
-    if (currentToken == "TKR") {
-      color = "red";
+    if (_controller.text.isEmpty) {
+      Navigator.of(context).restorablePush(_dialogBuilderError);
+    } else {
+      String color = "green";
+      if (currentToken == "TKR") {
+        color = "red";
+      }
+
+      BigInt value = TKmTK.unitStringTK(
+          _controller.text.split(" ${currentToken!.toUpperCase()}")[0]);
+
+      ReceiveToken rt = ReceiveToken(color, value.toString(),
+          Globals.instance.selectedFromAddress, _controllerMessage.text);
+
+      setState(() {
+        qr = jsonEncode(rt.toJson());
+      });
     }
+  }
 
-    BigInt value = TKmTK.unitStringTK(
-        _controller.text.split(" ${currentToken!.toUpperCase()}")[0]);
-
-    ReceiveToken rt = ReceiveToken(color, value.toString(),
-        Globals.instance.selectedFromAddress, _controllerMessage.text);
-
-    setState(() {
-      qr = jsonEncode(rt.toJson());
-    });
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogBuilderError(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Alert'),
+          content: const Text('Your input is not valid, try again'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Ok'),
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
