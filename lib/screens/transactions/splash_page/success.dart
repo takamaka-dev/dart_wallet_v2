@@ -15,7 +15,7 @@ class SuccessSplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-        duration: 12000,
+        duration: 7000,
         splash: SingleChildScrollView(
           child: Column(
             children: [

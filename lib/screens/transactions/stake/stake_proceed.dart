@@ -18,11 +18,11 @@ class StakeProceed extends StatefulWidget {
   String shortAddress;
 
   @override
-  State<StatefulWidget> createState() => _StakeProceedState(qteslaAddress, shortAddress);
+  State<StatefulWidget> createState() =>
+      _StakeProceedState(qteslaAddress, shortAddress);
 }
 
 class _StakeProceedState extends State<StakeProceed> {
-
   _StakeProceedState(this.qteslaAddress, this.shortAddress);
 
   String qteslaAddress;
@@ -31,13 +31,14 @@ class _StakeProceedState extends State<StakeProceed> {
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller_2 = TextEditingController();
   final TextEditingController _controllerToAddress = TextEditingController();
-  final TextEditingController _controllerToAddressQtesla = TextEditingController();
+  final TextEditingController _controllerToAddressQtesla =
+      TextEditingController();
   final TextEditingController _controllerMessage = TextEditingController();
 
   FeeBean currentFeeBean = FeeBean();
   late TransactionInput ti;
-  Future<bool> _initStakeProceedInterface() async {
 
+  Future<bool> _initStakeProceedInterface() async {
     _controllerToAddress.text = shortAddress;
 
     setState(() {
@@ -91,52 +92,72 @@ class _StakeProceedState extends State<StakeProceed> {
     });
   }
 
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogBuilderError(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Alert'),
+          content: const Text('Your input is not valid, try again'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Ok'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> doStake() async {
-    InternalTransactionBean itb;
+    if (_controller.text.isEmpty) {
+      Navigator.of(context).restorablePush(_dialogBuilderError);
+    } else {
+      InternalTransactionBean itb;
 
-    itb = BuilderItb.stake(
-        Globals.instance.selectedFromAddress,
-        _controllerToAddressQtesla.text,
-        TKmTK.unitStringTK(_controller.text),
-        _controllerMessage.text,
-        TKmTK.getTransactionTime());
+      itb = BuilderItb.stake(
+          Globals.instance.selectedFromAddress,
+          _controllerToAddressQtesla.text,
+          TKmTK.unitStringTK(_controller.text),
+          _controllerMessage.text,
+          TKmTK.getTransactionTime());
 
-    SimpleKeyPair skp =
-        await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
+      SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
+          Globals.instance.generatedSeed);
 
-    TransactionBean tb = await TkmWallet.createGenericTransaction(
-        itb, skp, Globals.instance.selectedFromAddress);
+      TransactionBean tb = await TkmWallet.createGenericTransaction(
+          itb, skp, Globals.instance.selectedFromAddress);
 
-    String tbJson = jsonEncode(tb.toJson());
-    String payHexBody = StringUtilities.convertToHex(tbJson);
+      String tbJson = jsonEncode(tb.toJson());
+      String payHexBody = StringUtilities.convertToHex(tbJson);
 
-    ti = TransactionInput(payHexBody);
+      ti = TransactionInput(payHexBody);
 
-    Globals.instance.ti = ti;
+      Globals.instance.ti = ti;
 
-    TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+      TransactionBox payTbox =
+          await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
 
-    String? singleInclusionTransactionHash = payTbox.singleInclusionTransactionHash;
+      String? singleInclusionTransactionHash =
+          payTbox.singleInclusionTransactionHash;
 
-    Globals.instance.sith = singleInclusionTransactionHash!;
+      Globals.instance.sith = singleInclusionTransactionHash!;
 
-    FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
+      FeeBean feeBean = TransactionFeeCalculator.getFeeBean(payTbox);
 
-    Globals.instance.feeBean = feeBean;
+      Globals.instance.feeBean = feeBean;
 
-    context.loaderOverlay.hide();
+      context.loaderOverlay.hide();
 
-    if (feeBean.disk != null) {
-      Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+      if (feeBean.disk != null) {
+        Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
+      }
     }
-
-    /*final response = await ConsumerHelper.doRequest(
-        HttpMethods.POST, ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!, ti.toJson());
-    print(response);
-
-    if (response == '{"TxIsVerified":"true"}') {
-      Navigator.of(context).restorablePush(_dialogBuilder);
-    }*/
   }
 
   @pragma('vm:entry-point')
@@ -147,7 +168,8 @@ class _StakeProceedState extends State<StakeProceed> {
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('Alert'),
-          content: Text('The transaction is ready for confirmation ${Globals.instance.feeBean}'),
+          content: Text(
+              'The transaction is ready for confirmation ${Globals.instance.feeBean}'),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
@@ -159,21 +181,23 @@ class _StakeProceedState extends State<StakeProceed> {
               onPressed: () async {
                 context.loaderOverlay.show();
                 final response = await ConsumerHelper.doRequest(
-                    HttpMethods.POST, ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!, Globals.instance.ti.toJson());
+                    HttpMethods.POST,
+                    ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!,
+                    Globals.instance.ti.toJson());
                 if (response == '{"TxIsVerified":"true"}') {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);
                   Navigator.of(context).push(
                       CupertinoPageRoute<void>(builder: (BuildContext context) {
-                        return SuccessSplashPage(Globals.instance.sith);
-                      }));
+                    return SuccessSplashPage(Globals.instance.sith);
+                  }));
                 } else {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);
                   Navigator.of(context).push(
                       CupertinoPageRoute<void>(builder: (BuildContext context) {
-                        return const ErrorSplashPage();
-                      }));
+                    return const ErrorSplashPage();
+                  }));
                 }
               },
               child: const Text('Confirm'),
