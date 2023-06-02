@@ -212,4 +212,12 @@ class Globals with ChangeNotifier {
     );
   }
 
+  void resetAndGoToRoot(context) {
+    Navigator.pushAndRemoveUntil<void>(
+      context,
+      MaterialPageRoute<void>(builder: (BuildContext context) => const Home()),
+      ModalRoute.withName('/'),
+    );
+  }
+
 }

@@ -14,34 +14,43 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
-
+  bool errorLoading = false;
 
   List<Widget> transactionList = [];
 
   Future<bool> _initTransactionListInterface(int size) async {
-    List<Widget> trxListTemp = [];
-    context.loaderOverlay.show();
-    TransactionSearchInput tsi = TransactionSearchInput(
-        size, "from", true, Globals.instance.selectedFromAddress);
+    try {
+      List<Widget> trxListTemp = [];
+      context.loaderOverlay.show();
+      TransactionSearchInput tsi = TransactionSearchInput(
+          size, "from", true, Globals.instance.selectedFromAddress);
 
-    final response = await ConsumerHelper.doRequest(
-        HttpMethods.POST,
-        ApiList().apiMap[Globals.instance.selectedNetwork]!["listransactions"]!,
-        tsi.toJson());
+      final response = await ConsumerHelper.doRequest(
+          HttpMethods.POST,
+          ApiList()
+              .apiMap[Globals.instance.selectedNetwork]!["listransactions"]!,
+          tsi.toJson());
 
-    TransactionResultList trl = TransactionResultList.fromJsonArray(response);
+      TransactionResultList trl = TransactionResultList.fromJsonArray(response);
 
-    trl.transactions.forEach((element) {
-      trxListTemp.add(SingleTransaction(element));
-    });
+      trl.transactions.forEach((element) {
+        trxListTemp.add(SingleTransaction(element));
+      });
 
-    setState(() {
-      transactionList = trxListTemp;
-    });
+      setState(() {
+        transactionList = trxListTemp;
+      });
 
-    context.loaderOverlay.hide();
+      context.loaderOverlay.hide();
 
-    return true;
+      return true;
+    } catch (e) {
+      context.loaderOverlay.hide();
+      setState(() {
+        errorLoading = true;
+      });
+      return false;
+    }
   }
 
   @override
@@ -95,9 +104,9 @@ class _TransactionListState extends State<TransactionList> {
                         child:
                             const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
+                        children: <Widget>[
                           Text("Latest transactions",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white)),
@@ -116,7 +125,8 @@ class _TransactionListState extends State<TransactionList> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(CupertinoIcons.search, color: Styles.takamakaColor.withOpacity(0.6)),
+                        Icon(CupertinoIcons.search,
+                            color: Styles.takamakaColor.withOpacity(0.6)),
                         const SizedBox(width: 10),
                         Text("Window result size",
                             style: TextStyle(
@@ -130,7 +140,8 @@ class _TransactionListState extends State<TransactionList> {
                         useMagnifier: true,
                         itemExtent: 32.0,
                         onSelectedItemChanged: (int selectedItem) {
-                          _initTransactionListInterface(int.parse(filters[selectedItem]));
+                          _initTransactionListInterface(
+                              int.parse(filters[selectedItem]));
                         },
                         children:
                             List<Widget>.generate(filters.length, (int index) {
@@ -147,7 +158,12 @@ class _TransactionListState extends State<TransactionList> {
             Container(
               padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
               child: Column(
-                children: transactionList,
+                children: errorLoading ? [
+                const Text('Something went wrong, please try again'),
+                CupertinoButton(
+                    child: const Text("OK"),
+                    onPressed: () => {Globals.instance.resetAndOpenPage(context)})
+                ] : transactionList,
               ),
             )
           ],

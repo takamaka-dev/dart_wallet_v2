@@ -194,8 +194,8 @@ class _WalletState extends State<Wallet> {
       value: Globals.instance,
       child: Consumer<Globals>(
           builder: (context, model, child) => SingleChildScrollView(
-            child: CupertinoPageScaffold(
-                child: Column(
+                child: CupertinoPageScaffold(
+                    child: Column(
                   children: [
                     SizedBox(
                       width: double.infinity,
@@ -209,8 +209,8 @@ class _WalletState extends State<Wallet> {
                                   Navigator.pop(
                                       context); // Navigate back when back button is pressed
                                 },
-                                child:
-                                const Icon(Icons.arrow_back, color: Colors.white),
+                                child: const Icon(Icons.arrow_back,
+                                    color: Colors.white),
                               ),
                               const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -248,8 +248,9 @@ class _WalletState extends State<Wallet> {
                                       _walletIndexNumberController.text = value;
                                       _walletIndexNumberController.selection =
                                           TextSelection.fromPosition(TextPosition(
-                                              offset: _walletIndexNumberController
-                                                  .text.length));
+                                              offset:
+                                                  _walletIndexNumberController
+                                                      .text.length));
                                     },
                                   ),
                                   const SizedBox(height: 20),
@@ -258,7 +259,7 @@ class _WalletState extends State<Wallet> {
                                     textAlign: TextAlign.center,
                                     placeholder: "Password",
                                     onSubmitted: (String v) =>
-                                    {loginWallet(model)},
+                                        {loginWallet(model)},
                                     onChanged: (value) => {
                                       Globals.instance.walletPassword = value,
                                       password = value
@@ -268,9 +269,9 @@ class _WalletState extends State<Wallet> {
                               )),
                           _error
                               ? const Text("Invalid wallet credentials!",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red))
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red))
                               : const Text(""),
                           const SizedBox(height: 25),
                           CupertinoButton(
@@ -285,7 +286,7 @@ class _WalletState extends State<Wallet> {
                     )
                   ],
                 )),
-          )),
+              )),
     );
   }
 
@@ -887,7 +888,8 @@ class _WalletState extends State<Wallet> {
                               onPressed: () => {
                                     model.generatedSeed = "",
                                     model.recoveryWords = "",
-                                    _initWalletInterface()
+                                    _initWalletInterface(),
+                                    Globals.instance.resetAndGoToRoot(context)
                                   },
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
