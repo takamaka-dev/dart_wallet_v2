@@ -97,37 +97,39 @@ class _SettingState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: Globals.instance,
-      child: Consumer<Globals>(
-          builder: (context, model, child) => CupertinoPageScaffold(
-                navigationBar: const CupertinoNavigationBar(
-                  middle: Text('Settings'),
+    return SingleChildScrollView(
+      child: ChangeNotifierProvider.value(
+        value: Globals.instance,
+        child: Consumer<Globals>(
+            builder: (context, model, child) => CupertinoPageScaffold(
+              navigationBar: const CupertinoNavigationBar(
+                middle: Text('Settings'),
+              ),
+              child: DefaultTextStyle(
+                style: TextStyle(
+                  color: CupertinoColors.label.resolveFrom(context),
+                  fontSize: 22.0,
                 ),
-                child: DefaultTextStyle(
-                  style: TextStyle(
-                    color: CupertinoColors.label.resolveFrom(context),
-                    fontSize: 22.0,
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            WalletUtils.renderQrImage(
-                                model.recoveryWords.isEmpty
-                                    ? ''
-                                    : model.recoveryWords)
-                          ],
-                        ),
-                        const Text('Selected network: '),
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          // Display a CupertinoPicker with list of fruits.
-                          onPressed: () => _showActionSheet(context),
-                          /*_showDialog(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      SizedBox(height: 80),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          WalletUtils.renderQrImage(
+                              model.recoveryWords.isEmpty
+                                  ? ''
+                                  : model.recoveryWords)
+                        ],
+                      ),
+                      const Text('Selected network: '),
+                      CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        // Display a CupertinoPicker with list of fruits.
+                        onPressed: () => _showActionSheet(context),
+                        /*_showDialog(
                             CupertinoPicker(
                               magnification: 1.22,
                               squeeze: 1.2,
@@ -150,20 +152,22 @@ class _SettingState extends State<Settings> {
                               }),
                             ),
                           ),*/
-                          // This displays the selected fruit name.
-                          child: Text(
-                            selectedNetworkName[0].toUpperCase() +
-                                selectedNetworkName.substring(1),
-                            style: const TextStyle(
-                              fontSize: 22.0,
-                            ),
+                        // This displays the selected fruit name.
+                        child: Text(
+                          selectedNetworkName[0].toUpperCase() +
+                              selectedNetworkName.substring(1),
+                          style: const TextStyle(
+                            fontSize: 22.0,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 50)
+                    ],
                   ),
                 ),
-              )),
+              ),
+            )),
+      ),
     );
   }
 

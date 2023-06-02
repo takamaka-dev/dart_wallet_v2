@@ -69,8 +69,6 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               Container(
-                  constraints: const BoxConstraints(maxWidth: 700),
-                  padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
                   child: const Center()),
               Container(
                   alignment: Alignment.bottomCenter,
@@ -110,7 +108,8 @@ class _HomeState extends State<Home> {
                                             Text('Restore Wallet')
                                           ])),
                                   const SizedBox(height: 50),
-                                ]))
+                                ])),
+                        const SizedBox(height: 50)
                       ]))
             ],
           )),

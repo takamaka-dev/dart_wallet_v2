@@ -193,96 +193,99 @@ class _WalletState extends State<Wallet> {
     return ChangeNotifierProvider.value(
       value: Globals.instance,
       child: Consumer<Globals>(
-          builder: (context, model, child) => Scaffold(
-                  body: Column(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Container(
-                        color: Styles.takamakaColor,
-                        child: Stack(
-                          alignment: Alignment.centerLeft,
-                          children: <Widget>[
-                            CupertinoButton(
-                              onPressed: () {
-                                Navigator.pop(
-                                    context); // Navigate back when back button is pressed
-                              },
-                              child:
-                              const Icon(Icons.arrow_back, color: Colors.white),
-                            ),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text("Wallet login",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: Colors.white)),
-                              ],
-                            ),
-                          ],
-                        )),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(CupertinoIcons.lock_circle,
-                            size: 60, color: Styles.takamakaColor),
-                        Text(
-                            style: TextStyle(
-                                fontSize: 18, color: Colors.grey.shade600),
-                            "Please insert your wallet password"),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                            width: 200,
-                            child: Column(
-                              children: [
-                                CupertinoTextField(
-                                  keyboardType: TextInputType.number,
-                                  textAlign: TextAlign.center,
-                                  controller: _walletIndexNumberController,
-                                  placeholder: 'Wallet index number',
-                                  onChanged: (value) {
-                                    _walletIndexNumberController.text = value;
-                                    _walletIndexNumberController.selection =
-                                        TextSelection.fromPosition(TextPosition(
-                                            offset: _walletIndexNumberController
-                                                .text.length));
-                                  },
-                                ),
-                                const SizedBox(height: 20),
-                                CupertinoTextField(
-                                  obscureText: true,
-                                  textAlign: TextAlign.center,
-                                  placeholder: "Password",
-                                  onSubmitted: (String v) =>
-                                      {loginWallet(model)},
-                                  onChanged: (value) => {
-                                    Globals.instance.walletPassword = value,
-                                    password = value
-                                  },
-                                ),
-                              ],
-                            )),
-                        _error
-                            ? const Text("Invalid wallet credentials!",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red))
-                            : const Text(""),
-                        const SizedBox(height: 25),
-                        CupertinoButton(
-                            color: Styles.takamakaColor,
-                            child: const Text("Login"),
-                            onPressed: () async {
-                              loginWallet(model);
-                            })
-                      ],
+          builder: (context, model, child) => SingleChildScrollView(
+            child: CupertinoPageScaffold(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: Container(
+                          color: Styles.takamakaColor,
+                          child: Stack(
+                            alignment: Alignment.centerLeft,
+                            children: <Widget>[
+                              CupertinoButton(
+                                onPressed: () {
+                                  Navigator.pop(
+                                      context); // Navigate back when back button is pressed
+                                },
+                                child:
+                                const Icon(Icons.arrow_back, color: Colors.white),
+                              ),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text("Wallet login",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white)),
+                                ],
+                              ),
+                            ],
+                          )),
                     ),
-                  )
-                ],
-              ))),
+                    const SizedBox(height: 20),
+                    Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(CupertinoIcons.lock_circle,
+                              size: 60, color: Styles.takamakaColor),
+                          Text(
+                              style: TextStyle(
+                                  fontSize: 18, color: Colors.grey.shade600),
+                              "Please insert your wallet password"),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                              width: 200,
+                              child: Column(
+                                children: [
+                                  CupertinoTextField(
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    controller: _walletIndexNumberController,
+                                    placeholder: 'Wallet index number',
+                                    onChanged: (value) {
+                                      _walletIndexNumberController.text = value;
+                                      _walletIndexNumberController.selection =
+                                          TextSelection.fromPosition(TextPosition(
+                                              offset: _walletIndexNumberController
+                                                  .text.length));
+                                    },
+                                  ),
+                                  const SizedBox(height: 20),
+                                  CupertinoTextField(
+                                    obscureText: true,
+                                    textAlign: TextAlign.center,
+                                    placeholder: "Password",
+                                    onSubmitted: (String v) =>
+                                    {loginWallet(model)},
+                                    onChanged: (value) => {
+                                      Globals.instance.walletPassword = value,
+                                      password = value
+                                    },
+                                  ),
+                                ],
+                              )),
+                          _error
+                              ? const Text("Invalid wallet credentials!",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red))
+                              : const Text(""),
+                          const SizedBox(height: 25),
+                          CupertinoButton(
+                              color: Styles.takamakaColor,
+                              child: const Text("Login"),
+                              onPressed: () async {
+                                loginWallet(model);
+                              }),
+                          const SizedBox(height: 80)
+                        ],
+                      ),
+                    )
+                  ],
+                )),
+          )),
     );
   }
 
@@ -895,7 +898,8 @@ class _WalletState extends State<Wallet> {
                                   Text('Logout'),
                                 ],
                               ))),
-                    )
+                    ),
+                    const SizedBox(height: 60)
                   ],
                 ),
               )),
