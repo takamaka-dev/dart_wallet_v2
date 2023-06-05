@@ -3,6 +3,7 @@ import 'package:dart_wallet_v2/l10n/app_localizations.dart';
 import 'package:dart_wallet_v2/screens/restore/restore_part_1.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -63,11 +64,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    AppLocalizations.of(context)?.load();
 
-    AppLocalizations? _appLocalizations = AppLocalizations.of(context);
+    context.setLocale(const Locale('it', 'IT'));
 
-    String appName = _appLocalizations?.translate('app_name') ?? 'My App';
+    print(context.locale.toString());
 
     return SingleChildScrollView(
       child: CupertinoPageScaffold(
@@ -94,13 +94,13 @@ class _HomeState extends State<Home> {
                                   CupertinoButton(
                                       color: Styles.takamakaColor,
                                       onPressed: _newWallet,
-                                      child: const Row(
+                                      child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Icon(CupertinoIcons.plus),
-                                          SizedBox(width: 10),
-                                          Text('New Wallet'),
+                                          const Icon(CupertinoIcons.plus),
+                                          const SizedBox(width: 10),
+                                          const Text('addWalet').tr(),
                                         ],
                                       )),
                                   const SizedBox(height: 30),
