@@ -71,24 +71,24 @@ class _StakeProceedState extends State<StakeProceed> {
   }
 
   void updateTokenValue(String value) {
-    double tkUsd = Globals.instance.changes.changes[2].value;
+    double tkUsd = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
     double convertedValue = double.parse(value);
 
     convertedValue *= (1 / tkUsd);
 
     setState(() {
-      _controller.text = "$convertedValue " " TKG";
+      _controller.text = "$convertedValue ${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!}";
     });
   }
 
   void updateCurrencyValue(String value) {
-    double usdTk = Globals.instance.changes.changes[2].value;
+    double usdTk = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
     double convertedValue = double.parse(value);
 
     convertedValue = convertedValue * usdTk;
 
     setState(() {
-      _controller_2.text = "$convertedValue USD";
+      _controller_2.text = "$convertedValue ${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!}";
     });
   }
 
@@ -295,7 +295,7 @@ class _StakeProceedState extends State<StakeProceed> {
                     controller: _controller_2,
                     onTap: () => {_controller_2.text = ""},
                     onChanged: (value) => {updateTokenValue(value)},
-                    placeholder: "Amount (USD)",
+                    placeholder: "Amount (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(

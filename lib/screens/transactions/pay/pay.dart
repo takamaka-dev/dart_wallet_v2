@@ -57,7 +57,7 @@ class _PayState extends State<Pay> {
   }
 
   void updateTokenValue(String value) {
-    double tkUsd = Globals.instance.changes.changes[2].value;
+    double tkUsd = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
     double convertedValue = double.parse(value);
 
     if (currentToken == "TKG") {
@@ -70,7 +70,7 @@ class _PayState extends State<Pay> {
   }
 
   void updateCurrencyValue(String value) {
-    double usdTk = Globals.instance.changes.changes[2].value;
+    double usdTk = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
     double convertedValue = double.parse(value);
 
     if (currentToken == "TKG") {
@@ -78,7 +78,7 @@ class _PayState extends State<Pay> {
     }
 
     setState(() {
-      _controller_2.text = "$convertedValue USD";
+      _controller_2.text = "$convertedValue ${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!.toUpperCase()}";
     });
   }
 
@@ -318,7 +318,7 @@ class _PayState extends State<Pay> {
                     controller: _controller_2,
                     onTap: () => {_controller_2.text = ""},
                     onChanged: (value) => {updateTokenValue(value)},
-                    placeholder: "Amount (USD)",
+                    placeholder: "Amount (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(

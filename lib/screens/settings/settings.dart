@@ -15,14 +15,20 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingState extends State<Settings> {
-  final int _selectedNetwork = 0;
   Map<int, String> networks = {
     0: dotenv.get('LOCAL_NETWORK'),
     1: dotenv.get('TEST_NETWORK'),
     2: dotenv.get('PROD_NETWORK')
   };
 
+  Map<int, String> currencies = {
+    0: dotenv.get('USD_CURRENCY'),
+    1: dotenv.get('EUR_CURRENCY'),
+    2: dotenv.get('CHF_CURRENCY')
+  };
+
   late String selectedNetworkName;
+  late String selectedCurrency;
 
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
@@ -95,6 +101,57 @@ class _SettingState extends State<Settings> {
     );
   }
 
+  void _showActionSheetCurrency(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text(
+          'Currencies',
+          style: TextStyle(fontSize: 22),
+        ),
+        message: const Text('Please choose a currency',
+            style: TextStyle(fontSize: 18)),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            /// This parameter indicates the action would be a default
+            /// default behavior, turns the action's text to bold text.
+            isDefaultAction: Globals.instance.selectedCurrency == Globals.instance.currencyMapping[currencies[0]]!,
+            onPressed: () {
+              Globals.instance.selectedCurrency = Globals.instance.currencyMapping[currencies[0]]!;
+              setState(() {
+                selectedCurrency = 'USD';
+              });
+              Navigator.pop(context);
+            },
+            child: const Text('USD'),
+          ),
+          CupertinoActionSheetAction(
+            isDefaultAction: Globals.instance.selectedCurrency == Globals.instance.currencyMapping[currencies[1]]!,
+            onPressed: () {
+              Globals.instance.selectedCurrency = Globals.instance.currencyMapping[currencies[1]]!;
+              setState(() {
+                selectedCurrency = 'EUR';
+              });
+              Navigator.pop(context);
+            },
+            child: const Text('EUR'),
+          ),
+          CupertinoActionSheetAction(
+            isDefaultAction: Globals.instance.selectedCurrency == Globals.instance.currencyMapping[currencies[2]]!,
+            onPressed: () {
+              Globals.instance.selectedCurrency = Globals.instance.currencyMapping[currencies[2]]!;
+              setState(() {
+                selectedCurrency = 'CHF';
+              });
+              Navigator.pop(context);
+            },
+            child: const Text('CHF'),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -124,38 +181,31 @@ class _SettingState extends State<Settings> {
                                   : model.recoveryWords)
                         ],
                       ),
+                      const SizedBox(height: 20),
                       const Text('Selected network: '),
                       CupertinoButton(
                         padding: EdgeInsets.zero,
                         // Display a CupertinoPicker with list of fruits.
                         onPressed: () => _showActionSheet(context),
-                        /*_showDialog(
-                            CupertinoPicker(
-                              magnification: 1.22,
-                              squeeze: 1.2,
-                              useMagnifier: true,
-                              itemExtent: _kItemExtent,
-                              // This is called when selected item is changed.
-                              onSelectedItemChanged: (int selectedItem) {
-                                setState(() {
-                                  Globals.instance.selectedNetwork = networks[selectedItem]!;
-                                  print(Globals.instance.selectedNetwork);
-                                });
-                              },
-                              children: List<Widget>.generate(
-                                  _networkNames.length, (int index) {
-                                return Center(
-                                  child: Text(
-                                    _networkNames[index],
-                                  ),
-                                );
-                              }),
-                            ),
-                          ),*/
                         // This displays the selected fruit name.
                         child: Text(
                           selectedNetworkName[0].toUpperCase() +
                               selectedNetworkName.substring(1),
+                          style: const TextStyle(
+                            fontSize: 22.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text('Selected currency: '),
+                      CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        // Display a CupertinoPicker with list of fruits.
+                        onPressed: () => _showActionSheetCurrency(context),
+                        // This displays the selected fruit name.
+                        child: Text(
+                          selectedCurrency[0].toUpperCase() +
+                              selectedCurrency.substring(1),
                           style: const TextStyle(
                             fontSize: 22.0,
                           ),
@@ -175,6 +225,7 @@ class _SettingState extends State<Settings> {
   void initState() {
     setState(() {
       selectedNetworkName = Globals.instance.selectedNetwork;
+      selectedCurrency = Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!;
     });
     super.initState();
   }
