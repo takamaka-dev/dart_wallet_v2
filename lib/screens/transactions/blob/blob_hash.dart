@@ -105,7 +105,11 @@ class _BlobHashState extends State<BlobHash> {
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('Alert'),
-          content: Text('The transaction is ready for confirmation ${Globals.instance.feeBean}'),
+          content: Text(
+              'The transaction is ready for confirmation. '
+                  'The cost of the transaction will be DISK: ${Globals.instance.feeBean.disk},'
+                  'MEM  ${Globals.instance.feeBean.memory},'
+                  'CPU  ${Globals.instance.feeBean.cpu}'),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {

@@ -176,7 +176,10 @@ class _StakeProceedState extends State<StakeProceed> {
         return CupertinoAlertDialog(
           title: const Text('Alert'),
           content: Text(
-              'The transaction is ready for confirmation ${Globals.instance.feeBean}'),
+              'The transaction is ready for confirmation. '
+                  'The cost of the transaction will be DISK: ${Globals.instance.feeBean.disk},'
+                  'MEM  ${Globals.instance.feeBean.memory},'
+                  'CPU  ${Globals.instance.feeBean.cpu}'),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
