@@ -14,6 +14,10 @@ import '/screens/splash/splash.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+
 class App extends StatelessWidget {
   final State<Splash> splashState;
 

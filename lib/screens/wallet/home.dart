@@ -1,4 +1,5 @@
 import 'package:dart_wallet_v2/config/globals.dart';
+import 'package:dart_wallet_v2/l10n/app_localizations.dart';
 import 'package:dart_wallet_v2/screens/restore/restore_part_1.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
@@ -61,6 +62,13 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
+    AppLocalizations.of(context)?.load();
+
+    AppLocalizations? _appLocalizations = AppLocalizations.of(context);
+
+    String appName = _appLocalizations?.translate('app_name') ?? 'My App';
+
     return SingleChildScrollView(
       child: CupertinoPageScaffold(
           navigationBar: const CupertinoNavigationBar(
