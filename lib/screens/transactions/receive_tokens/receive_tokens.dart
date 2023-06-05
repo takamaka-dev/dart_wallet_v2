@@ -40,7 +40,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
   }
 
   void updateTokenValue(String value) {
-    double tkUsd = Globals.instance.changes.changes[2].value;
+    double tkUsd = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
     double convertedValue = double.parse(value);
 
     if (currentToken == "TKG") {
@@ -197,7 +197,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                         qr = "";
                       })
                     },
-                    placeholder: "Amount (USD)",
+                    placeholder: "Amount (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(
@@ -258,7 +258,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
   }
 
   void updateCurrencyValue(String value) {
-    double usdTk = Globals.instance.changes.changes[2].value;
+    double usdTk = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
     double convertedValue = double.parse(value);
 
     if (currentToken == "TKG") {
@@ -266,7 +266,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
     }
 
     setState(() {
-      _controller_2.text = "$convertedValue USD";
+      _controller_2.text = "$convertedValue ${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!}";
     });
   }
 }

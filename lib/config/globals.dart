@@ -9,6 +9,33 @@ import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 class Globals with ChangeNotifier {
 
+  Map<String, int> currencyMapping = {
+    'USD': 2,
+    'CHF': 1,
+    'EUR': 0
+  };
+
+  Map<int, String> currencyMappingReverse = {
+    2: 'USD',
+    1: 'CHF',
+    0: 'EUR'
+  };
+
+  Map<int, String> currencyMappingReverseSymbols = {
+    2: '\$',
+    1: '₣',
+    0: '€'
+  };
+
+  int _selectedCurrency = 2;
+
+
+  int get selectedCurrency => _selectedCurrency;
+
+  set selectedCurrency(int value) {
+    _selectedCurrency = value;
+  }
+
   String _editTagValue = "";
   int _editTagIndex = -1;
 

@@ -24,6 +24,9 @@ class App extends StatelessWidget {
     if (Globals.instance.selectedNetwork.isEmpty) {
       Globals.instance.selectedNetwork = dotenv.get('FORCE_NETWORK');
     }
+    if (Globals.instance.selectedCurrency < 0) {
+      Globals.instance.selectedCurrency = Globals.instance.currencyMapping[dotenv.get('FORCE_CURRENCY')]!;
+    }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Dart Wallet',
