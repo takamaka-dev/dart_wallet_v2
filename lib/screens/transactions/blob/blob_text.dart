@@ -102,7 +102,8 @@ class _BlobTextState extends State<BlobText> {
           title: const Text('Alert'),
           content: Text(
               'The transaction is ready for confirmation. '
-                  'The cost of the transaction will be DISK: ${Globals.instance.feeBean.disk},'
+                  'The cost of the transaction will be \n'
+                  'DISK: ${Globals.instance.feeBean.disk},'
                   'MEM  ${Globals.instance.feeBean.memory},'
                   'CPU  ${Globals.instance.feeBean.cpu}'),
           actions: <Widget>[
