@@ -1,4 +1,5 @@
 import 'package:dart_wallet_v2/config/globals.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -159,8 +160,8 @@ class _SettingState extends State<Settings> {
         value: Globals.instance,
         child: Consumer<Globals>(
             builder: (context, model, child) => CupertinoPageScaffold(
-              navigationBar: const CupertinoNavigationBar(
-                middle: Text('Settings'),
+              navigationBar: CupertinoNavigationBar(
+                middle: const Text('settings').tr(),
               ),
               child: DefaultTextStyle(
                 style: TextStyle(
@@ -171,7 +172,7 @@ class _SettingState extends State<Settings> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      SizedBox(height: 80),
+                      const SizedBox(height: 80),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -182,7 +183,7 @@ class _SettingState extends State<Settings> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const Text('Selected network: '),
+                      const Text('networkSelect').tr(),
                       CupertinoButton(
                         padding: EdgeInsets.zero,
                         // Display a CupertinoPicker with list of fruits.
@@ -197,7 +198,7 @@ class _SettingState extends State<Settings> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Text('Selected currency: '),
+                      const Text('currencySelect').tr(),
                       CupertinoButton(
                         padding: EdgeInsets.zero,
                         // Display a CupertinoPicker with list of fruits.
