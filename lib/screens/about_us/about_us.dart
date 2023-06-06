@@ -5,6 +5,7 @@ import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key});
@@ -15,8 +16,8 @@ class AboutUs extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: CupertinoPageScaffold(
-          navigationBar: const CupertinoNavigationBar(
-            middle: Text('About Us'),
+          navigationBar: CupertinoNavigationBar(
+            middle: const Text('aboutUs').tr(),
           ),
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -52,11 +53,11 @@ class AboutUs extends StatelessWidget {
                       CupertinoButton(
                           color: Styles.takamakaColor,
                           onPressed: _launchURLBrowser,
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(CupertinoIcons.hand_thumbsup_fill),
-                              Text(' More infos'),
+                              const Icon(CupertinoIcons.hand_thumbsup_fill),
+                              const Text('moreInfo').tr(),
                             ],
                           )),
                       const SizedBox(height: 60)

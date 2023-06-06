@@ -2,6 +2,7 @@ import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/restore/restore.dart';
 import 'package:dart_wallet_v2/screens/tag_list/tagList.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -55,6 +56,8 @@ class _RestorePart1State extends State<RestorePart1> {
     return matches;
   }
 
+  var wordsLocale = tr('wordsLocale');
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -79,12 +82,12 @@ class _RestorePart1State extends State<RestorePart1> {
                                 child: const Icon(Icons.arrow_back,
                                     color: Colors.white),
                               ),
-                              const Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text("Restore wallet (1/2)",
+                                  const Text('restoreWallet1',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white)),
+                                      style: TextStyle(color: Colors.white)).tr(),
                                 ],
                               ),
                             ],
@@ -95,31 +98,31 @@ class _RestorePart1State extends State<RestorePart1> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            const SizedBox(
+                            SizedBox(
                                 child: Align(
                                     alignment: Alignment.topLeft,
-                                    child: Text("Import your wallet right now!",
+                                    child: const Text('importWalletrn',
                                         softWrap: true,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
-                                        maxLines: 10))),
+                                        maxLines: 10).tr())),
                             const SizedBox(height: 15),
-                            const SizedBox(
+                            SizedBox(
                                 child: Align(
                                     alignment: Alignment.topLeft,
-                                    child: Text(
-                                        "You are about to begin the process of importing an existing wallet, now you will need to enter all 25 words you have saved, to check if they are exactly those in your wallet.",
+                                    child: const Text('beginImportProcess'
+                                        ,
                                         softWrap: true,
-                                        maxLines: 10))),
+                                        maxLines: 10).tr())),
                             const SizedBox(height: 10),
                             _errorEmptyTag == true
-                                ? const Text("Error: the input is empty!",
-                                    style: TextStyle(color: Colors.red))
+                                ? const Text('errorInputEmpty',
+                                    style: TextStyle(color: Colors.red)).tr()
                                 : const Text(""),
                             Row(children: [
                               Flexible(
                                 child: CupertinoTextField(
-                                  placeholder: "Words",
+                                  placeholder: wordsLocale,
                                   onSubmitted: (String value) =>
                                       {updateTagsList(value)},
                                   onChanged: (value) {
@@ -213,12 +216,12 @@ class _RestorePart1State extends State<RestorePart1> {
                                           }))
                                         }
                                     },
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(CupertinoIcons.arrow_right),
-                                    SizedBox(width: 5),
-                                    Text('Proceed'),
+                                    const Icon(CupertinoIcons.arrow_right),
+                                    const SizedBox(width: 5),
+                                    const Text('proceed').tr(),
                                   ],
                                 )),
                             const SizedBox(height: 30)

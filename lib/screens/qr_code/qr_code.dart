@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
@@ -22,7 +23,7 @@ class QrCode extends StatelessWidget {
                 const SizedBox(height: 50),
                 CupertinoButton(
                     color: Styles.takamakaColor,
-                    child: Text("Save qr"),
+                    child: const Text('saveQr').tr(),
                     onPressed: () => _saveQr)
 
               ],

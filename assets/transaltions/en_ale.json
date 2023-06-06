@@ -1,0 +1,16 @@
+{
+  "aboutUs": "About Us",
+  "moreInfo": " More Info",
+  "saveQr": "Save QR",
+  "restoreWallet": "Restore Wallet",
+  "restoreWallet1": "Restore wallet (1/2)",
+  "restoreWallet2": "Restore wallet (2/2)",
+  "nameNPassword": "Please choose a name and a password below",
+  "walletNameLocale": "Wallet Name",
+  "passwordLocale": "Password",
+  "importWalletrn": "Import your wallet right now!",
+  "beginImportProcess":"You are about to begin the process of importing an existing wallet, now you will need to enter all 25 words you have saved, to check if they are exactly those in your wallet.",
+  "errorInputEmpty": "Error: the input is empty!",
+  "wordsLocale": "Words",
+  "proceed": "Proceed"
+}

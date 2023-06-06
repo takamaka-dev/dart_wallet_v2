@@ -1,4 +1,5 @@
 import 'package:dart_wallet_v2/config/globals.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -44,6 +45,9 @@ class Restore extends StatelessWidget {
     Navigator.pop(context, true);
   }
 
+  var walletNameLocale = tr('walletNameLocale');
+  var passwordLocale = tr('passwordLocale');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +71,7 @@ class Restore extends StatelessWidget {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("Restore wallet (2/2)",
+                      Text('restoreWallet2',
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.white)),
                     ],
@@ -90,28 +94,28 @@ class Restore extends StatelessWidget {
                 const SizedBox(height: 30),
                 Text(
                     style: TextStyle(fontSize: 25, color: Colors.grey.shade600),
-                    "Please choose a name and a password below"),
+                    'nameNPassword').tr(),
                 const SizedBox(height: 30),
                 CupertinoTextField(
-                    placeholder: "Wallet Name",
+                    placeholder: walletNameLocale,
                     controller: walletNameController),
                 const SizedBox(height: 30),
                 CupertinoTextField(
                   obscureText: true,
-                  placeholder: "Password",
+                  placeholder: passwordLocale,
                   controller: walletPasswordController,
                 ),
                 const SizedBox(height: 30),
                 CupertinoButton(
                     color: Styles.takamakaColor,
                     onPressed: () => {_restoreWallet(context)},
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(CupertinoIcons.refresh),
-                        SizedBox(width: 10),
-                        Text('Restore Wallet'),
+                        const Icon(CupertinoIcons.refresh),
+                        const SizedBox(width: 10),
+                        const Text('restoreWallet').tr(),
                       ],
                     ))
               ]),
