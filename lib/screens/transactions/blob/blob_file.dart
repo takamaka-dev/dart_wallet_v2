@@ -261,7 +261,6 @@ class _BlobFileState extends State<BlobFile> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(color: Colors.white))
                             .tr()
-                            .tr(),
                       ],
                     ),
                   ],

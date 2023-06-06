@@ -1,7 +1,7 @@
 {
   "app_name": "Dart Wallet",
   "addWallet": "Add a new Wallet",
-  "blobSelection": "Blob selection",
+  "blobSelection": "Blob Selection",
   "uploadFile": "Upload File",
   "uploadSimpleText": "Upload Simple Text",
   "alert": "Alert",
@@ -94,5 +94,6 @@
   "address": "Address",
   "amount": "Amount",
   "enterTextHere": "Enter your text here",
-  "typeHereCheckWord": "Type here check word"
+  "typeHereCheckWord": "Type here check word",
+  "pay": "Pay Section"
 }
