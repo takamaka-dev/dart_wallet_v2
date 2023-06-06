@@ -12,5 +12,11 @@
   "beginImportProcess":"You are about to begin the process of importing an existing wallet, now you will need to enter all 25 words you have saved, to check if they are exactly those in your wallet.",
   "errorInputEmpty": "Error: the input is empty!",
   "wordsLocale": "Words",
-  "proceed": "Proceed"
+  "proceed": "Proceed",
+  "settings": "Settings",
+  "networkSelect": "Selected network: ",
+  "currencySelect": "Selected currency:",
+  "editTag": "Edit tag",
+  "abort": "Abort",
+  "confirm": "Confirm"
 }

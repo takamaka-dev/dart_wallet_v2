@@ -2,6 +2,7 @@ import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/qr_code/qr_code.dart';
 import 'package:dart_wallet_v2/screens/settings/settings.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../about_us/about_us.dart';
@@ -33,6 +34,9 @@ class CupertinoSimpleHomePage extends StatefulWidget {
 }
 
 class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
+
+  var settings = tr('settings');
+
   @override
   Widget build(BuildContext context) {
     // 3 <-- SEE HERE
@@ -42,18 +46,13 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
       tabBar: CupertinoTabBar(
         currentIndex: 1,
         activeColor: Styles.takamakaColor,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           // 3 <-- SEE HERE
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.question_circle), label: 'About'),
-          BottomNavigationBarItem(icon: Icon(Icons.wallet), label: 'Wallets'),
+          const BottomNavigationBarItem(icon: Icon(Icons.wallet), label: 'Wallets'),
           BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.settings), label: 'Settings'),
-          // BottomNavigationBarItem(
-          //     icon: Icon(CupertinoIcons.qrcode), label: 'QRcode'),
-          // BottomNavigationBarItem(
-          //     icon: Icon(CupertinoIcons.arrow_3_trianglepath),
-          //     label: 'Restore'),
+              icon: const Icon(CupertinoIcons.settings), label: settings),
         ],
       ),
       tabBuilder: (context, index) {
@@ -80,20 +79,6 @@ class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
               },
             );
             break;
-          // case 3:
-          //   returnValue = CupertinoTabView(
-          //     builder: (context) {
-          //       return QrCode(globals.words.join(" "));
-          //     },
-          //   );
-          //   break;
-          // case 4:
-          //   returnValue = CupertinoTabView(
-          //     builder: (context) {
-          //       return Restore();
-          //     },
-          //   );
-          //   break;
         }
         return returnValue;
       },

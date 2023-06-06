@@ -1,5 +1,6 @@
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -70,7 +71,7 @@ class _TagListState extends State<TagList> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Edit tag'),
+          title: const Text('editTag').tr(),
           content: CupertinoTextField(
             controller: tagController,
           ),
@@ -79,7 +80,7 @@ class _TagListState extends State<TagList> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Abort'),
+              child: const Text('abort').tr(),
             ),
             CupertinoDialogAction(
               onPressed: () async {
@@ -88,7 +89,7 @@ class _TagListState extends State<TagList> {
                 Globals.instance.restoreNewWalletsWords = Globals.instance.restoreNewWalletsWords;
                 Navigator.pop(context);
               },
-              child: const Text('Confirm'),
+              child: const Text('confirm').tr(),
             )
           ],
         );
