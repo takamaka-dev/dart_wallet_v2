@@ -70,8 +70,8 @@ class SingleNode extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text('trxCost').tr(),
-              Text('${'DISK:'.tr()}${' ${Globals.instance.feeBean.disk},'
-                  'MEM:'.tr()} ${Globals.instance.feeBean.memory},${'CPU:'.tr()} ${Globals.instance.feeBean.cpu}')
+              Text('${'disk'.tr()}${' ${Globals.instance.feeBean.disk},'
+                  'mem'.tr()} ${Globals.instance.feeBean.memory},${'cpu'.tr()} ${Globals.instance.feeBean.cpu}')
             ],
           ),
           actions: <Widget>[
