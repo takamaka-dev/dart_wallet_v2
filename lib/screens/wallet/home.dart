@@ -63,12 +63,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
-
-    context.setLocale(const Locale('it', 'IT'));
-
-    print(context.locale.toString());
-
     return SingleChildScrollView(
       child: CupertinoPageScaffold(
           navigationBar: const CupertinoNavigationBar(
