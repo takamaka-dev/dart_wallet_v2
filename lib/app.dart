@@ -1,23 +1,12 @@
 import 'package:dart_wallet_v2/config/globals.dart';
-import 'package:dart_wallet_v2/config/globals.dart';
-import 'package:dart_wallet_v2/config/globals.dart';
-import 'package:dart_wallet_v2/config/globals.dart';
-import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/providers/session_provider.dart';
-import 'package:dart_wallet_v2/repositories/wallet_repo.dart';
 import 'package:flutter/material.dart' as flutter;
-import 'package:dart_wallet_v2/repositories/wallet_repo_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import '/screens/splash/splash.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
-
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-
-
 
 class App extends StatelessWidget {
   final State<Splash> splashState;
@@ -30,7 +19,8 @@ class App extends StatelessWidget {
       Globals.instance.selectedNetwork = dotenv.get('FORCE_NETWORK');
     }
     if (Globals.instance.selectedCurrency < 0) {
-      Globals.instance.selectedCurrency = Globals.instance.currencyMapping[dotenv.get('FORCE_CURRENCY')]!;
+      Globals.instance.selectedCurrency =
+          Globals.instance.currencyMapping[dotenv.get('FORCE_CURRENCY')]!;
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -42,24 +32,20 @@ class App extends StatelessWidget {
       home: LoaderOverlay(
         useDefaultLoading: false,
         overlayWidget: const Center(
-          child: CircularProgressIndicator()/*SpinKitCubeGrid(
-            color: Styles.primaryHighlightColor,
-            size: 80.0,
-          ),*/
-        ),
+            child:
+                CircularProgressIndicator()
+            ),
         overlayColor: Colors.black,
         overlayOpacity: 0.8,
         child: Splash(splashState),
       ),
-      /*routes: {Splash.routeName: (context) => Splash(splashState)},*/
     );
   }
 }
 
 /// Performs initialization steps and then runs our app.
 Future<void> runAppWithOptions(
-    {String envFileName = '.env',
-    required State<Splash> splashState}) async {
+    {String envFileName = '.env', required State<Splash> splashState}) async {
   flutter.WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load(fileName: envFileName);
@@ -68,14 +54,11 @@ Future<void> runAppWithOptions(
   await EasyLocalization.ensureInitialized();
 
   flutter.runApp(
-      EasyLocalization(
-          supportedLocales: const [Locale('en'), Locale('it')],
-          path: 'assets/translations', // <-- change the path of the translation files
-          fallbackLocale: const Locale('en'),
-          child: ChangeNotifierProvider.value(
-              value: SessionProvider(Globals.instance),
-              child: App(splashState))
-      ),
-
+    EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('it')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en'),
+        child: ChangeNotifierProvider.value(
+            value: SessionProvider(Globals.instance), child: App(splashState))),
   );
 }

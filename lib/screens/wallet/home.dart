@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
 
-    context.setLocale(const Locale('en', 'EN'));
+    context.setLocale(const Locale('it', 'IT'));
 
     print(context.locale.toString());
 

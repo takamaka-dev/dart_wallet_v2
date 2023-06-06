@@ -49,7 +49,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
     }
 
     setState(() {
-      _controller.text = "$convertedValue " + currentToken!;
+      _controller.text = "$convertedValue ${currentToken!}";
     });
   }
 
@@ -198,7 +198,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                         qr = "";
                       })
                     },
-                    placeholder: "Amount (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
+                    placeholder: "${"amount".tr()} (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(
@@ -222,7 +222,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                         qr = "";
                       })
                     },
-                    placeholder: 'Enter your text here',
+                    placeholder: 'enterTextHere'.tr(),
                   ),
                   const SizedBox(height: 30),
                   CupertinoButton(

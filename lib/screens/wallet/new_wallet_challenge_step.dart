@@ -192,7 +192,7 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
             ])
           : const Text(""),
       CupertinoTextField(
-        placeholder: "Type here check word",
+        placeholder: "typeHereCheckWord".tr(),
         controller: controller,
       ),
       const SizedBox(height: 20),

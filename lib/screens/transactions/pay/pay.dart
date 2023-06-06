@@ -66,7 +66,7 @@ class _PayState extends State<Pay> {
     }
 
     setState(() {
-      _controller.text = "$convertedValue " + currentToken!;
+      _controller.text = "$convertedValue ${currentToken!}";
     });
   }
 
@@ -275,7 +275,7 @@ class _PayState extends State<Pay> {
                     textAlign: TextAlign.center,
                     onChanged: (value) => {updateIdenticon(value)},
                     controller: _controllerToAddress,
-                    placeholder: "Address",
+                    placeholder: "address".tr(),
                   ),
                   const SizedBox(height: 20),
                   Row(
@@ -325,7 +325,7 @@ class _PayState extends State<Pay> {
                     controller: _controller_2,
                     onTap: () => {_controller_2.text = ""},
                     onChanged: (value) => {updateTokenValue(value)},
-                    placeholder: "Amount (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
+                    placeholder: "${"amount".tr()} (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(
@@ -339,7 +339,7 @@ class _PayState extends State<Pay> {
                   CupertinoTextField(
                     maxLines: 10,
                     controller: _controllerMessage,
-                    placeholder: 'Enter your text here',
+                    placeholder: 'enterTextHere'.tr(),
                   ),
                   const SizedBox(height: 30),
                   CupertinoButton(

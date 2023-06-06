@@ -275,7 +275,7 @@ class _StakeProceedState extends State<StakeProceed> {
                     onChanged: (value) => {updateIdenticon(value)},
                     controller: _controllerToAddress,
                     readOnly: true,
-                    placeholder: "Address",
+                    placeholder: "address".tr(),
                   ),
                   const SizedBox(height: 20),
                   Row(
@@ -302,7 +302,7 @@ class _StakeProceedState extends State<StakeProceed> {
                     controller: _controller_2,
                     onTap: () => {_controller_2.text = ""},
                     onChanged: (value) => {updateTokenValue(value)},
-                    placeholder: "Amount (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
+                    placeholder: "${"Amount".tr()} (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(
@@ -316,7 +316,7 @@ class _StakeProceedState extends State<StakeProceed> {
                   CupertinoTextField(
                     maxLines: 10,
                     controller: _controllerMessage,
-                    placeholder: 'Enter your text here',
+                    placeholder: 'enterTextHere'.tr(),
                   ),
                   const SizedBox(height: 30),
                   CupertinoButton(
