@@ -2,6 +2,7 @@ import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/tag_list/tagList.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet_challenge_step.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -43,12 +44,12 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                           child:
                               const Icon(Icons.arrow_back, color: Colors.white),
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text("New wallet (step 2/3)",
+                            Text("newWalletS2".tr(),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white)),
+                                style: const TextStyle(color: Colors.white)),
                           ],
                         ),
                       ],
@@ -66,18 +67,18 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                       size: 80,
                     )),
                     const SizedBox(height: 20),
-                    const SizedBox(
+                    SizedBox(
                         child: Align(
                             alignment: Alignment.topLeft,
-                            child: Text("The wallet has been created..!",
+                            child: Text("walletCreated".tr(),
                                 softWrap: true,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                                 maxLines: 10))),
                     const SizedBox(height: 10),
-                    const SizedBox(
+                    SizedBox(
                         child: Align(
                             alignment: Alignment.topLeft,
-                            child: Text("We have created your wallet, but to complete the operation you must save your 25 words in a safe place, please note that if you lose them you will no longer have the opportunity to regenerate your wallet",
+                            child: Text("wordsSaveNotice".tr(),
                                 softWrap: true,
                                 maxLines: 10))),
                     const SizedBox(height: 20),
@@ -119,12 +120,12 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                                     }))
                                   : print("not allowed")
                             },
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(CupertinoIcons.arrow_right),
-                            SizedBox(width: 5),
-                            Text('Proceed'),
+                            const Icon(CupertinoIcons.arrow_right),
+                            const SizedBox(width: 5),
+                            const Text('proceed').tr(),
                           ],
                         ))
                   ],

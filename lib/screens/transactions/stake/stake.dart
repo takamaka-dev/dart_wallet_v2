@@ -1,6 +1,7 @@
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/single_node.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -99,14 +100,14 @@ class _StakeState extends State<Stake> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Alert'),
-          content: const Text('Something went wrong, please try again'),
+          title: const Text('alert').tr(),
+          content: const Text('genericError').tr(),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () async {
                 Globals.instance.resetAndOpenPage(context);
               },
-              child: const Text('Ok'),
+              child: const Text('ok').tr(),
             )
           ],
         );
@@ -164,9 +165,9 @@ class _StakeState extends State<Stake> {
     }
     if (errorLoading) {
       return [
-        const Text('Something went wrong, please try again'),
+        const Text('genericError').tr(),
         CupertinoButton(
-            child: const Text("OK"),
+            child: const Text("ok").tr(),
             onPressed: () => {Globals.instance.resetAndOpenPage(context)})
       ];
     }

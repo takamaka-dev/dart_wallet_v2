@@ -1,6 +1,7 @@
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/transaction_list/single_transaction.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -104,12 +105,12 @@ class _TransactionListState extends State<TransactionList> {
                         child:
                             const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Latest transactions",
+                          Text("latestTrx".tr(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white)),
+                              style: const TextStyle(color: Colors.white)),
                         ],
                       ),
                     ],
@@ -118,7 +119,7 @@ class _TransactionListState extends State<TransactionList> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text("Items number: ${transactionList.length}"),
+                Text("${"itemNumber".tr()} ${transactionList.length}"),
                 const SizedBox(width: 10),
                 CupertinoButton(
                     color: Colors.grey.shade200,
@@ -128,7 +129,7 @@ class _TransactionListState extends State<TransactionList> {
                         Icon(CupertinoIcons.search,
                             color: Styles.takamakaColor.withOpacity(0.6)),
                         const SizedBox(width: 10),
-                        Text("Window result size",
+                        Text("windowResultSize".tr(),
                             style: TextStyle(
                                 color: Styles.takamakaColor.withOpacity(0.6)))
                       ],
@@ -159,9 +160,9 @@ class _TransactionListState extends State<TransactionList> {
               padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
               child: Column(
                 children: errorLoading ? [
-                const Text('Something went wrong, please try again'),
+                const Text('genericError').tr(),
                 CupertinoButton(
-                    child: const Text("OK"),
+                    child: const Text("ok").tr(),
                     onPressed: () => {Globals.instance.resetAndOpenPage(context)})
                 ] : transactionList,
               ),

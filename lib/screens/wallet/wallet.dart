@@ -10,6 +10,7 @@ import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
 import 'package:dart_wallet_v2/screens/transactions/receive_tokens/receive_tokens.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/stake.dart';
 import 'package:dart_wallet_v2/screens/transactions/transaction_list/transaction_list.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -152,14 +153,14 @@ class _WalletState extends State<Wallet> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Alert'),
-          content: const Text('The address has been copied.'),
+          title: const Text('alert').tr(),
+          content: const Text('addressCopied').tr(),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Ok'),
+              child: const Text('ok').tr(),
             ),
           ],
         );
@@ -174,14 +175,14 @@ class _WalletState extends State<Wallet> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Confirm'),
-          content: const Text('The Crc has been copied.'),
+          title: const Text('confirm').tr(),
+          content: const Text('crcCopied').tr(),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Ok'),
+              child: const Text('ok').tr(),
             ),
           ],
         );
@@ -212,12 +213,12 @@ class _WalletState extends State<Wallet> {
                                 child: const Icon(Icons.arrow_back,
                                     color: Colors.white),
                               ),
-                              const Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text("Wallet login",
+                                  Text("walletLogin".tr(),
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white)),
+                                      style: const TextStyle(color: Colors.white)),
                                 ],
                               ),
                             ],
@@ -233,7 +234,7 @@ class _WalletState extends State<Wallet> {
                           Text(
                               style: TextStyle(
                                   fontSize: 18, color: Colors.grey.shade600),
-                              "Please insert your wallet password"),
+                              "pleaseInsertWalletPassword".tr()),
                           const SizedBox(height: 20),
                           SizedBox(
                               width: 200,
@@ -243,7 +244,7 @@ class _WalletState extends State<Wallet> {
                                     keyboardType: TextInputType.number,
                                     textAlign: TextAlign.center,
                                     controller: _walletIndexNumberController,
-                                    placeholder: 'Wallet index number',
+                                    placeholder: 'walletIndexNumber'.tr(),
                                     onChanged: (value) {
                                       _walletIndexNumberController.text = value;
                                       _walletIndexNumberController.selection =
@@ -257,7 +258,7 @@ class _WalletState extends State<Wallet> {
                                   CupertinoTextField(
                                     obscureText: true,
                                     textAlign: TextAlign.center,
-                                    placeholder: "Password",
+                                    placeholder: "password".tr(),
                                     onSubmitted: (String v) =>
                                         {loginWallet(model)},
                                     onChanged: (value) => {
@@ -268,8 +269,8 @@ class _WalletState extends State<Wallet> {
                                 ],
                               )),
                           _error
-                              ? const Text("Invalid wallet credentials!",
-                                  style: TextStyle(
+                              ? Text("invalidCredentials".tr(),
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.red))
                               : const Text(""),
@@ -606,12 +607,12 @@ class _WalletState extends State<Wallet> {
                               ],
                             ),
                             const SizedBox(height: 50),
-                            const Row(
+                            Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text("Your Takamaka Address:",
+                                  Text("yourTakamakaAddress".tr(),
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold))
                                 ]),
@@ -673,10 +674,10 @@ class _WalletState extends State<Wallet> {
                                 ? const CircularProgressIndicator()
                                 : Column(
                                     children: [
-                                      const Row(
+                                      Row(
                                         children: [
-                                          Text("Your CRC: ",
-                                              style: TextStyle(
+                                          Text("yourCrc".tr(),
+                                              style: const TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold)),
                                         ],
@@ -733,10 +734,10 @@ class _WalletState extends State<Wallet> {
                                 ? const CircularProgressIndicator()
                                 : Column(
                                     children: [
-                                      const Row(
+                                      Row(
                                         children: [
-                                          Text("Your Wallet Index: ",
-                                              style: TextStyle(
+                                          Text("yourWalletIndexNumber".tr(),
+                                              style: const TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold))
                                         ],

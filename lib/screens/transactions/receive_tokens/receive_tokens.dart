@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -85,14 +86,14 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Alert'),
-          content: const Text('Your input is not valid, try again'),
+          title: const Text('alert').tr(),
+          content: const Text('invalidInput').tr(),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Ok'),
+              child: const Text('ok').tr(),
             )
           ],
         );
@@ -122,12 +123,12 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                         child:
                             const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Receive Tokens",
+                          const Text("receiveTokens",
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white)),
+                              style: TextStyle(color: Colors.white)).tr(),
                         ],
                       ),
                     ],
@@ -227,13 +228,13 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                   CupertinoButton(
                       color: Styles.takamakaColor,
                       onPressed: () => {doGenerateQr()},
-                      child: const Row(
+                      child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(CupertinoIcons.qrcode),
-                            SizedBox(width: 10),
-                            Text('Generate QR')
+                            const Icon(CupertinoIcons.qrcode),
+                            const SizedBox(width: 10),
+                            const Text('generateQr').tr()
                           ])),
                   const SizedBox(height: 30),
                 ],

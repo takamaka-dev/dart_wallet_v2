@@ -4,6 +4,7 @@ import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/screens/tag_list/tagList.dart';
 import 'package:dart_wallet_v2/screens/transactions/splash_page/error.dart';
 import 'package:dart_wallet_v2/screens/transactions/splash_page/success.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -99,19 +100,21 @@ class _BlobTextState extends State<BlobText> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Alert'),
-          content: Text(
-              'The transaction is ready for confirmation. '
-                  'The cost of the transaction will be \n'
-                  'DISK: ${Globals.instance.feeBean.disk},'
-                  'MEM  ${Globals.instance.feeBean.memory},'
-                  'CPU  ${Globals.instance.feeBean.cpu}'),
+          title: const Text('alert').tr(),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('trxCost').tr(),
+              Text('${'DISK:'.tr()}${' ${Globals.instance.feeBean.disk},'
+                  'MEM:'.tr()} ${Globals.instance.feeBean.memory},${'CPU:'.tr()} ${Globals.instance.feeBean.cpu}')
+            ],
+          ),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Abort'),
+              child: const Text('abort').tr(),
             ),
             CupertinoDialogAction(
               onPressed: () async {
@@ -137,7 +140,7 @@ class _BlobTextState extends State<BlobText> {
                 }
                 context.loaderOverlay.hide();
               },
-              child: const Text('Confirm'),
+              child: const Text('confirm').tr(),
             )
           ],
         );
@@ -152,15 +155,15 @@ class _BlobTextState extends State<BlobText> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Error!'),
+          title: const Text('error_excl').tr(),
           content: const Text(
-              'To upload a text you have to type something in the Text Area!'),
+              'warningTextArea').tr(),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Ok'),
+              child: const Text('ok').tr(),
             )
           ],
         );
@@ -196,12 +199,12 @@ class _BlobTextState extends State<BlobText> {
                         child:
                             const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Send Simple Text",
+                          const Text("sendSimpleText",
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white)),
+                              style: TextStyle(color: Colors.white)).tr(),
                         ],
                       ),
                     ],
@@ -213,17 +216,17 @@ class _BlobTextState extends State<BlobText> {
                 children: [
                   Row(
                     children: [
-                      Text("Insert message here below:",
+                      Text("insertMessage",
                           style: TextStyle(
                               color: Colors.black.withOpacity(0.6),
-                              fontWeight: FontWeight.w600)),
+                              fontWeight: FontWeight.w600)).tr(),
                     ],
                   ),
                   const SizedBox(height: 10),
                   CupertinoTextField(
                     maxLines: 20,
                     controller: _controllerMessage,
-                    placeholder: "Type here your text",
+                    placeholder: "typeText".tr(),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -231,10 +234,10 @@ class _BlobTextState extends State<BlobText> {
                       Text("Insert tags:",
                           style: TextStyle(
                               color: Colors.black.withOpacity(0.6),
-                              fontWeight: FontWeight.w600)),
+                              fontWeight: FontWeight.w600)).tr(),
                       _errorEmptyTag == true
-                          ? const Text("Error: the input is empty!",
-                              style: TextStyle(color: Colors.red))
+                          ?  Text("errorInputText".tr(),
+                              style: const TextStyle(color: Colors.red))
                           : const Text("")
                     ],
                   ),
@@ -243,7 +246,7 @@ class _BlobTextState extends State<BlobText> {
                     children: [
                       Flexible(
                         child: CupertinoTextField(
-                          placeholder: "Words",
+                          placeholder: "words".tr(),
                           onSubmitted: (String value) =>
                           {updateTagsList(value)},
                           controller: _tagController,
@@ -269,13 +272,13 @@ class _BlobTextState extends State<BlobText> {
                   CupertinoButton(
                       color: Styles.takamakaColor,
                       onPressed: () => {doBlobText()},
-                      child: const Row(
+                      child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(CupertinoIcons.paperplane),
-                            SizedBox(width: 10),
-                            Text('Send')
+                            const Icon(CupertinoIcons.paperplane),
+                            const SizedBox(width: 10),
+                            const Text('send').tr()
                           ])),
                   const SizedBox(height: 30),
                 ],

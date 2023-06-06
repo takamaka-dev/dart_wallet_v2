@@ -4,6 +4,7 @@ import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/screens/transactions/splash_page/error.dart';
 import 'package:dart_wallet_v2/screens/transactions/splash_page/success.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -99,14 +100,14 @@ class _StakeProceedState extends State<StakeProceed> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Alert'),
-          content: const Text('Your input is not valid, try again'),
+          title: const Text('alert').tr(),
+          content: const Text('invalidInput').tr(),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Ok'),
+              child: const Text('ok').tr(),
             )
           ],
         );
@@ -174,19 +175,21 @@ class _StakeProceedState extends State<StakeProceed> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Alert'),
-          content: Text(
-              'The transaction is ready for confirmation. '
-                  'The cost of the transaction will be \n'
-                  'DISK: ${Globals.instance.feeBean.disk},'
-                  'MEM  ${Globals.instance.feeBean.memory},'
-                  'CPU  ${Globals.instance.feeBean.cpu}'),
+          title: const Text('alert').tr(),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('trxCost').tr(),
+              Text('${'DISK:'.tr()}${' ${Globals.instance.feeBean.disk},'
+                  'MEM:'.tr()} ${Globals.instance.feeBean.memory},${'CPU:'.tr()} ${Globals.instance.feeBean.cpu}')
+            ],
+          ),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Abort'),
+              child: const Text('abort').tr(),
             ),
             CupertinoDialogAction(
               onPressed: () async {
@@ -211,7 +214,7 @@ class _StakeProceedState extends State<StakeProceed> {
                   }));
                 }
               },
-              child: const Text('Confirm'),
+              child: const Text('confirm').tr(),
             )
           ],
         );
@@ -241,12 +244,12 @@ class _StakeProceedState extends State<StakeProceed> {
                         child:
                             const Icon(Icons.arrow_back, color: Colors.white),
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Stake proceed",
+                          Text("stakeProceed".tr(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white)),
+                              style: const TextStyle(color: Colors.white)),
                         ],
                       ),
                     ],

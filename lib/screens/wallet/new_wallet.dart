@@ -1,6 +1,7 @@
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet_save_words_step.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -49,12 +50,12 @@ class _NewWalletState extends State<NewWallet> {
                           child:
                               const Icon(Icons.arrow_back, color: Colors.white),
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text("New wallet (step 1/3)",
+                            Text("newWalletS1".tr(),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white)),
+                                style: const TextStyle(color: Colors.white)),
                           ],
                         ),
                       ],
@@ -75,11 +76,11 @@ class _NewWalletState extends State<NewWallet> {
                     Text(
                         style: TextStyle(
                             fontSize: 25, color: Colors.grey.shade600),
-                        "Add a new wallet"),
+                        "addNewWallet".tr()),
                     errorWalletName
                         ? Column(
                             children: [
-                              Text("Please insert a wallet name to proceed!",
+                              Text("insertWalletNameProceed".tr(),
                                   style: TextStyle(
                                       color: Colors.red.withOpacity(0.8))),
                               const SizedBox(height: 20)
@@ -89,7 +90,7 @@ class _NewWalletState extends State<NewWallet> {
                     errorCanProceed
                         ? Column(
                             children: [
-                              Text("Please accept the licence agreement!",
+                              Text("acceptLicence".tr(),
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                       color: Colors.red.withOpacity(0.8))),
@@ -99,7 +100,7 @@ class _NewWalletState extends State<NewWallet> {
                         : const Text(""),
                     CupertinoTextField(
                       textAlign: TextAlign.center,
-                      placeholder: "Wallet name",
+                      placeholder: "walletName".tr(),
                       controller: controllerWalletName,
                       onChanged: (value) => {
                         setState(() {
@@ -110,7 +111,7 @@ class _NewWalletState extends State<NewWallet> {
                     ),
                     errorPassword
                         ? Column(children: [
-                            Text("The password fields are empty or do not match",
+                            Text("passwordMismatch".tr(),
                                 style: TextStyle(
                                     color: Colors.red.withOpacity(0.8))),
                             const SizedBox(height: 20)
@@ -119,7 +120,7 @@ class _NewWalletState extends State<NewWallet> {
                     CupertinoTextField(
                       obscureText: true,
                       textAlign: TextAlign.center,
-                      placeholder: "Password",
+                      placeholder: "password".tr(),
                       controller: controllerPassword,
                       onChanged: (value) => {
                         setState(() {
@@ -133,7 +134,7 @@ class _NewWalletState extends State<NewWallet> {
                       obscureText: true,
                       textAlign: TextAlign.center,
                       controller: controllerRepassword,
-                      placeholder: "Retype password",
+                      placeholder: "rPassword".tr(),
                       onChanged: (value) => {
                         setState(() {
                           errorPassword = false;
@@ -156,11 +157,11 @@ class _NewWalletState extends State<NewWallet> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    const SizedBox(
+                    SizedBox(
                         child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                                "I realized that if I lose my backup words, I will no longer be able to access my wallet",
+                                "agreementLicence".tr(),
                                 softWrap: true,
                                 maxLines: 10))),
                     const SizedBox(height: 30),
@@ -169,11 +170,12 @@ class _NewWalletState extends State<NewWallet> {
                             ? Styles.takamakaColor.withOpacity(0.7)
                             : Styles.takamakaColor,
                         onPressed: () => {_openWallet(context)},
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(CupertinoIcons.plus),
-                            Text(' Create wallet'),
+                            const Icon(CupertinoIcons.plus),
+                            const Text(" "),
+                            const Text('createWallet').tr(),
                           ],
                         )),
                     const SizedBox(height: 50)

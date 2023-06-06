@@ -1,14 +1,12 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/wallet/home.dart';
-import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:page_transition/page_transition.dart';
 
 class NewWalletChallengeStep extends StatefulWidget {
   NewWalletChallengeStep(this.startWordsChallenge, {super.key});
@@ -78,12 +76,12 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
                           child:
                               const Icon(Icons.arrow_back, color: Colors.white),
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text("New wallet (step 3/3)",
+                            Text("newWalletS3".tr(),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white)),
+                                style: const TextStyle(color: Colors.white)),
                           ],
                         ),
                       ],
@@ -117,11 +115,11 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
             size: 80,
           )),
       const SizedBox(height: 20),
-      const SizedBox(
+      SizedBox(
           child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                  "Your wallet has been created properly!",
+                  "walletReallyCreated".tr(),
                   softWrap: true,
                   maxLines: 10))),
       const SizedBox(height: 20),
@@ -133,12 +131,12 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
                   return const Home();
                 }))
           },
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(CupertinoIcons.arrow_right),
-              SizedBox(width: 5),
-              Text('Proceed'),
+              const Icon(CupertinoIcons.arrow_right),
+              const SizedBox(width: 5),
+              const Text('proceed').tr(),
             ],
           ))
     ];
@@ -153,27 +151,27 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
         size: 80,
       )),
       const SizedBox(height: 20),
-      const SizedBox(
+      SizedBox(
           child: Align(
               alignment: Alignment.topLeft,
-              child: Text("Well... now let's check.!!",
+              child: Text("letsCheck".tr(),
                   softWrap: true,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                   maxLines: 10))),
       const SizedBox(height: 10),
-      const SizedBox(
+      SizedBox(
           child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                  "After you have saved the 25 words let's check whether you actually did so!",
+                  "letsCheck2".tr(),
                   softWrap: true,
                   maxLines: 10))),
       const SizedBox(height: 40),
-      const SizedBox(
+      SizedBox(
           child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                  "Now you will have to write the words that will be required of you.",
+                  "letsCheck3".tr(),
                   softWrap: true,
                   maxLines: 10))),
       const SizedBox(height: 20),
@@ -181,13 +179,13 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
           child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                  "Write the word at index n. ${currentIndexCheckWord + 1}",
+                  "${"writeWordAtIndex".tr()} ${currentIndexCheckWord + 1}",
                   softWrap: true,
                   maxLines: 10))),
       const SizedBox(height: 20),
       wordMissmatch
           ? Column(children: [
-              Text("Error, please try again!",
+              Text("genericError2".tr(),
                   style: TextStyle(
                       color: Colors.red.withOpacity(0.8), fontSize: 14)),
               const SizedBox(height: 10)
@@ -216,12 +214,12 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
                     })
                   }
               },
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(CupertinoIcons.arrow_right),
-              SizedBox(width: 5),
-              Text('Proceed'),
+              const Icon(CupertinoIcons.arrow_right),
+              const SizedBox(width: 5),
+              const Text('proceed').tr(),
             ],
           ))
     ];

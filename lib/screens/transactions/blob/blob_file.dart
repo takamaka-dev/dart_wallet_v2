@@ -6,6 +6,7 @@ import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/screens/tag_list/tagList.dart';
 import 'package:dart_wallet_v2/screens/transactions/splash_page/error.dart';
 import 'package:dart_wallet_v2/screens/transactions/splash_page/success.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -145,17 +146,14 @@ class _BlobFileState extends State<BlobFile> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Alert'),
-          content: const Text(
-              'The File is over 5 MB size and it will not be included'
-              ' in the transaction. It is advisable to use the hashing'
-              ' transaction instead.'),
+          title: const Text('alert').tr(),
+          content: const Text('fileSizeLimit').tr(),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Ok'),
+              child: const Text('ok').tr(),
             ),
           ],
         );
@@ -170,19 +168,21 @@ class _BlobFileState extends State<BlobFile> {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Alert'),
-          content: Text(
-              'The transaction is ready for confirmation. '
-                  'The cost of the transaction will be \n'
-                  'DISK: ${Globals.instance.feeBean.disk},'
-                  'MEM  ${Globals.instance.feeBean.memory},'
-                  'CPU  ${Globals.instance.feeBean.cpu}'),
+          title: const Text('alert').tr(),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('trxCost').tr(),
+              Text('${'DISK:'.tr()}${' ${Globals.instance.feeBean.disk},'
+                  'MEM:'.tr()} ${Globals.instance.feeBean.memory},${'CPU:'.tr()} ${Globals.instance.feeBean.cpu}')
+            ],
+          ),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Abort'),
+              child: const Text('abort').tr(),
             ),
             CupertinoDialogAction(
               onPressed: () async {
@@ -207,7 +207,7 @@ class _BlobFileState extends State<BlobFile> {
                   }));
                 }
               },
-              child: const Text('Confirm'),
+              child: const Text('confirm').tr(),
             )
           ],
         );
@@ -259,12 +259,13 @@ class _BlobFileState extends State<BlobFile> {
                       },
                       child: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("Upload File Binary",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white)),
+                        const Text("uploadFileBinary",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white)).tr()
+                            .tr(),
                       ],
                     ),
                   ],
@@ -277,20 +278,23 @@ class _BlobFileState extends State<BlobFile> {
                 CupertinoButton(
                     color: Styles.takamakaColor,
                     onPressed: _openFilePicker,
-                    child: const Row(
+                    child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(CupertinoIcons.doc_fill),
-                          SizedBox(width: 10),
-                          Text('Select File')
+                          const Icon(CupertinoIcons.doc_fill),
+                          const SizedBox(width: 10),
+                          const Text('selectFile').tr()
                         ])),
                 const SizedBox(height: 16),
-                Text(
-                  _selectedFile != null
-                      ? 'Selected file: ${_selectedFile!.path}'
-                      : 'No file selected',
-                ),
+                _selectedFile != null
+                    ? Row(
+                        children: [
+                          const Text('selectedFile').tr(),
+                          Text(_selectedFile!.path)
+                        ],
+                      )
+                    : const Text('noFileSelected').tr(),
                 const SizedBox(height: 10),
                 TagList(
                     availableMetadata,
@@ -305,7 +309,7 @@ class _BlobFileState extends State<BlobFile> {
                   children: [
                     Flexible(
                       child: CupertinoTextField(
-                        placeholder: "Words",
+                        placeholder: "words".tr(),
                         onSubmitted: (String value) => {updateTagsList(value)},
                         controller: _tagController,
                         onChanged: (value) => {},
@@ -329,13 +333,13 @@ class _BlobFileState extends State<BlobFile> {
                 CupertinoButton(
                     color: Styles.takamakaColor,
                     onPressed: () => {doBlob()},
-                    child: const Row(
+                    child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(CupertinoIcons.paperplane),
-                          SizedBox(width: 10),
-                          Text('Send')
+                          const Icon(CupertinoIcons.paperplane),
+                          const SizedBox(width: 10),
+                          const Text('send').tr()
                         ])),
                 const SizedBox(height: 30),
               ],

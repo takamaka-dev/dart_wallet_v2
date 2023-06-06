@@ -3,6 +3,7 @@ import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/wallet/home.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -22,7 +23,7 @@ class SuccessSplashPage extends StatelessWidget {
               Icon(CupertinoIcons.hand_thumbsup_fill,
                   size: 50, color: Styles.takamakaColor.withOpacity(0.9)),
               const SizedBox(height: 20),
-              const Text("The transaction has been successfully verified!"),
+              const Text("trxSuccessVerified").tr(),
               const SizedBox(height: 10),
               const Text("SITH"),
               const SizedBox(height: 10),

@@ -52,11 +52,11 @@ class _HomeState extends State<Home> {
       return  WalletListWidget(wallets!).build(context);
     }
 
-    return const Column(
+    return Column(
       children: [
-        SizedBox(height: 20),
-        Text("No wallets has been added yet!"),
-        SizedBox(height: 20)
+        const SizedBox(height: 20),
+        const Text("noWalletsAdded").tr(),
+        const SizedBox(height: 20)
       ],
     );
   }
@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
 
-    context.setLocale(const Locale('it', 'IT'));
+    context.setLocale(const Locale('en', 'EN'));
 
     print(context.locale.toString());
 
@@ -100,20 +100,20 @@ class _HomeState extends State<Home> {
                                         children: [
                                           const Icon(CupertinoIcons.plus),
                                           const SizedBox(width: 10),
-                                          const Text('addWalet').tr(),
+                                          const Text('addWallet').tr(),
                                         ],
                                       )),
                                   const SizedBox(height: 30),
                                   CupertinoButton(
                                       color: Styles.takamakaColor,
                                       onPressed: _restoreWallet,
-                                      child: const Row(
+                                      child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Icon(CupertinoIcons.arrow_3_trianglepath),
-                                            SizedBox(width: 10),
-                                            Text('Restore Wallet')
+                                            const Icon(CupertinoIcons.arrow_3_trianglepath),
+                                            const SizedBox(width: 10),
+                                            const Text('restoreWallet').tr()
                                           ])),
                                   const SizedBox(height: 50),
                                 ])),
@@ -164,7 +164,7 @@ class WalletListWidget extends StatelessWidget {
 
     return CupertinoPageScaffold(
       child: CupertinoListSection(
-        header: const Text('My wallets'),
+        header: const Text('myWallets').tr(),
         children: wallets,
       ),
     );

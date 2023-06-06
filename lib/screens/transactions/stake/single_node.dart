@@ -4,6 +4,7 @@ import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/stake_proceed.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -65,14 +66,21 @@ class SingleNode extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Alert'),
-          content: Text('The transaction is ready for confirmation ${Globals.instance.feeBean}'),
+          title: const Text('alert').tr(),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('trxCost').tr(),
+                Text('${'DISK:'.tr()}${' ${Globals.instance.feeBean.disk},'
+                    'MEM:'.tr()} ${Globals.instance.feeBean.memory},${'CPU:'.tr()} ${Globals.instance.feeBean.cpu}')
+              ],
+            ),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Abort'),
+              child: const Text('abort').tr(),
             ),
             CupertinoDialogAction(
               onPressed: () async {
@@ -85,7 +93,7 @@ class SingleNode extends StatelessWidget {
                   Navigator.of(context).restorablePush(_dialogBuilder);
                 }
               },
-              child: const Text('Confirm'),
+              child: const Text('confirm').tr(),
             )
           ],
         );
@@ -100,15 +108,15 @@ class SingleNode extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Success!'),
-          content: Text('The transaction has been properly verified!' "\n Sith: " + Globals.instance.sith),
+          title: const Text('success').tr(),
+          content: Text('${'trxVerifiedTwo'.tr()} "\n Sith: "${Globals.instance.sith}'),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
-              child: const Text('Thank you'),
+              child: const Text('thanks').tr(),
             )
           ],
         );
@@ -180,10 +188,10 @@ class SingleNode extends StatelessWidget {
               color: Styles.takamakaColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(CupertinoIcons.add_circled_solid),
-                  SizedBox(width: 10),
-                  Text("Open")
+                children: [
+                  const Icon(CupertinoIcons.add_circled_solid),
+                  const SizedBox(width: 10),
+                  const Text("open").tr()
                 ],
               ),
             )),
@@ -195,12 +203,12 @@ class SingleNode extends StatelessWidget {
                     color: Styles.takamakaColor,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(CupertinoIcons.trash, color: Colors.white),
-                        SizedBox(width: 10),
+                      children: [
+                        const Icon(CupertinoIcons.trash, color: Colors.white),
+                        const SizedBox(width: 10),
                         Text(
-                          "Undo staking",
-                          style: TextStyle(color: Colors.white),
+                          "undoStaking".tr(),
+                          style: const TextStyle(color: Colors.white),
                         )
                       ],
                     ),
