@@ -110,27 +110,25 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
     return [
       Center(
           child: Icon(
-            CupertinoIcons.smiley,
-            color: Styles.takamakaColor.withOpacity(0.9),
-            size: 80,
-          )),
+        CupertinoIcons.smiley,
+        color: Styles.takamakaColor.withOpacity(0.9),
+        size: 80,
+      )),
       const SizedBox(height: 20),
       SizedBox(
           child: Align(
               alignment: Alignment.topLeft,
-              child: Text(
-                  "walletReallyCreated".tr(),
-                  softWrap: true,
-                  maxLines: 10))),
+              child: Text("walletReallyCreated".tr(),
+                  softWrap: true, maxLines: 10))),
       const SizedBox(height: 20),
       CupertinoButton(
           color: Styles.takamakaColor,
           onPressed: () => {
-            Navigator.of(context).push(CupertinoPageRoute<void>(
-                builder: (BuildContext context) {
+                Navigator.of(context).push(
+                    CupertinoPageRoute<void>(builder: (BuildContext context) {
                   return const Home();
                 }))
-          },
+              },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -162,18 +160,12 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
       SizedBox(
           child: Align(
               alignment: Alignment.topLeft,
-              child: Text(
-                  "letsCheck2".tr(),
-                  softWrap: true,
-                  maxLines: 10))),
+              child: Text("letsCheck2".tr(), softWrap: true, maxLines: 10))),
       const SizedBox(height: 40),
       SizedBox(
           child: Align(
               alignment: Alignment.topLeft,
-              child: Text(
-                  "letsCheck3".tr(),
-                  softWrap: true,
-                  maxLines: 10))),
+              child: Text("letsCheck3".tr(), softWrap: true, maxLines: 10))),
       const SizedBox(height: 20),
       SizedBox(
           child: Align(
@@ -196,32 +188,34 @@ class _NewWalletChallengeStepState extends State<NewWalletChallengeStep> {
         controller: controller,
       ),
       const SizedBox(height: 20),
-      loadingCreationWallet ? const CircularProgressIndicator() : CupertinoButton(
-          color: Styles.takamakaColor,
-          onPressed: () => {
-                if (controller.text == currentWordCheck)
-                  {
-                    startWordsChallenge.remove(currentIndexCheckWord),
-                    Navigator.of(context).push(CupertinoPageRoute<void>(
-                        builder: (BuildContext context) {
-                      return NewWalletChallengeStep(startWordsChallenge);
-                    }))
-                  }
-                else
-                  {
-                    setState(() {
-                      wordMissmatch = true;
-                    })
-                  }
-              },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(CupertinoIcons.arrow_right),
-              const SizedBox(width: 5),
-              const Text('proceed').tr(),
-            ],
-          ))
+      loadingCreationWallet
+          ? const CircularProgressIndicator()
+          : CupertinoButton(
+              color: Styles.takamakaColor,
+              onPressed: () => {
+                    if (controller.text == currentWordCheck)
+                      {
+                        startWordsChallenge.remove(currentIndexCheckWord),
+                        Navigator.of(context).push(CupertinoPageRoute<void>(
+                            builder: (BuildContext context) {
+                          return NewWalletChallengeStep(startWordsChallenge);
+                        }))
+                      }
+                    else
+                      {
+                        setState(() {
+                          wordMissmatch = true;
+                        })
+                      }
+                  },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(CupertinoIcons.arrow_right),
+                  const SizedBox(width: 5),
+                  const Text('proceed').tr(),
+                ],
+              ))
     ];
   }
 }

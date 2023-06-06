@@ -8,6 +8,5 @@ class Splash extends StatefulWidget {
   const Splash(this.state, {Key? key}) : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
   State<Splash> createState() => state;
 }

@@ -1,7 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
-import 'package:dart_wallet_v2/screens/wallet/home.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SuccessSplashPage extends StatelessWidget {
-  SuccessSplashPage(this.sith, {super.key});
+  const SuccessSplashPage(this.sith, {super.key});
 
-  String sith;
+  final String sith;
 
   @override
   Widget build(BuildContext context) {

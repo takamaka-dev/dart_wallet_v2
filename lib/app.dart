@@ -31,10 +31,7 @@ class App extends StatelessWidget {
       locale: context.locale,
       home: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: const Center(
-            child:
-                CircularProgressIndicator()
-            ),
+        overlayWidget: const Center(child: CircularProgressIndicator()),
         overlayColor: Colors.black,
         overlayOpacity: 0.8,
         child: Splash(splashState),

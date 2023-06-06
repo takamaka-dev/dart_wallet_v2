@@ -72,15 +72,15 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                             alignment: Alignment.topLeft,
                             child: Text("walletCreated".tr(),
                                 softWrap: true,
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                                 maxLines: 10))),
                     const SizedBox(height: 10),
                     SizedBox(
                         child: Align(
                             alignment: Alignment.topLeft,
                             child: Text("wordsSaveNotice".tr(),
-                                softWrap: true,
-                                maxLines: 10))),
+                                softWrap: true, maxLines: 10))),
                     const SizedBox(height: 20),
                     TagList(
                         Globals.instance.generatedWordsPreInitWallet,
@@ -89,8 +89,7 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                         Styles.takamakaColor.withOpacity(0.6),
                         Colors.transparent,
                         deleteTag,
-                        false
-                    ),
+                        false),
                     const SizedBox(height: 20),
                     CupertinoSwitch(
                       // This bool value toggles the switch.
@@ -113,10 +112,14 @@ class _NewWalletSaveWordsStepState extends State<NewWalletSaveWordsStep> {
                                   ? Navigator.of(context).push(
                                       CupertinoPageRoute<void>(
                                           builder: (BuildContext context) {
-                                            Map<int, String> startWordsChallenge = WordsUtils.startWordsChallenge(
-                                                int.parse(dotenv.get('ITERATIONS_CHALLENGE_NUMBER')),
-                                                Globals.instance.generatedWordsPreInitWallet);
-                                      return NewWalletChallengeStep(startWordsChallenge);
+                                      Map<int, String> startWordsChallenge =
+                                          WordsUtils.startWordsChallenge(
+                                              int.parse(dotenv.get(
+                                                  'ITERATIONS_CHALLENGE_NUMBER')),
+                                              Globals.instance
+                                                  .generatedWordsPreInitWallet);
+                                      return NewWalletChallengeStep(
+                                          startWordsChallenge);
                                     }))
                                   : print("not allowed")
                             },

@@ -11,5 +11,6 @@ class Changes {
 
   factory Changes.fromJson(Map<String, dynamic> json) =>
       _$ChangesFromJson(json);
+
   Map<String, dynamic> toJson() => _$ChangesToJson(this);
 }

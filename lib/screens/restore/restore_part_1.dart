@@ -86,8 +86,9 @@ class _RestorePart1State extends State<RestorePart1> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   const Text('restoreWallet1',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white)).tr(),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(color: Colors.white))
+                                      .tr(),
                                 ],
                               ),
                             ],
@@ -102,22 +103,23 @@ class _RestorePart1State extends State<RestorePart1> {
                                 child: Align(
                                     alignment: Alignment.topLeft,
                                     child: const Text('importWalletrn',
-                                        softWrap: true,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                        maxLines: 10).tr())),
+                                            softWrap: true,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            maxLines: 10)
+                                        .tr())),
                             const SizedBox(height: 15),
                             SizedBox(
                                 child: Align(
                                     alignment: Alignment.topLeft,
-                                    child: const Text('beginImportProcess'
-                                        ,
-                                        softWrap: true,
-                                        maxLines: 10).tr())),
+                                    child: const Text('beginImportProcess',
+                                            softWrap: true, maxLines: 10)
+                                        .tr())),
                             const SizedBox(height: 10),
                             _errorEmptyTag == true
                                 ? const Text('errorInputEmpty',
-                                    style: TextStyle(color: Colors.red)).tr()
+                                        style: TextStyle(color: Colors.red))
+                                    .tr()
                                 : const Text(""),
                             Row(children: [
                               Flexible(

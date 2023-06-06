@@ -72,24 +72,28 @@ class _StakeProceedState extends State<StakeProceed> {
   }
 
   void updateTokenValue(String value) {
-    double tkUsd = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
+    double tkUsd = Globals
+        .instance.changes.changes[Globals.instance.selectedCurrency].value;
     double convertedValue = double.parse(value);
 
     convertedValue *= (1 / tkUsd);
 
     setState(() {
-      _controller.text = "$convertedValue ${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!}";
+      _controller.text =
+          "$convertedValue ${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!}";
     });
   }
 
   void updateCurrencyValue(String value) {
-    double usdTk = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
+    double usdTk = Globals
+        .instance.changes.changes[Globals.instance.selectedCurrency].value;
     double convertedValue = double.parse(value);
 
     convertedValue = convertedValue * usdTk;
 
     setState(() {
-      _controller_2.text = "$convertedValue ${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!}";
+      _controller_2.text =
+          "$convertedValue ${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!}";
     });
   }
 
@@ -145,7 +149,7 @@ class _StakeProceedState extends State<StakeProceed> {
         Globals.instance.ti = ti;
 
         TransactionBox payTbox =
-        await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+            await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
 
         String? singleInclusionTransactionHash =
             payTbox.singleInclusionTransactionHash;
@@ -161,10 +165,9 @@ class _StakeProceedState extends State<StakeProceed> {
         if (feeBean.disk != null) {
           Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
         }
-      } catch(_) {
+      } catch (_) {
         Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
       }
-
     }
   }
 
@@ -302,7 +305,8 @@ class _StakeProceedState extends State<StakeProceed> {
                     controller: _controller_2,
                     onTap: () => {_controller_2.text = ""},
                     onChanged: (value) => {updateTokenValue(value)},
-                    placeholder: "${"Amount".tr()} (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
+                    placeholder:
+                        "${"Amount".tr()} (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(

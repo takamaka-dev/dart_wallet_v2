@@ -156,8 +156,7 @@ class _BlobTextState extends State<BlobText> {
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('error_excl').tr(),
-          content: const Text(
-              'warningTextArea').tr(),
+          content: const Text('warningTextArea').tr(),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
@@ -203,8 +202,9 @@ class _BlobTextState extends State<BlobText> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           const Text("sendSimpleText",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white)).tr(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white))
+                              .tr(),
                         ],
                       ),
                     ],
@@ -217,9 +217,10 @@ class _BlobTextState extends State<BlobText> {
                   Row(
                     children: [
                       Text("insertMessage",
-                          style: TextStyle(
-                              color: Colors.black.withOpacity(0.6),
-                              fontWeight: FontWeight.w600)).tr(),
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.6),
+                                  fontWeight: FontWeight.w600))
+                          .tr(),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -232,11 +233,12 @@ class _BlobTextState extends State<BlobText> {
                   Row(
                     children: [
                       Text("Insert tags:",
-                          style: TextStyle(
-                              color: Colors.black.withOpacity(0.6),
-                              fontWeight: FontWeight.w600)).tr(),
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.6),
+                                  fontWeight: FontWeight.w600))
+                          .tr(),
                       _errorEmptyTag == true
-                          ?  Text("errorInputText".tr(),
+                          ? Text("errorInputText".tr(),
                               style: const TextStyle(color: Colors.red))
                           : const Text("")
                     ],
@@ -248,7 +250,7 @@ class _BlobTextState extends State<BlobText> {
                         child: CupertinoTextField(
                           placeholder: "words".tr(),
                           onSubmitted: (String value) =>
-                          {updateTagsList(value)},
+                              {updateTagsList(value)},
                           controller: _tagController,
                           onChanged: (value) => {},
                         ),

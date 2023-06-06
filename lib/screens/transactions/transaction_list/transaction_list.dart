@@ -159,12 +159,15 @@ class _TransactionListState extends State<TransactionList> {
             Container(
               padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
               child: Column(
-                children: errorLoading ? [
-                const Text('genericError').tr(),
-                CupertinoButton(
-                    child: const Text("ok").tr(),
-                    onPressed: () => {Globals.instance.resetAndOpenPage(context)})
-                ] : transactionList,
+                children: errorLoading
+                    ? [
+                        const Text('genericError').tr(),
+                        CupertinoButton(
+                            child: const Text("ok").tr(),
+                            onPressed: () =>
+                                {Globals.instance.resetAndOpenPage(context)})
+                      ]
+                    : transactionList,
               ),
             )
           ],

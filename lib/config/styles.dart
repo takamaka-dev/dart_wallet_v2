@@ -18,9 +18,9 @@ class Styles {
 
   static const String secondaryFontRegular = 'Quicksand';
 
-  static final FontWeight primaryFontWeightSemiBold = FontWeight.w700;
-  static final FontWeight primaryFontWeightLight = FontWeight.w300;
-  static final FontWeight primaryFontWeightExtraLight = FontWeight.w100;
+  static const FontWeight primaryFontWeightSemiBold = FontWeight.w700;
+  static const FontWeight primaryFontWeightLight = FontWeight.w300;
+  static const FontWeight primaryFontWeightExtraLight = FontWeight.w100;
 
   static const double primaryHeaderFontSize = 32.0;
   static const double secondaryHeaderFontSize = 22.0;

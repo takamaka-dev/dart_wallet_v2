@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/screens/tag_list/tagList.dart';
@@ -24,7 +23,6 @@ class BlobFile extends StatefulWidget {
 
 class _BlobFileState extends State<BlobFile> {
   List<String> tags = [];
-  bool _errorEmptyTag = false;
 
   File? _selectedFile;
 
@@ -79,13 +77,10 @@ class _BlobFileState extends State<BlobFile> {
   void updateTagsList(String value) {
     if (value.isNotEmpty) {
       setState(() {
-        _errorEmptyTag = false;
         tags.add(value);
       });
     } else {
-      setState(() {
-        _errorEmptyTag = true;
-      });
+      setState(() {});
     }
     _tagController.text = "";
   }
@@ -264,7 +259,8 @@ class _BlobFileState extends State<BlobFile> {
                       children: <Widget>[
                         const Text("uploadFileBinary",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white)).tr()
+                                style: TextStyle(color: Colors.white))
+                            .tr()
                             .tr(),
                       ],
                     ),

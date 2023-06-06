@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
@@ -41,7 +39,8 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
   }
 
   void updateTokenValue(String value) {
-    double tkUsd = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
+    double tkUsd = Globals
+        .instance.changes.changes[Globals.instance.selectedCurrency].value;
     double convertedValue = double.parse(value);
 
     if (currentToken == "TKG") {
@@ -73,7 +72,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
         setState(() {
           qr = jsonEncode(rt.toJson());
         });
-      } catch(_) {
+      } catch (_) {
         Navigator.of(context).restorablePush(_dialogBuilderError);
       }
     }
@@ -127,8 +126,9 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           const Text("receiveTokens",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white)).tr(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white))
+                              .tr(),
                         ],
                       ),
                     ],
@@ -198,7 +198,8 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                         qr = "";
                       })
                     },
-                    placeholder: "${"amount".tr()} (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
+                    placeholder:
+                        "${"amount".tr()} (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(
@@ -259,7 +260,8 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
   }
 
   void updateCurrencyValue(String value) {
-    double usdTk = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
+    double usdTk = Globals
+        .instance.changes.changes[Globals.instance.selectedCurrency].value;
     double convertedValue = double.parse(value);
 
     if (currentToken == "TKG") {
@@ -267,7 +269,8 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
     }
 
     setState(() {
-      _controller_2.text = "$convertedValue ${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!}";
+      _controller_2.text =
+          "$convertedValue ${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!}";
     });
   }
 }

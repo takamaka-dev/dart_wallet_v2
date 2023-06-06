@@ -3,32 +3,17 @@ import 'dart:typed_data';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/screens/wallet/home.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 class Globals with ChangeNotifier {
+  Map<String, int> currencyMapping = {'USD': 2, 'CHF': 1, 'EUR': 0};
 
-  Map<String, int> currencyMapping = {
-    'USD': 2,
-    'CHF': 1,
-    'EUR': 0
-  };
+  Map<int, String> currencyMappingReverse = {2: 'USD', 1: 'CHF', 0: 'EUR'};
 
-  Map<int, String> currencyMappingReverse = {
-    2: 'USD',
-    1: 'CHF',
-    0: 'EUR'
-  };
-
-  Map<int, String> currencyMappingReverseSymbols = {
-    2: '\$',
-    1: '₣',
-    0: '€'
-  };
+  Map<int, String> currencyMappingReverseSymbols = {2: '\$', 1: '₣', 0: '€'};
 
   int _selectedCurrency = 2;
-
 
   int get selectedCurrency => _selectedCurrency;
 
@@ -79,6 +64,7 @@ class Globals with ChangeNotifier {
   }
 
   int _selectedWalletIndex = -1;
+
   int get selectedWalletIndex => _selectedWalletIndex;
 
   set selectedWalletIndex(int value) {
@@ -234,7 +220,8 @@ class Globals with ChangeNotifier {
   void resetAndOpenPage(context) {
     Navigator.pushAndRemoveUntil<void>(
       context,
-      MaterialPageRoute<void>(builder: (BuildContext context) => Wallet(walletName)),
+      MaterialPageRoute<void>(
+          builder: (BuildContext context) => Wallet(walletName)),
       ModalRoute.withName('/'),
     );
   }
@@ -246,5 +233,4 @@ class Globals with ChangeNotifier {
       ModalRoute.withName('/'),
     );
   }
-
 }

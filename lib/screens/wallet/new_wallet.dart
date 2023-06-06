@@ -5,7 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 class NewWallet extends StatefulWidget {
   const NewWallet({super.key});
@@ -150,7 +149,7 @@ class _NewWalletState extends State<NewWallet> {
                         // This is called when the user toggles the switch.
                         setState(() {
                           canProceed = value ?? false;
-                          if(value!) {
+                          if (value!) {
                             errorCanProceed = false;
                           }
                         });
@@ -160,10 +159,8 @@ class _NewWalletState extends State<NewWallet> {
                     SizedBox(
                         child: Align(
                             alignment: Alignment.center,
-                            child: Text(
-                                "agreementLicence".tr(),
-                                softWrap: true,
-                                maxLines: 10))),
+                            child: Text("agreementLicence".tr(),
+                                softWrap: true, maxLines: 10))),
                     const SizedBox(height: 30),
                     CupertinoButton(
                         color: !canProceed || errorWalletName

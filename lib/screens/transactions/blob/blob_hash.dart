@@ -24,6 +24,7 @@ class BlobHash extends StatefulWidget {
 
 class _BlobHashState extends State<BlobHash> {
   File? _selectedFile;
+
   void _openFilePicker() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -37,6 +38,7 @@ class _BlobHashState extends State<BlobHash> {
 
   FeeBean currentFeeBean = FeeBean();
   late TransactionInput ti;
+
   Future<bool> _initBlobInterface() async {
     setState(() {
       _selectedFile = null;
@@ -53,14 +55,14 @@ class _BlobHashState extends State<BlobHash> {
   }
 
   Future<void> doBlobHash() async {
-
     context.loaderOverlay.show();
 
     File f = File(_selectedFile!.path);
     Uint8List bytes = f.readAsBytesSync();
     SHA3Digest sha3digest = SHA3Digest(256);
     Uint8List hash = sha3digest.process(Uint8List.fromList(bytes));
-    String b64UrlHash = StringUtilities.convertFromBase64ToBase64UrlSafe(base64.encode(hash));
+    String b64UrlHash =
+        StringUtilities.convertFromBase64ToBase64UrlSafe(base64.encode(hash));
 
     InternalTransactionBean itb = BuilderItb.blob(
         Globals.instance.selectedFromAddress,
@@ -68,7 +70,7 @@ class _BlobHashState extends State<BlobHash> {
         TKmTK.getTransactionTime());
 
     SimpleKeyPair skp =
-    await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
+        await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
 
     TransactionBean tb = await TkmWallet.createGenericTransaction(
         itb, skp, Globals.instance.selectedFromAddress);
@@ -80,9 +82,11 @@ class _BlobHashState extends State<BlobHash> {
 
     Globals.instance.ti = ti;
 
-    TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+    TransactionBox payTbox =
+        await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
 
-    String? singleInclusionTransactionHash = payTbox.singleInclusionTransactionHash;
+    String? singleInclusionTransactionHash =
+        payTbox.singleInclusionTransactionHash;
 
     Globals.instance.sith = singleInclusionTransactionHash!;
 
@@ -95,7 +99,6 @@ class _BlobHashState extends State<BlobHash> {
     if (feeBean.disk != null) {
       Navigator.of(context).restorablePush(_dialogBuilderPreConfirm);
     }
-
   }
 
   @pragma('vm:entry-point')
@@ -125,21 +128,23 @@ class _BlobHashState extends State<BlobHash> {
               onPressed: () async {
                 context.loaderOverlay.show();
                 final response = await ConsumerHelper.doRequest(
-                    HttpMethods.POST, ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!, Globals.instance.ti.toJson());
+                    HttpMethods.POST,
+                    ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!,
+                    Globals.instance.ti.toJson());
                 if (response == '{"TxIsVerified":"true"}') {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);
                   Navigator.of(context).push(
                       CupertinoPageRoute<void>(builder: (BuildContext context) {
-                        return SuccessSplashPage(Globals.instance.sith);
-                      }));
+                    return SuccessSplashPage(Globals.instance.sith);
+                  }));
                 } else {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);
                   Navigator.of(context).push(
                       CupertinoPageRoute<void>(builder: (BuildContext context) {
-                        return const ErrorSplashPage();
-                      }));
+                    return const ErrorSplashPage();
+                  }));
                 }
               },
               child: const Text('confirm').tr(),
@@ -168,15 +173,15 @@ class _BlobHashState extends State<BlobHash> {
                         Navigator.pop(
                             context); // Navigate back when back button is pressed
                       },
-                      child:
-                      const Icon(Icons.arrow_back, color: Colors.white),
+                      child: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         const Text("uploadFileHash",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white)).tr(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white))
+                            .tr(),
                       ],
                     ),
                   ],
@@ -198,18 +203,18 @@ class _BlobHashState extends State<BlobHash> {
                           const Text('selectFile').tr()
                         ])),
                 const SizedBox(height: 16),
-                _selectedFile != null ? Row(
-                  children: [
-                    const Text('selectedFile').tr(),
-                    Text(_selectedFile!.path)
-                  ],
-                ) : const Text('noFileSelected').tr(),
+                _selectedFile != null
+                    ? Row(
+                        children: [
+                          const Text('selectedFile').tr(),
+                          Text(_selectedFile!.path)
+                        ],
+                      )
+                    : const Text('noFileSelected').tr(),
                 const SizedBox(height: 30),
                 CupertinoButton(
                     color: Styles.takamakaColor,
-                    onPressed: () => {
-                      doBlobHash()
-                    },
+                    onPressed: () => {doBlobHash()},
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,

@@ -15,7 +15,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:glass/glass.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -218,7 +217,8 @@ class _WalletState extends State<Wallet> {
                                 children: <Widget>[
                                   Text("walletLogin".tr(),
                                       textAlign: TextAlign.center,
-                                      style: const TextStyle(color: Colors.white)),
+                                      style:
+                                          const TextStyle(color: Colors.white)),
                                 ],
                               ),
                             ],
@@ -935,7 +935,8 @@ class _WalletState extends State<Wallet> {
 
   String updateCurrencyValue(double value) {
     try {
-      double usdTk = Globals.instance.changes.changes[Globals.instance.selectedCurrency].value;
+      double usdTk = Globals
+          .instance.changes.changes[Globals.instance.selectedCurrency].value;
 
       return (value * usdTk).toStringAsFixed(2);
     } catch (exception) {

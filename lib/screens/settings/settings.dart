@@ -5,9 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:provider/provider.dart';
 
-const double _kItemExtent = 32.0;
-const List<String> _networkNames = <String>['Local', 'Test', 'Production'];
-
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
@@ -30,26 +27,6 @@ class _SettingState extends State<Settings> {
 
   late String selectedNetworkName;
   late String selectedCurrency;
-
-  void _showDialog(Widget child) {
-    showCupertinoModalPopup<void>(
-        context: context,
-        builder: (BuildContext context) => Container(
-              height: 216,
-              padding: const EdgeInsets.only(top: 6.0),
-              // The Bottom margin is provided to align the popup above the system navigation bar.
-              margin: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-              ),
-              // Provide a background color for the popup.
-              color: CupertinoColors.systemBackground.resolveFrom(context),
-              // Use a SafeArea widget to avoid system overlaps.
-              child: SafeArea(
-                top: false,
-                child: child,
-              ),
-            ));
-  }
 
   void _showActionSheet(BuildContext context) {
     showCupertinoModalPopup<void>(
@@ -116,9 +93,11 @@ class _SettingState extends State<Settings> {
           CupertinoActionSheetAction(
             /// This parameter indicates the action would be a default
             /// default behavior, turns the action's text to bold text.
-            isDefaultAction: Globals.instance.selectedCurrency == Globals.instance.currencyMapping[currencies[0]]!,
+            isDefaultAction: Globals.instance.selectedCurrency ==
+                Globals.instance.currencyMapping[currencies[0]]!,
             onPressed: () {
-              Globals.instance.selectedCurrency = Globals.instance.currencyMapping[currencies[0]]!;
+              Globals.instance.selectedCurrency =
+                  Globals.instance.currencyMapping[currencies[0]]!;
               setState(() {
                 selectedCurrency = 'USD';
               });
@@ -127,9 +106,11 @@ class _SettingState extends State<Settings> {
             child: const Text('USD'),
           ),
           CupertinoActionSheetAction(
-            isDefaultAction: Globals.instance.selectedCurrency == Globals.instance.currencyMapping[currencies[1]]!,
+            isDefaultAction: Globals.instance.selectedCurrency ==
+                Globals.instance.currencyMapping[currencies[1]]!,
             onPressed: () {
-              Globals.instance.selectedCurrency = Globals.instance.currencyMapping[currencies[1]]!;
+              Globals.instance.selectedCurrency =
+                  Globals.instance.currencyMapping[currencies[1]]!;
               setState(() {
                 selectedCurrency = 'EUR';
               });
@@ -138,9 +119,11 @@ class _SettingState extends State<Settings> {
             child: const Text('EUR'),
           ),
           CupertinoActionSheetAction(
-            isDefaultAction: Globals.instance.selectedCurrency == Globals.instance.currencyMapping[currencies[2]]!,
+            isDefaultAction: Globals.instance.selectedCurrency ==
+                Globals.instance.currencyMapping[currencies[2]]!,
             onPressed: () {
-              Globals.instance.selectedCurrency = Globals.instance.currencyMapping[currencies[2]]!;
+              Globals.instance.selectedCurrency =
+                  Globals.instance.currencyMapping[currencies[2]]!;
               setState(() {
                 selectedCurrency = 'CHF';
               });
@@ -160,64 +143,64 @@ class _SettingState extends State<Settings> {
         value: Globals.instance,
         child: Consumer<Globals>(
             builder: (context, model, child) => CupertinoPageScaffold(
-              navigationBar: CupertinoNavigationBar(
-                middle: const Text('settings').tr(),
-              ),
-              child: DefaultTextStyle(
-                style: TextStyle(
-                  color: CupertinoColors.label.resolveFrom(context),
-                  fontSize: 22.0,
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      const SizedBox(height: 80),
-                      Row(
+                  navigationBar: CupertinoNavigationBar(
+                    middle: const Text('settings').tr(),
+                  ),
+                  child: DefaultTextStyle(
+                    style: TextStyle(
+                      color: CupertinoColors.label.resolveFrom(context),
+                      fontSize: 22.0,
+                    ),
+                    child: Center(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          WalletUtils.renderQrImage(
-                              model.recoveryWords.isEmpty
-                                  ? ''
-                                  : model.recoveryWords)
+                        children: <Widget>[
+                          const SizedBox(height: 80),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              WalletUtils.renderQrImage(
+                                  model.recoveryWords.isEmpty
+                                      ? ''
+                                      : model.recoveryWords)
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          const Text('networkSelect').tr(),
+                          CupertinoButton(
+                            padding: EdgeInsets.zero,
+                            // Display a CupertinoPicker with list of fruits.
+                            onPressed: () => _showActionSheet(context),
+                            // This displays the selected fruit name.
+                            child: Text(
+                              selectedNetworkName[0].toUpperCase() +
+                                  selectedNetworkName.substring(1),
+                              style: const TextStyle(
+                                fontSize: 22.0,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          const Text('currencySelect').tr(),
+                          CupertinoButton(
+                            padding: EdgeInsets.zero,
+                            // Display a CupertinoPicker with list of fruits.
+                            onPressed: () => _showActionSheetCurrency(context),
+                            // This displays the selected fruit name.
+                            child: Text(
+                              selectedCurrency[0].toUpperCase() +
+                                  selectedCurrency.substring(1),
+                              style: const TextStyle(
+                                fontSize: 22.0,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 50)
                         ],
                       ),
-                      const SizedBox(height: 20),
-                      const Text('networkSelect').tr(),
-                      CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        // Display a CupertinoPicker with list of fruits.
-                        onPressed: () => _showActionSheet(context),
-                        // This displays the selected fruit name.
-                        child: Text(
-                          selectedNetworkName[0].toUpperCase() +
-                              selectedNetworkName.substring(1),
-                          style: const TextStyle(
-                            fontSize: 22.0,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      const Text('currencySelect').tr(),
-                      CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        // Display a CupertinoPicker with list of fruits.
-                        onPressed: () => _showActionSheetCurrency(context),
-                        // This displays the selected fruit name.
-                        child: Text(
-                          selectedCurrency[0].toUpperCase() +
-                              selectedCurrency.substring(1),
-                          style: const TextStyle(
-                            fontSize: 22.0,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 50)
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            )),
+                )),
       ),
     );
   }
@@ -226,7 +209,8 @@ class _SettingState extends State<Settings> {
   void initState() {
     setState(() {
       selectedNetworkName = Globals.instance.selectedNetwork;
-      selectedCurrency = Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!;
+      selectedCurrency = Globals
+          .instance.currencyMappingReverse[Globals.instance.selectedCurrency]!;
     });
     super.initState();
   }

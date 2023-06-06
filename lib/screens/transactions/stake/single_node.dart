@@ -12,8 +12,8 @@ import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class SingleNode extends StatelessWidget {
-  SingleNode(this.qteslaAddress, this.shortAddress, this.alias,
-      this.identicon, this.nodeStakeAmount,
+  SingleNode(this.qteslaAddress, this.shortAddress, this.alias, this.identicon,
+      this.nodeStakeAmount,
       {super.key});
 
   final String qteslaAddress;
@@ -25,13 +25,11 @@ class SingleNode extends StatelessWidget {
 
   Future<void> doUnStake(context) async {
     InternalTransactionBean itb;
-    itb = BuilderItb.stakeUndo(
-        Globals.instance.selectedFromAddress,
-        "Stake undo",
-        TKmTK.getTransactionTime());
+    itb = BuilderItb.stakeUndo(Globals.instance.selectedFromAddress,
+        "Stake undo", TKmTK.getTransactionTime());
 
     SimpleKeyPair skp =
-    await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
+        await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
 
     TransactionBean tb = await TkmWallet.createGenericTransaction(
         itb, skp, Globals.instance.selectedFromAddress);
@@ -43,9 +41,11 @@ class SingleNode extends StatelessWidget {
 
     Globals.instance.ti = ti;
 
-    TransactionBox payTbox = await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+    TransactionBox payTbox =
+        await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
 
-    String? singleInclusionTransactionHash = payTbox.singleInclusionTransactionHash;
+    String? singleInclusionTransactionHash =
+        payTbox.singleInclusionTransactionHash;
 
     Globals.instance.sith = singleInclusionTransactionHash!;
 
@@ -58,7 +58,6 @@ class SingleNode extends StatelessWidget {
     }
   }
 
-
   @pragma('vm:entry-point')
   static Route<Object?> _dialogBuilderPreConfirm(
       BuildContext context, Object? arguments) {
@@ -67,14 +66,14 @@ class SingleNode extends StatelessWidget {
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('alert').tr(),
-            content: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('trxCost').tr(),
-                Text('${'DISK:'.tr()}${' ${Globals.instance.feeBean.disk},'
-                    'MEM:'.tr()} ${Globals.instance.feeBean.memory},${'CPU:'.tr()} ${Globals.instance.feeBean.cpu}')
-              ],
-            ),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('trxCost').tr(),
+              Text('${'DISK:'.tr()}${' ${Globals.instance.feeBean.disk},'
+                  'MEM:'.tr()} ${Globals.instance.feeBean.memory},${'CPU:'.tr()} ${Globals.instance.feeBean.cpu}')
+            ],
+          ),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
@@ -86,7 +85,9 @@ class SingleNode extends StatelessWidget {
               onPressed: () async {
                 context.loaderOverlay.show();
                 final response = await ConsumerHelper.doRequest(
-                    HttpMethods.POST, ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!, Globals.instance.ti.toJson());
+                    HttpMethods.POST,
+                    ApiList().apiMap[Globals.instance.selectedNetwork]!["tx"]!,
+                    Globals.instance.ti.toJson());
                 if (response == '{"TxIsVerified":"true"}') {
                   context.loaderOverlay.hide();
                   Navigator.pop(context);
@@ -109,7 +110,8 @@ class SingleNode extends StatelessWidget {
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('success').tr(),
-          content: Text('${'trxVerifiedTwo'.tr()} "\n Sith: "${Globals.instance.sith}'),
+          content: Text(
+              '${'trxVerifiedTwo'.tr()} "\n Sith: "${Globals.instance.sith}'),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () {
@@ -212,9 +214,7 @@ class SingleNode extends StatelessWidget {
                         )
                       ],
                     ),
-                    onPressed: () => {
-                      doUnStake(context)
-                    }))
+                    onPressed: () => {doUnStake(context)}))
             : const Text(""),
 
         /**/

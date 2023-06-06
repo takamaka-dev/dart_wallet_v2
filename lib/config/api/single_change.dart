@@ -12,5 +12,6 @@ class SingleChange {
 
   factory SingleChange.fromJson(Map<String, dynamic> json) =>
       _$SingleChangeFromJson(json);
+
   Map<String, dynamic> toJson() => _$SingleChangeToJson(this);
 }

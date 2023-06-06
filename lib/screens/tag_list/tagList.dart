@@ -1,5 +1,4 @@
 import 'package:dart_wallet_v2/config/globals.dart';
-import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,8 @@ typedef void VoidCallback(String tag);
 
 class TagList extends StatefulWidget {
   TagList(this.tags, this.tagTextColor, this.tagAlignment, this.tagsBrickColor,
-      this.deleteButtonColor, this.vcaDelete, this.editMode, {super.key});
+      this.deleteButtonColor, this.vcaDelete, this.editMode,
+      {super.key});
 
   bool editMode;
   MainAxisAlignment tagAlignment;
@@ -19,19 +19,11 @@ class TagList extends StatefulWidget {
   VoidCallback vcaDelete;
 
   @override
-  State<StatefulWidget> createState() =>
-      _TagListState(
-          tags,
-          tagTextColor,
-          tagAlignment,
-          tagsBrickColor,
-          deleteButtonColor,
-          vcaDelete
-      );
+  State<StatefulWidget> createState() => _TagListState(tags, tagTextColor,
+      tagAlignment, tagsBrickColor, deleteButtonColor, vcaDelete);
 }
 
 class _TagListState extends State<TagList> {
-
   _TagListState(this.tags, this.tagTextColor, this.tagAlignment,
       this.tagsBrickColor, this.deleteButtonColor, this.vcaDelete);
 
@@ -62,10 +54,10 @@ class _TagListState extends State<TagList> {
   }
 
   @pragma('vm:entry-point')
-  static Route<Object?> _dialogEditTag(BuildContext context,
-      Object? arguments) {
-
-    TextEditingController tagController = TextEditingController(text: Globals.instance.editTagValue);
+  static Route<Object?> _dialogEditTag(
+      BuildContext context, Object? arguments) {
+    TextEditingController tagController =
+        TextEditingController(text: Globals.instance.editTagValue);
 
     return CupertinoDialogRoute<void>(
       context: context,
@@ -85,8 +77,11 @@ class _TagListState extends State<TagList> {
             CupertinoDialogAction(
               onPressed: () async {
                 Globals.instance.editTagValue = tagController.text;
-                Globals.instance.restoreNewWalletsWords[Globals.instance.editTagIndex] = tagController.text;
-                Globals.instance.restoreNewWalletsWords = Globals.instance.restoreNewWalletsWords;
+                Globals.instance
+                        .restoreNewWalletsWords[Globals.instance.editTagIndex] =
+                    tagController.text;
+                Globals.instance.restoreNewWalletsWords =
+                    Globals.instance.restoreNewWalletsWords;
                 Navigator.pop(context);
               },
               child: const Text('confirm').tr(),
@@ -101,45 +96,46 @@ class _TagListState extends State<TagList> {
     return Container(
       height: 50,
       alignment: Alignment.center,
-      width: tag.length <= 5 ? tag.length == 1 ? tag.length * 80 : tag.length *
-          45 : tag.length * 25,
+      width: tag.length <= 5
+          ? tag.length == 1
+              ? tag.length * 80
+              : tag.length * 45
+          : tag.length * 25,
       child: CupertinoButton(
           color: tagsBrickColor,
           alignment: Alignment.center,
           padding: const EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 0.0),
           borderRadius: BorderRadius.zero,
           onPressed: () async => {
-            Globals.instance.editTagIndex = index,
-            Globals.instance.editTagValue = tag,
-            Navigator.of(context).restorablePush(_dialogEditTag)
-      },
+                Globals.instance.editTagIndex = index,
+                Globals.instance.editTagValue = tag,
+                Navigator.of(context).restorablePush(_dialogEditTag)
+              },
           child: Row(
             mainAxisAlignment: tagAlignment,
             children: [
-              Expanded(child: Text(
-                  "${index + 1} - $tag", textAlign: TextAlign.center,
-                  style: TextStyle(color: tagTextColor))),
-              deleteButtonColor.value != 0 ? RawMaterialButton(
-                  elevation: 2.0,
-                  fillColor: deleteButtonColor,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero
-                  ),
-                  constraints: const BoxConstraints.tightFor(
-                    width: 40.0,
-                    height: 40.0,
-                  ),
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                  onPressed: () =>
-                  {
-                    vcaDelete(tag)
-                  }) : const Text("")
+              Expanded(
+                  child: Text("${index + 1} - $tag",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: tagTextColor))),
+              deleteButtonColor.value != 0
+                  ? RawMaterialButton(
+                      elevation: 2.0,
+                      fillColor: deleteButtonColor,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero),
+                      constraints: const BoxConstraints.tightFor(
+                        width: 40.0,
+                        height: 40.0,
+                      ),
+                      child: const Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => {vcaDelete(tag)})
+                  : const Text("")
             ],
           )),
     );
   }
-
 }

@@ -1,5 +1,4 @@
 import 'package:dart_wallet_v2/config/globals.dart';
-import 'package:dart_wallet_v2/l10n/app_localizations.dart';
 import 'package:dart_wallet_v2/screens/restore/restore_part_1.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 import '../../config/styles.dart';
-import '../restore/restore.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -20,7 +18,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<String>? wallets = Globals.instance.wallets.isEmpty ? null : Globals.instance.wallets;
+  List<String>? wallets =
+      Globals.instance.wallets.isEmpty ? null : Globals.instance.wallets;
 
   @override
   void initState() {
@@ -29,11 +28,13 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> getWallets() async {
-
-    bool existsFolder = await (await FileSystemUtils.getWalletDir(dotenv.get('WALLET_FOLDER'))).exists();
+    bool existsFolder =
+        await (await FileSystemUtils.getWalletDir(dotenv.get('WALLET_FOLDER')))
+            .exists();
 
     if (!existsFolder) {
-      await FileSystemUtils.createFolderInAppDocDir(dotenv.get('WALLET_FOLDER'));
+      await FileSystemUtils.createFolderInAppDocDir(
+          dotenv.get('WALLET_FOLDER'));
     }
 
     List<String> walletsResult = await FileSystemUtils.getWalletsInWalletsDir(
@@ -45,11 +46,10 @@ class _HomeState extends State<Home> {
   }
 
   Widget tryRenderWallets() {
-
     if (wallets == null) {
       return const CircularProgressIndicator();
     } else if (wallets!.isNotEmpty) {
-      return  WalletListWidget(wallets!).build(context);
+      return WalletListWidget(wallets!).build(context);
     }
 
     return Column(
@@ -70,8 +70,7 @@ class _HomeState extends State<Home> {
           ),
           child: Column(
             children: [
-              Container(
-                  child: const Center()),
+              Container(child: const Center()),
               Container(
                   alignment: Alignment.bottomCenter,
                   child: Column(
@@ -84,33 +83,35 @@ class _HomeState extends State<Home> {
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const SizedBox(height: 50),
-                                  CupertinoButton(
-                                      color: Styles.takamakaColor,
-                                      onPressed: _newWallet,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const Icon(CupertinoIcons.plus),
-                                          const SizedBox(width: 10),
-                                          const Text('addWallet').tr(),
-                                        ],
-                                      )),
-                                  const SizedBox(height: 30),
-                                  CupertinoButton(
-                                      color: Styles.takamakaColor,
-                                      onPressed: _restoreWallet,
-                                      child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const Icon(CupertinoIcons.arrow_3_trianglepath),
-                                            const SizedBox(width: 10),
-                                            const Text('restoreWallet').tr()
-                                          ])),
-                                  const SizedBox(height: 50),
-                                ])),
+                              const SizedBox(height: 50),
+                              CupertinoButton(
+                                  color: Styles.takamakaColor,
+                                  onPressed: _newWallet,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(CupertinoIcons.plus),
+                                      const SizedBox(width: 10),
+                                      const Text('addWallet').tr(),
+                                    ],
+                                  )),
+                              const SizedBox(height: 30),
+                              CupertinoButton(
+                                  color: Styles.takamakaColor,
+                                  onPressed: _restoreWallet,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(CupertinoIcons
+                                            .arrow_3_trianglepath),
+                                        const SizedBox(width: 10),
+                                        const Text('restoreWallet').tr()
+                                      ])),
+                              const SizedBox(height: 50),
+                            ])),
                         const SizedBox(height: 50)
                       ]))
             ],

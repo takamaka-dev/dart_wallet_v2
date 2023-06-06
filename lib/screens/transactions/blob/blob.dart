@@ -35,8 +35,9 @@ class Blob extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         const Text("blobSelection",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white)).tr(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white))
+                            .tr(),
                       ],
                     ),
                   ],
@@ -78,9 +79,10 @@ class Blob extends StatelessWidget {
                             children: [
                               const SizedBox(height: 10),
                               const Text('uploadFile',
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.w500)).tr(),
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.w500))
+                                  .tr(),
                               const SizedBox(height: 20),
                               const Icon(CupertinoIcons.doc_on_clipboard,
                                   color: Colors.black54),
@@ -118,9 +120,10 @@ class Blob extends StatelessWidget {
                             children: [
                               const SizedBox(height: 10),
                               const Text('uploadFileHash',
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.w500)).tr(),
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.w500))
+                                  .tr(),
                               const SizedBox(height: 20),
                               const Icon(CupertinoIcons.doc_on_clipboard,
                                   color: Colors.black54),
@@ -157,9 +160,10 @@ class Blob extends StatelessWidget {
                           children: [
                             const SizedBox(height: 10),
                             const Text('uploadSimpleText',
-                                style: TextStyle(
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w500)).tr(),
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.w500))
+                                .tr(),
                             const SizedBox(height: 20),
                             const Icon(CupertinoIcons.text_bubble_fill,
                                 color: Colors.black54),

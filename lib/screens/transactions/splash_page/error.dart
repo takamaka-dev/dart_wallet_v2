@@ -28,5 +28,4 @@ class ErrorSplashPage extends StatelessWidget {
         pageTransitionType: PageTransitionType.topToBottom,
         backgroundColor: Colors.white);
   }
-
 }

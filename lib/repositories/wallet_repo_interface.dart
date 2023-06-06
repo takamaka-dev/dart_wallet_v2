@@ -1,3 +1,1 @@
-abstract class WalletRepoInterface {
-  
-}
+abstract class WalletRepoInterface {}
