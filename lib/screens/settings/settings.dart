@@ -1,6 +1,7 @@
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:provider/provider.dart';
@@ -142,65 +143,73 @@ class _SettingState extends State<Settings> {
       child: ChangeNotifierProvider.value(
         value: Globals.instance,
         child: Consumer<Globals>(
-            builder: (context, model, child) => CupertinoPageScaffold(
-                  navigationBar: CupertinoNavigationBar(
-                    middle: const Text('settings').tr(),
+            builder: (context, model, child) => Container(
+              constraints: const BoxConstraints(
+                  minHeight: 1200
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.white
+              ),
+              child: CupertinoPageScaffold(
+                navigationBar: CupertinoNavigationBar(
+                  middle: const Text('settings').tr(),
+                ),
+                child: DefaultTextStyle(
+                  style: TextStyle(
+                    color: CupertinoColors.label.resolveFrom(context),
+                    fontSize: 22.0,
                   ),
-                  child: DefaultTextStyle(
-                    style: TextStyle(
-                      color: CupertinoColors.label.resolveFrom(context),
-                      fontSize: 22.0,
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          const SizedBox(height: 80),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              WalletUtils.renderQrImage(
-                                  model.recoveryWords.isEmpty
-                                      ? ''
-                                      : model.recoveryWords)
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          const Text('networkSelect').tr(),
-                          CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            // Display a CupertinoPicker with list of fruits.
-                            onPressed: () => _showActionSheet(context),
-                            // This displays the selected fruit name.
-                            child: Text(
-                              selectedNetworkName[0].toUpperCase() +
-                                  selectedNetworkName.substring(1),
-                              style: const TextStyle(
-                                fontSize: 22.0,
-                              ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        const SizedBox(height: 80),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            WalletUtils.renderQrImage(
+                                model.recoveryWords.isEmpty
+                                    ? ''
+                                    : model.recoveryWords)
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        const Text('networkSelect').tr(),
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          // Display a CupertinoPicker with list of fruits.
+                          onPressed: () => _showActionSheet(context),
+                          // This displays the selected fruit name.
+                          child: Text(
+                            selectedNetworkName[0].toUpperCase() +
+                                selectedNetworkName.substring(1),
+                            style: const TextStyle(
+                              fontSize: 22.0,
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          const Text('currencySelect').tr(),
-                          CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            // Display a CupertinoPicker with list of fruits.
-                            onPressed: () => _showActionSheetCurrency(context),
-                            // This displays the selected fruit name.
-                            child: Text(
-                              selectedCurrency[0].toUpperCase() +
-                                  selectedCurrency.substring(1),
-                              style: const TextStyle(
-                                fontSize: 22.0,
-                              ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text('currencySelect').tr(),
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          // Display a CupertinoPicker with list of fruits.
+                          onPressed: () => _showActionSheetCurrency(context),
+                          // This displays the selected fruit name.
+                          child: Text(
+                            selectedCurrency[0].toUpperCase() +
+                                selectedCurrency.substring(1),
+                            style: const TextStyle(
+                              fontSize: 22.0,
                             ),
                           ),
-                          const SizedBox(height: 50)
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 50)
+                      ],
                     ),
                   ),
-                )),
+                ),
+              ),
+            )),
       ),
     );
   }

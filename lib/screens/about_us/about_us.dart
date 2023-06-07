@@ -16,54 +16,64 @@ class AboutUs extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(
+          /*navigationBar: CupertinoNavigationBar(
+            backgroundColor: Colors.white,
             middle: const Text('aboutUs').tr(),
-          ),
-          child: Column(
-            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-            children: [
-              Container(
-                constraints: const BoxConstraints(maxWidth: 700),
-                padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
-                child: Center(
-                    child: Image.asset('images/logo.png',
-                        fit: BoxFit.fill, scale: 0.5)),
+          ),*/
+          child: Container(
+            constraints: const BoxConstraints(
+                minHeight: 800
+            ),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('images/splash.jpg'),
+                fit: BoxFit.cover,
               ),
-              Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  // constraints: const BoxConstraints(maxWidth: 700),
-                  padding: const EdgeInsets.all(30),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 700),
+                  padding: const EdgeInsets.fromLTRB(20, 80, 20, 50),
                   child: Center(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Text('AiliA SA',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 22)),
-                      const SizedBox(height: 10),
-                      const Text('Hertistrasse 25a 6300 Zug, CH',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w300)),
-                      const SizedBox(height: 50),
-                      CupertinoButton(
-                          color: Styles.takamakaColor,
-                          onPressed: _launchURLBrowser,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(CupertinoIcons.hand_thumbsup_fill),
-                              const Text('moreInfo').tr(),
-                            ],
-                          )),
-                      const SizedBox(height: 60)
-                    ],
-                  )))
-            ],
+                      child: Image.asset('images/takamaka_white.png',
+                          fit: BoxFit.fill, scale: 0.5)),
+                ),
+                Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    // constraints: const BoxConstraints(maxWidth: 700),
+                    padding: const EdgeInsets.all(30),
+                    child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const Text('AiliA SA',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 22)),
+                            const SizedBox(height: 10),
+                            const Text('Hertistrasse 25a 6300 Zug, CH',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w300)),
+                            const SizedBox(height: 50),
+                            CupertinoButton(
+                                color: Styles.formBgColor,
+                                onPressed: _launchURLBrowser,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(CupertinoIcons.hand_thumbsup_fill, color: Colors.black.withOpacity(0.7),),
+                                    const Text(style: TextStyle(color: Colors.black),'moreInfo').tr(),
+                                  ],
+                                )),
+                            const SizedBox(height: 60)
+                          ],
+                        )))
+              ],
+            ),
           )),
     );
   }

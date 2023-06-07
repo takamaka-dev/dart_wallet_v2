@@ -64,58 +64,66 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: CupertinoPageScaffold(
-          navigationBar: const CupertinoNavigationBar(
-            middle: Text('Home'),
-          ),
-          child: Column(
-            children: [
-              Container(child: const Center()),
-              Container(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        tryRenderWallets(),
-                        Center(
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                              const SizedBox(height: 50),
-                              CupertinoButton(
-                                  color: Styles.takamakaColor,
-                                  onPressed: _newWallet,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Icon(CupertinoIcons.plus),
-                                      const SizedBox(width: 10),
-                                      const Text('addWallet').tr(),
-                                    ],
-                                  )),
-                              const SizedBox(height: 30),
-                              CupertinoButton(
-                                  color: Styles.takamakaColor,
-                                  onPressed: _restoreWallet,
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Icon(CupertinoIcons
-                                            .arrow_3_trianglepath),
-                                        const SizedBox(width: 10),
-                                        const Text('restoreWallet').tr()
-                                      ])),
-                              const SizedBox(height: 50),
-                            ])),
-                        const SizedBox(height: 50)
-                      ]))
-            ],
-          )),
+      child: Container(
+        constraints: const BoxConstraints(
+            minHeight: 1200
+        ),
+        decoration: const BoxDecoration(
+            color: Colors.white
+        ),
+        child: CupertinoPageScaffold(
+            navigationBar: const CupertinoNavigationBar(
+              middle: Text('Home'),
+            ),
+            child: Column(
+              children: [
+                Container(child: const Center()),
+                Container(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          tryRenderWallets(),
+                          Center(
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(height: 50),
+                                    CupertinoButton(
+                                        color: Styles.takamakaColor,
+                                        onPressed: _newWallet,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const Icon(CupertinoIcons.plus),
+                                            const SizedBox(width: 10),
+                                            const Text('addWallet').tr(),
+                                          ],
+                                        )),
+                                    const SizedBox(height: 30),
+                                    CupertinoButton(
+                                        color: Styles.takamakaColor,
+                                        onPressed: _restoreWallet,
+                                        child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Icon(CupertinoIcons
+                                                  .arrow_3_trianglepath),
+                                              const SizedBox(width: 10),
+                                              const Text('restoreWallet').tr()
+                                            ])),
+                                    const SizedBox(height: 50),
+                                  ])),
+                          const SizedBox(height: 50)
+                        ]))
+              ],
+            )),
+      ),
     );
   }
 
