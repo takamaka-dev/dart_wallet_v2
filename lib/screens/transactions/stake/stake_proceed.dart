@@ -303,10 +303,10 @@ class _StakeProceedState extends State<StakeProceed> {
                   CupertinoTextField(
                     textAlign: TextAlign.center,
                     controller: _controller_2,
-                    onTap: () => {_controller_2.text = ""},
+                    readOnly: true,
                     onChanged: (value) => {updateTokenValue(value)},
                     placeholder:
-                        "${"Amount".tr()} (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
+                    "${"amount".tr()} (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
                   ),
                   const SizedBox(height: 20),
                   CupertinoTextField(

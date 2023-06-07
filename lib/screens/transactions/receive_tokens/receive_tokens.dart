@@ -191,7 +191,7 @@ class _ReceiveTokensState extends State<ReceiveTokens> {
                   CupertinoTextField(
                     textAlign: TextAlign.center,
                     controller: _controller_2,
-                    onTap: () => {_controller_2.text = ""},
+                    readOnly: true,
                     onChanged: (value) => {
                       updateTokenValue(value),
                       setState(() {
