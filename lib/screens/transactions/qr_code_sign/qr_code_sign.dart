@@ -65,6 +65,12 @@ class _QrCodeSignState extends State<QrCodeSign> {
             child: QRView(
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
+              overlay: QrScannerOverlayShape(
+                  borderLength: 20,
+                  borderRadius: 10,
+                  borderColor: Styles.takamakaColor,
+                  borderWidth: 10,
+                  cutOutSize: MediaQuery.of(context).size.width * 0.8),
             ),
           ),
           Expanded(
@@ -72,7 +78,7 @@ class _QrCodeSignState extends State<QrCodeSign> {
             child: Center(
               child: (result != null)
                   ? Text(
-                  'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                      'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
                   : Text('Scan a code'),
             ),
           )
@@ -81,7 +87,7 @@ class _QrCodeSignState extends State<QrCodeSign> {
     );
   }
 
-  /*@override
+/*@override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: CupertinoPageScaffold(
