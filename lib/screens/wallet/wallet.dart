@@ -471,7 +471,7 @@ class _WalletState extends State<Wallet> {
                                           return const TransactionList();
                                         }))
                                   },
-                                  child: const Center(child: Icon(CupertinoIcons.time, size: 40, color: Colors.black45))),
+                                  child: const Center(child: Icon(CupertinoIcons.time, size: 30, color: Colors.black45))),
                               CupertinoButton(
                                   color: Colors.grey.shade200,
                                   alignment: Alignment.topLeft,
@@ -483,14 +483,14 @@ class _WalletState extends State<Wallet> {
                                           return const ReceiveTokens();
                                         }))
                                   },
-                                  child: const Center(child: Icon(Icons.call_received, size: 40, color: Colors.black45))),
+                                  child: const Center(child: Icon(Icons.call_received, size: 30, color: Colors.black45))),
                               CupertinoButton(
                                   color: Colors.grey.shade200,
                                   alignment: Alignment.topLeft,
                                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                                   borderRadius: BorderRadius.zero,
                                   onPressed: () => {_launchURLBrowser()},
-                                  child: const Center(child: Icon(CupertinoIcons.location_solid, size: 40, color: Colors.black45))),
+                                  child: const Center(child: Icon(CupertinoIcons.location_solid, size: 30, color: Colors.black45))),
                               CupertinoButton(
                                   color: Colors.grey.shade200,
                                   alignment: Alignment.topLeft,
@@ -502,7 +502,7 @@ class _WalletState extends State<Wallet> {
                                           return const QrCodeSign();
                                         }))
                                   },
-                                  child: const Center(child: Icon(CupertinoIcons.qrcode_viewfinder, size: 40, color: Colors.black45)))
+                                  child: const Center(child: Icon(CupertinoIcons.qrcode_viewfinder, size: 30, color: Colors.black45)))
 
                             ]))
                       ],

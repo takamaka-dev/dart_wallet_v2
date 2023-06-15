@@ -19,7 +19,6 @@ class QrCodeSign extends StatefulWidget {
 }
 
 class _QrCodeSignState extends State<QrCodeSign> {
-
   @override
   void initState() {
     super.initState();
@@ -58,6 +57,32 @@ class _QrCodeSignState extends State<QrCodeSign> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            flex: 5,
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: (result != null)
+                  ? Text(
+                  'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                  : Text('Scan a code'),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  /*@override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: CupertinoPageScaffold(
         child: Column(
@@ -86,31 +111,23 @@ class _QrCodeSignState extends State<QrCodeSign> {
                                   style: TextStyle(color: Colors.white))
                               .tr(),
                         ],
-                      ),
-                      Expanded(
-                        flex: 5,
-                        child: QRView(
-                          key: qrKey,
-                          onQRViewCreated: _onQRViewCreated,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: (result != null)
-                              ? Text(
-                              'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                              : Text('Scan a code'),
-                        ),
                       )
-
                     ],
                   )),
             ),
-
+            QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+            ),
+            Center(
+              child: (result != null)
+                  ? Text(
+                  'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                  : Text('Scan a code'),
+            )
           ],
         ),
       ),
     );
-  }
+  }*/
 }
