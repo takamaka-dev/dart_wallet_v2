@@ -607,68 +607,61 @@ class _WalletState extends State<Wallet> {
                               ],
                             ),
                             const SizedBox(height: 50),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text("yourTakamakaAddress".tr(),
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold))
-                                ]),
-                            const SizedBox(height: 5),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text("yourTakamakaAddress".tr(),
+                                  softWrap: true,
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                            SizedBox(height: 5),
                             SizedBox(
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: walletAddress == null
                                     ? const CircularProgressIndicator()
-                                    : Row(
-                                        children: [
-                                          SelectableText(walletAddress!,
-                                              style: const TextStyle(
-                                                  color: Colors.white)),
-                                          const SizedBox(width: 10),
-                                          CupertinoButton(
-                                              color: Colors.grey.shade200,
-                                              minSize: 20,
-                                              // impostiamo la larghezza minima del pulsante
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                              onPressed: () async {
-                                                String notNullWalletAddress =
-                                                    walletAddress!;
-                                                Clipboard.setData(ClipboardData(
-                                                        text:
-                                                            notNullWalletAddress
-                                                                .trim()))
-                                                    .then(
-                                                  (value) {
-                                                    //only if ->
-                                                    Navigator.of(context)
-                                                        .restorablePush(
-                                                            _dialogBuilderCopiedAddress);
-                                                  },
-                                                );
-                                              },
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Icon(
-                                                        CupertinoIcons
-                                                            .doc_on_clipboard,
-                                                        size: 16,
-                                                        color: Styles
-                                                            .takamakaColor)
-                                                  ]))
-                                        ],
+                                    : Container(
+                                        child: Text(walletAddress!,
+                                            softWrap: true,
+                                            style: const TextStyle(
+                                                color: Colors.white)),
                                       ),
                               ),
                             ),
+                            const SizedBox(height: 10),
+                            Container(
+                                alignment: Alignment.topLeft,
+                                child: CupertinoButton(
+                                    color: Colors.grey.shade200,
+                                    minSize: 20,
+                                    // impostiamo la larghezza minima del pulsante
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 8),
+                                    onPressed: () async {
+                                      String notNullWalletAddress =
+                                          walletAddress!;
+                                      Clipboard.setData(ClipboardData(
+                                              text:
+                                                  notNullWalletAddress.trim()))
+                                          .then(
+                                        (value) {
+                                          //only if ->
+                                          Navigator.of(context).restorablePush(
+                                              _dialogBuilderCopiedAddress);
+                                        },
+                                      );
+                                    },
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(CupertinoIcons.doc_on_clipboard,
+                                              size: 16,
+                                              color: Styles.takamakaColor)
+                                        ]))),
                             const SizedBox(height: 20),
                             crc == null
                                 ? const CircularProgressIndicator()
