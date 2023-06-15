@@ -7,6 +7,7 @@ import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/blob/blob.dart';
 import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
+import 'package:dart_wallet_v2/screens/transactions/qr_code_sign/qr_code_sign.dart';
 import 'package:dart_wallet_v2/screens/transactions/receive_tokens/receive_tokens.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/stake.dart';
 import 'package:dart_wallet_v2/screens/transactions/transaction_list/transaction_list.dart';
@@ -464,8 +465,6 @@ class _WalletState extends State<Wallet> {
                                   alignment: Alignment.topLeft,
                                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                                   borderRadius: BorderRadius.zero,
-                                  // Rimuove il bordo arrotondato
-
                                   onPressed: () => {
                                     Navigator.of(context).push(
                                         CupertinoPageRoute<void>(builder: (BuildContext context) {
@@ -478,8 +477,6 @@ class _WalletState extends State<Wallet> {
                                   alignment: Alignment.topLeft,
                                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                                   borderRadius: BorderRadius.zero,
-                                  // Rimuove il bordo arrotondato
-
                                   onPressed: () => {
                                     Navigator.of(context).push(
                                         CupertinoPageRoute<void>(builder: (BuildContext context) {
@@ -492,8 +489,6 @@ class _WalletState extends State<Wallet> {
                                   alignment: Alignment.topLeft,
                                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                                   borderRadius: BorderRadius.zero,
-                                  // Rimuove il bordo arrotondato
-
                                   onPressed: () => {_launchURLBrowser()},
                                   child: const Center(child: Icon(CupertinoIcons.location_solid, size: 40, color: Colors.black45))),
                               CupertinoButton(
@@ -501,7 +496,12 @@ class _WalletState extends State<Wallet> {
                                   alignment: Alignment.topLeft,
                                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                                   borderRadius: BorderRadius.zero,
-                                  onPressed: () => {_launchURLBrowser()},
+                                  onPressed: () => {
+                                    Navigator.of(context).push(
+                                        CupertinoPageRoute<void>(builder: (BuildContext context) {
+                                          return const QrCodeSign();
+                                        }))
+                                  },
                                   child: const Center(child: Icon(CupertinoIcons.qrcode_viewfinder, size: 40, color: Colors.black45)))
 
                             ]))
