@@ -99,9 +99,13 @@ class _QrCodeSignState extends State<QrCodeSign> {
       TransactionBean tb2 = await TkmWallet.createGenericTransaction(
           itb, skp, Globals.instance.selectedFromAddress);
       String tb2Json = jsonEncode(tb2.toJson());
-      // String verifiedAndSigned = await CryptoMisc.signAndVerify(skp, message);
-      // costruire la nuova transazione BLOB
-      // firmarla
+      TransactionBox payload =
+      await TkmWallet.verifyTransactionIntegrity(tb2Json, skp);
+      final response = await ConsumerHelper.doRequest(
+          HttpMethods.POST,
+          ApiList().apiMap[Globals.instance.selectedNetwork]!["txverifywebsite"]!,
+          payload.toJson());
+      print(response);
       // inviarla in post a takamaka
     }
 
