@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -87,26 +88,34 @@ class _QrCodeSignState extends State<QrCodeSign> {
     SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
         Globals.instance.generatedSeed);
     String tbJson = scannedData.code??'';
-    TransactionBox verifiedTB =
-    await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
-    bool isVerified = verifiedTB.valid??false;
+    TransactionBean transactionBean = jsonDecode(tbJson);
+    String internaltb = transactionBean.message??'';
+    InternalTransactionBean internalTransactionBean = jsonDecode(internaltb);
+    if(internalTransactionBean.from == dotenv.get('ELIGIBLE_TAKAMAKA_ADRESS')) {
+      TransactionBox verifiedTB =
+      await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+      bool isVerified = verifiedTB.valid ?? false;
 
-    if(isVerified){
-      InternalTransactionBean itb = BuilderItb.blob(
-          Globals.instance.selectedFromAddress,
-          tbJson,
-          TKmTK.getTransactionTime());
-      TransactionBean tb2 = await TkmWallet.createGenericTransaction(
-          itb, skp, Globals.instance.selectedFromAddress);
-      String tb2Json = jsonEncode(tb2.toJson());
-      TransactionBox payload =
-      await TkmWallet.verifyTransactionIntegrity(tb2Json, skp);
-      final response = await ConsumerHelper.doRequest(
-          HttpMethods.POST,
-          ApiList().apiMap[Globals.instance.selectedNetwork]!["txverifywebsite"]!,
-          payload.toJson());
-      print(response);
-      // inviarla in post a takamaka
+      if (isVerified) {
+        InternalTransactionBean itb = BuilderItb.blob(
+            Globals.instance.selectedFromAddress,
+            tbJson,
+            TKmTK.getTransactionTime());
+        TransactionBean tb2 = await TkmWallet.createGenericTransaction(
+            itb, skp, Globals.instance.selectedFromAddress);
+        String tb2Json = jsonEncode(tb2.toJson());
+        TransactionBox payload =
+        await TkmWallet.verifyTransactionIntegrity(tb2Json, skp);
+        final response = await ConsumerHelper.doRequest(
+            HttpMethods.POST,
+            ApiList().apiMap[Globals.instance
+                .selectedNetwork]!["txverifywebsite"]!,
+            payload.toJson());
+        print(response);
+        // inviarla in post a takamaka
+      }
+    }else{
+      print('Not from a takamaka address');
     }
 
   }
