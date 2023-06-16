@@ -73,6 +73,7 @@ dependencies:
   easy_localization: ^3.0.2
   io_takamaka_core_wallet: ^2.0.4
   qr_code_scanner: ^1.0.1
+  qr_code_dart_scan: ^0.7.1
 
 dev_dependencies:
   flutter_test:
