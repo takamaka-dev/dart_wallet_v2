@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
@@ -45,6 +46,7 @@ class _QrCodeSignState extends State<QrCodeSign> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        verifyTransactionAndCallback(scanData);
       });
     });
   }
@@ -81,6 +83,29 @@ class _QrCodeSignState extends State<QrCodeSign> {
     );
   }
 
+  Future<void> verifyTransactionAndCallback(Barcode scannedData) async {
+    SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
+        Globals.instance.generatedSeed);
+    String tbJson = scannedData.code??'';
+    TransactionBox verifiedTB =
+    await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
+    bool isVerified = verifiedTB.valid??false;
+
+    if(isVerified){
+      InternalTransactionBean itb = BuilderItb.blob(
+          Globals.instance.selectedFromAddress,
+          tbJson,
+          TKmTK.getTransactionTime());
+      TransactionBean tb2 = await TkmWallet.createGenericTransaction(
+          itb, skp, Globals.instance.selectedFromAddress);
+      String tb2Json = jsonEncode(tb2.toJson());
+      // String verifiedAndSigned = await CryptoMisc.signAndVerify(skp, message);
+      // costruire la nuova transazione BLOB
+      // firmarla
+      // inviarla in post a takamaka
+    }
+
+  }
   /*@override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
