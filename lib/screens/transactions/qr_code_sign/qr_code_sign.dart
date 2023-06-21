@@ -72,21 +72,27 @@ class _QrCodeSignState extends State<QrCodeSign> {
     SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
         Globals.instance.generatedSeed);
 
-    // TransactionBean tb = TransactionBean();
-    // tb.message ="{\"from\":\"PmwBpB9fY0oyA_IZbYeOBr5ImIfN7ZiXs12elWQcyno.\",\"to\":\"7Y-QAQYbUqpuwH3-_P0jLa3fd8zAtjCaw1AkVCHuIDU.\",\"message\":\"ciao\",\"notBefore\":1683706093246,\"redValue\":null,\"greenValue\":1000000000,\"transactionType\":\"PAY\",\"transactionHash\":\"Y1pEdKSDqQ4jxbVieVPdak-h9jxVi_wt-GGQnq2oUcM.\",\"epoch\":null,\"slot\":null}";
-    // tb.publicKey = "PmwBpB9fY0oyA_IZbYeOBr5ImIfN7ZiXs12elWQcyno.";
-    // tb.randomSeed ="D2CG";
-    // tb.signature = "pY2KAdaB6LgOIP91tYw7rHEFSb87tVboXhKBtndmZPy03HEsL_YvEzHrN1a7BEr1g1nfi9FEdPUiJGIHSF1mBw..";
-    // tb.walletCypher = "Ed25519BC";
-
     TransactionBean tb = TransactionBean();
-    tb.message ="{\"from\":\"OqLE7PuGUsgYfmrtNJIbQMowJmTw7b2hWrlf3dsxy40.\",\"to\":\"7vI0N7nqWJqmpe3ehfIK40Ucc_xOBAePFzgLGXTUul0.\",\"message\":\"2d8ar9drby_1021r99rqaq64b3z_q950\",\"notBefore\":0,\"redValue\":null,\"greenValue\":null,\"transactionType\":\"BLOB\",\"transactionHash\":\"848S_ltfhuyvhYJ84FTWgCS1FDM39ieBebzdNRhE-Q0.\",\"epoch\":null,\"slot\":null}";
-    tb.publicKey = "OqLE7PuGUsgYfmrtNJIbQMowJmTw7b2hWrlf3dsxy40.";
-    tb.randomSeed ="xMra";
-    tb.signature = "RxryIfuwfxR3a_vLFSpqj-BI0P5r3ueubc0Pe8MgAWfLEku4SlyWmKnIa53BIXJYbhrjPtBmbaVucooi3cCWBg..";
+    tb.message ="{\"from\":\"PmwBpB9fY0oyA_IZbYeOBr5ImIfN7ZiXs12elWQcyno.\",\"to\":\"7Y-QAQYbUqpuwH3-_P0jLa3fd8zAtjCaw1AkVCHuIDU.\",\"message\":\"ciao\",\"notBefore\":1683706093246,\"redValue\":null,\"greenValue\":1000000000,\"transactionType\":\"PAY\",\"transactionHash\":\"Y1pEdKSDqQ4jxbVieVPdak-h9jxVi_wt-GGQnq2oUcM.\",\"epoch\":null,\"slot\":null}";
+    tb.publicKey = "PmwBpB9fY0oyA_IZbYeOBr5ImIfN7ZiXs12elWQcyno.";
+    tb.randomSeed ="D2CG";
+    tb.signature = "pY2KAdaB6LgOIP91tYw7rHEFSb87tVboXhKBtndmZPy03HEsL_YvEzHrN1a7BEr1g1nfi9FEdPUiJGIHSF1mBw..";
     tb.walletCypher = "Ed25519BC";
 
+    // TransactionBean tb = TransactionBean();
+    // tb.message ="{\"from\":\"5Ra-N-s9zJqgoAzrKxWZ3O9oluhP_WYL3K46IRJU2X4.\",\"to\":\"eTMddu48tLU2uNmB_husTiRzmDLFG3e63n2aTi7N4Vg.\",\"message\":\"pullus\",\"notBefore\":1687271102595,\"redValue\":500,\"greenValue\":null,\"transactionType\":\"PAY\",\"transactionHash\":\"TpjZSrvV32pGscCmse1zhoPWPSyjbJbZKjDHSEjKIE8.\",\"epoch\":null,\"slot\":null}";
+    // tb.publicKey = "5Ra-N-s9zJqgoAzrKxWZ3O9oluhP_WYL3K46IRJU2X4.";
+    // tb.randomSeed ="BOya";
+    // tb.signature = "p9wT0khsrhgt5Jlm_N0JuGEMD-a6CZpm-cFE5yu4eWmaLvF4-jQbYUeSRdxedpmchD8pSKdUXnJgUM-C4UOTBw..";
+    // tb.walletCypher = "Ed25519BC";
+
+    // SimplePublicKey pubk = await skp.extractPublicKey();
+    String base64key = StringUtilities.convertFromBase64UrlSafeToBase64("PmwBpB9fY0oyA_IZbYeOBr5ImIfN7ZiXs12elWQcyno.");
+    SimplePublicKey s = SimplePublicKey(base64.decode(base64key), type: KeyPairType.ed25519);
+    SimpleKeyPair kp = SimpleKeyPairData([], publicKey: s, type: KeyPairType.ed25519);
+
     String tbJson = jsonEncode(tb);
+    await CryptoMisc.veryfySign(kp, tbJson, tb.signature!);
     TransactionBox verifiedTB =
     await TkmWallet.verifyTransactionIntegrity(tbJson, skp);
     bool isVerified = verifiedTB.valid??false;
