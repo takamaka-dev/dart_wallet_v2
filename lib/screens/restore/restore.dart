@@ -19,7 +19,7 @@ class Restore extends StatelessWidget {
 
   Future<void> _restoreWallet(context) async {
     //context.loaderOverlay.show();
-    walletName = walletPasswordController.text;
+    walletName = walletNameController.text;
     password = walletPasswordController.text;
     List<String> wordList = [];
     if (Globals.instance.restoreNewWalletsWords.isNotEmpty) {
@@ -41,7 +41,7 @@ class Restore extends StatelessWidget {
 
     onRefresh();
     //context.loaderOverlay.hide();
-    Navigator.pop(context, true);
+    Globals.instance.resetAndGoToRoot(context);
   }
 
   var walletNameLocale = tr('walletNameLocale');

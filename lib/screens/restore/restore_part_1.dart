@@ -29,10 +29,19 @@ class _RestorePart1State extends State<RestorePart1> {
 
   void updateTagsList(String value) {
     if (value.isNotEmpty) {
-      setState(() {
-        _errorEmptyTag = false;
-        Globals.instance.restoreNewWalletsWords.add(value);
-      });
+      if (value.split(" ").isNotEmpty) {
+        setState(() {
+          _errorEmptyTag = false;
+          Globals.instance.restoreNewWalletsWords.addAll(value.split(" "));
+        });
+      } else {
+        setState(() {
+          _errorEmptyTag = false;
+          Globals.instance.restoreNewWalletsWords.add(value);
+        });
+      }
+
+
     } else {
       setState(() {
         _errorEmptyTag = true;
