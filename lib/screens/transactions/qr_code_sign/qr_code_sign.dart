@@ -6,6 +6,7 @@ import 'package:cryptography/cryptography.dart';
 import 'package:cryptography/dart.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
@@ -76,10 +77,10 @@ class _QrCodeSignState extends State<QrCodeSign> {
         Globals.instance.generatedSeed);
 
     TransactionBean tb = TransactionBean();
-    tb.message ="{\"from\":\"5Ra-N-s9zJqgoAzrKxWZ3O9oluhP_WYL3K46IRJU2X4.\",\"to\":\"eTMddu48tLU2uNmB_husTiRzmDLFG3e63n2aTi7N4Vg.\",\"message\":\"pullus\",\"notBefore\":1687271102595,\"redValue\":500,\"greenValue\":null,\"transactionType\":\"PAY\",\"transactionHash\":\"TpjZSrvV32pGscCmse1zhoPWPSyjbJbZKjDHSEjKIE8.\",\"epoch\":null,\"slot\":null}";
-    tb.publicKey = "5Ra-N-s9zJqgoAzrKxWZ3O9oluhP_WYL3K46IRJU2X4.";
-    tb.randomSeed ="BOya";
-    tb.signature = "p9wT0khsrhgt5Jlm_N0JuGEMD-a6CZpm-cFE5yu4eWmaLvF4-jQbYUeSRdxedpmchD8pSKdUXnJgUM-C4UOTBw..";
+    tb.message ="{\"from\":\"JzBcX2bJqZA82gOisilXwPd6szu1pnJMYZ7mamF1OgE.\",\"to\":\"7vI0N7nqWJqmpe3ehfIK40Ucc_xOBAePFzgLGXTUul0.\",\"message\":\"490cda2343zbx83b_q9113x2742c1414\",\"notBefore\":1773752432030,\"redValue\":null,\"greenValue\":null,\"transactionType\":\"BLOB\",\"transactionHash\":\"ztq3dvG02WNL8Ax12-FsHYVSkTH4ymGJn0gIUIFTJpo.\",\"epoch\":null,\"slot\":null}";
+    tb.publicKey = "JzBcX2bJqZA82gOisilXwPd6szu1pnJMYZ7mamF1OgE.";
+    tb.randomSeed ="JEmb";
+    tb.signature = "XY8QaSJOaV7a_gVkyPTVawzXPWlE5QkMSu8-fE-pf-fdDiT2w8MPOIAzpB2QxqXMVXtqMRgPSlroHNZjZ9ZSAQ..";
     tb.walletCypher = "Ed25519BC";
 
     // SimplePublicKey pubk = await skp.extractPublicKey();
@@ -88,7 +89,7 @@ class _QrCodeSignState extends State<QrCodeSign> {
     bool isVerified = await CryptoMisc.verifySign(tb);
 
     if(isVerified){
-      InternalTransactionBean itb = BuilderItb.blob(
+      InternalTransactionBean itb = BuilderItb.blobSignRequest(
           Globals.instance.selectedFromAddress,
           tbJson,
           TKmTK.getTransactionTime());
@@ -97,13 +98,40 @@ class _QrCodeSignState extends State<QrCodeSign> {
       String tb2Json = jsonEncode(gtb);
       TransactionBox signedTbox =
       await TkmWallet.verifyTransactionIntegrity(tb2Json, skp);
-      Map<String, dynamic> stb = signedTbox.tb!.toJson();
+      String signTbJson = jsonEncode(signedTbox);
+      Map<String, dynamic> trx = {
+        'trx_to_verify': signTbJson
+      };
       final response = await ConsumerHelper.doRequest(
           HttpMethods.POST,
           ApiList().apiMap['local']!["txverifywebsite"]!,
-          stb);
+          trx);
+      Map<String, dynamic> responseJson = jsonDecode(response);
+      if(responseJson['res'] == true){
+        Navigator.of(context).restorablePush(_dialogBuilderSuccess);
+      }
       // inviarla in post a takamaka
     }
-
+  }
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogBuilderSuccess(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('Success').tr(),
+          content: const Text('Success').tr(),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('ok').tr(),
+            )
+          ],
+        );
+      },
+    );
   }
 }
