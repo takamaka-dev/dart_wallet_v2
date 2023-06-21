@@ -75,12 +75,12 @@ class _QrCodeSignState extends State<QrCodeSign> {
     SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
         Globals.instance.generatedSeed);
 
-/*    TransactionBean tb = TransactionBean();
+    TransactionBean tb = TransactionBean();
     tb.message ="{\"from\":\"5Ra-N-s9zJqgoAzrKxWZ3O9oluhP_WYL3K46IRJU2X4.\",\"to\":\"eTMddu48tLU2uNmB_husTiRzmDLFG3e63n2aTi7N4Vg.\",\"message\":\"pullus\",\"notBefore\":1687271102595,\"redValue\":500,\"greenValue\":null,\"transactionType\":\"PAY\",\"transactionHash\":\"TpjZSrvV32pGscCmse1zhoPWPSyjbJbZKjDHSEjKIE8.\",\"epoch\":null,\"slot\":null}";
     tb.publicKey = "5Ra-N-s9zJqgoAzrKxWZ3O9oluhP_WYL3K46IRJU2X4.";
     tb.randomSeed ="BOIA";
     tb.signature = "p9wT0khsrhgt5Jlm_N0JuGEMD-a6CZpm-cFE5yu4eWmaLvF4-jQbYUeSRdxedpmchD8pSKdUXnJgUM-C4UOTBw..";
-    tb.walletCypher = "Ed25519BC";*/
+    tb.walletCypher = "Ed25519BC";
 
     // SimplePublicKey pubk = await skp.extractPublicKey();
 
