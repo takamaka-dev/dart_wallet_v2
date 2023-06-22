@@ -23,43 +23,24 @@ class _QrCodeSignState extends State<QrCodeSign> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(child:
        QRCodeDartScanView(
-         scanInvertedQRCode: true, // enable scan invert qr code ( default = false)
+         scanInvertedQRCode: false, // enable scan invert qr code ( default = false)
          typeScan: TypeScan.live, // if TypeScan.takePicture will try decode when click to take a picture (default TypeScan.live)
-         // takePictureButtonBuilder: (context,controller,isLoading){ // if typeScan == TypeScan.takePicture you can customize the button.
-         //    if(loading) return CircularProgressIndicator();
-         //    return ElevatedButton(
-         //       onPressed:controller.takePictureAndDecode,
-         //       child:Text('Take a picture'),
-         //    );
-         // }
-         // resolutionPreset: = QrCodeDartScanResolutionPreset.high,
-         // formats: [ // You can restrict specific formats.
-         //   BarcodeFormat.QR_CODE,
-         //   BarcodeFormat.AZTEC,
-         //   BarcodeFormat.DATA_MATRIX,
-         //   BarcodeFormat.PDF_417,
-         //   BarcodeFormat.CODE_39,
-         //   BarcodeFormat.CODE_93,
-         //   BarcodeFormat.CODE_128,
-         //  BarcodeFormat.EAN_8,
-         //   BarcodeFormat.EAN_13,
-         // ],
          onCapture: (Result result) {
            verifyTransactionAndCallback(result);
-           // do anything with result
-           // result.text
-           // result.rawBytes
-           // result.resultPoints
-           // result.format
-           // result.numBits
-           // result.resultMetadata
-           // result.time
          },
        )
     );
   }
 
   Future<void> verifyTransactionAndCallback(Result scannedData) async {
+
+    final response = await ConsumerHelper.doRequest(
+        HttpMethods.POST,
+        ApiList().apiMap['local']!["trxgetnoncedata"]!,
+        {
+          'id_rand_hex': scannedData.text
+        });
+
     SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
         Globals.instance.generatedSeed);
 
