@@ -77,10 +77,10 @@ class _QrCodeSignState extends State<QrCodeSign> {
         Globals.instance.generatedSeed);
 
     TransactionBean tb = TransactionBean();
-    tb.message ="{\"from\":\"JzBcX2bJqZA82gOisilXwPd6szu1pnJMYZ7mamF1OgE.\",\"to\":\"7vI0N7nqWJqmpe3ehfIK40Ucc_xOBAePFzgLGXTUul0.\",\"message\":\"490cda2343zbx83b_q9113x2742c1414\",\"notBefore\":1773752432030,\"redValue\":null,\"greenValue\":null,\"transactionType\":\"BLOB\",\"transactionHash\":\"ztq3dvG02WNL8Ax12-FsHYVSkTH4ymGJn0gIUIFTJpo.\",\"epoch\":null,\"slot\":null}";
+    tb.message ="{\"from\":\"JzBcX2bJqZA82gOisilXwPd6szu1pnJMYZ7mamF1OgE.\",\"to\":\"PmwBpB9fY0oyA_IZbYeOBr5ImIfN7ZiXs12elWQcyno.\",\"message\":\"pz2ac9pd5r5xx9ayr0a29c_486r590x3\",\"notBefore\":1693419858900,\"redValue\":null,\"greenValue\":null,\"transactionType\":\"BLOB\",\"transactionHash\":\"qJ7uZEDqtt6g_QLYYhEcSXjx7oIp95eTvC5RqB7X9rI.\",\"epoch\":null,\"slot\":null}";
     tb.publicKey = "JzBcX2bJqZA82gOisilXwPd6szu1pnJMYZ7mamF1OgE.";
-    tb.randomSeed ="JEmb";
-    tb.signature = "XY8QaSJOaV7a_gVkyPTVawzXPWlE5QkMSu8-fE-pf-fdDiT2w8MPOIAzpB2QxqXMVXtqMRgPSlroHNZjZ9ZSAQ..";
+    tb.randomSeed ="Q18g";
+    tb.signature = "9DX0CvF-A-UEDAH_ZQrkuOSzn-yZj58wqtWLV0i2sYE3L_4PLiGqwnlKPoyGgeuHjJps2Z-R-Oaeu96MkC-2AQ..";
     tb.walletCypher = "Ed25519BC";
 
     // SimplePublicKey pubk = await skp.extractPublicKey();
