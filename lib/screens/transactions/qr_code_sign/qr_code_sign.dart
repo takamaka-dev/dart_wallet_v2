@@ -77,10 +77,10 @@ class _QrCodeSignState extends State<QrCodeSign> {
         Globals.instance.generatedSeed);
 
     TransactionBean tb = TransactionBean();
-    tb.message ="{\"from\":\"JzBcX2bJqZA82gOisilXwPd6szu1pnJMYZ7mamF1OgE.\",\"to\":\"PmwBpB9fY0oyA_IZbYeOBr5ImIfN7ZiXs12elWQcyno.\",\"message\":\"pz2ac9pd5r5xx9ayr0a29c_486r590x3\",\"notBefore\":1693419858900,\"redValue\":null,\"greenValue\":null,\"transactionType\":\"BLOB\",\"transactionHash\":\"qJ7uZEDqtt6g_QLYYhEcSXjx7oIp95eTvC5RqB7X9rI.\",\"epoch\":null,\"slot\":null}";
+    tb.message ="{\"from\":\"Ns559nPpty-fEOzV1Xx5sm49ITFTlNDAezW2BETh75c.\",\"to\":\"\",\"message\":\"a956z24q0b36rda314p9077xz889b2d5\",\"notBefore\":1693435948249,\"redValue\":null,\"greenValue\":null,\"transactionType\":\"BLOB\",\"transactionHash\":\"9iM_fc0FfgwEvt2Ya6D8swT5UhyYb1Cv_Y8CK8ksq9A.\",\"epoch\":null,\"slot\":null}";
     tb.publicKey = "JzBcX2bJqZA82gOisilXwPd6szu1pnJMYZ7mamF1OgE.";
-    tb.randomSeed ="Q18g";
-    tb.signature = "9DX0CvF-A-UEDAH_ZQrkuOSzn-yZj58wqtWLV0i2sYE3L_4PLiGqwnlKPoyGgeuHjJps2Z-R-Oaeu96MkC-2AQ..";
+    tb.randomSeed ="dqdP";
+    tb.signature = "NidUKZMZVIS3-HZTbPxIUzaxdkujf8b5q2LJP-PkP7ulRgl7JC-4ca1RUl7Pf8vkEyNHbWa9feK_BcDWoX3xBA..";
     tb.walletCypher = "Ed25519BC";
 
     // SimplePublicKey pubk = await skp.extractPublicKey();
