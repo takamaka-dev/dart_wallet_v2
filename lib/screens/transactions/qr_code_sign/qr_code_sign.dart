@@ -22,34 +22,53 @@ class _QrCodeSignState extends State<QrCodeSign> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(child:
-       QRCodeDartScanView(
+        Column(children: [
+          CupertinoButton(
+            onPressed: () {
+              verifyTransactionAndCallback('z26x6xc727xba0cb16c1ax2rp4p2q2r1', true);
+            }, child: Text("Click to test login"),
+          ),
+          CupertinoButton(
+            onPressed: () {
+              verifyTransactionAndCallback('pbqry_z21p4qrzya69cz1yb1d7z438p8', false);
+            }, child: Text("Click to test select"),
+          )
+        ],)
+       /*QRCodeDartScanView(
          scanInvertedQRCode: false, // enable scan invert qr code ( default = false)
          typeScan: TypeScan.live, // if TypeScan.takePicture will try decode when click to take a picture (default TypeScan.live)
          onCapture: (Result result) {
            verifyTransactionAndCallback(result);
          },
-       )
+       )*/
     );
   }
 
-  Future<void> verifyTransactionAndCallback(Result scannedData) async {
-
+  //Future<void> verifyTransactionAndCallback(Result scannedData) async {
+  Future<void> verifyTransactionAndCallback(String code, bool isLoginAction) async {
     final response = await ConsumerHelper.doRequest(
         HttpMethods.POST,
-        ApiList().apiMap['local']!["trxgetnoncedata"]!,
+        isLoginAction ? ApiList().apiMap['local']!["trxgetnoncedata"]! : ApiList().apiMap['local']!['trxgetnoncedataselect']!,
         {
-          'id_rand_hex': scannedData.text
+          'nonce': code,
+          'selected_address': isLoginAction ? '' : Globals.instance.selectedFromAddress
         });
+    
+    var decodedJsonResponse = jsonDecode(response);
+
+    final myApiResponse = RequestChallengeFromNetty.fromJson(jsonDecode(response));
+
+    var myApiDataResponse = myApiResponse.data.values.toList();
 
     SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
         Globals.instance.generatedSeed);
 
     TransactionBean tb = TransactionBean();
-    tb.message ="{\"from\":\"Ns559nPpty-fEOzV1Xx5sm49ITFTlNDAezW2BETh75c.\",\"to\":\"\",\"message\":\"7d383r_9_b6p42ycz4qq5610b3xq_7yp\",\"notBefore\":1693441529415,\"redValue\":null,\"greenValue\":null,\"transactionType\":\"BLOB\",\"transactionHash\":\"TzR1k8-ksBG0yvZ_3GsypXo1PtEniASi-82YyMXZnkc.\",\"epoch\":null,\"slot\":null}";
-    tb.publicKey = "Ns559nPpty-fEOzV1Xx5sm49ITFTlNDAezW2BETh75c.";
-    tb.randomSeed ="xLmY";
-    tb.signature = "yhrYv-iN6tj6Kt69duvr4flWQOsU40pEqw0nywsWo4bsW3DT66YllAUGynTCStxD6l9s6fuP31geXz2Piz4TAw..";
-    tb.walletCypher = "Ed25519BC";
+    tb.message = myApiDataResponse[0];
+    tb.publicKey = myApiDataResponse[1];
+    tb.randomSeed = myApiDataResponse[2];
+    tb.signature = myApiDataResponse[3];
+    tb.walletCypher = myApiDataResponse[4];
 
     // SimplePublicKey pubk = await skp.extractPublicKey();
 
