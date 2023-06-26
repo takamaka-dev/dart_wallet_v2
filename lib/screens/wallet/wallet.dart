@@ -22,6 +22,8 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../transactions/qr_code_sign/pre_select_qr_scan.dart';
+
 class Wallet extends StatefulWidget {
   const Wallet(this.walletName, {super.key});
 
@@ -499,7 +501,7 @@ class _WalletState extends State<Wallet> {
                                   onPressed: () => {
                                     Navigator.of(context).push(
                                         CupertinoPageRoute<void>(builder: (BuildContext context) {
-                                          return const QrCodeSign();
+                                          return const PreSelectQrScan();
                                         }))
                                   },
                                   child: const Center(child: Icon(CupertinoIcons.qrcode_viewfinder, size: 30, color: Colors.black45)))
