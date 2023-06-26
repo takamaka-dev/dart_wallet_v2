@@ -217,6 +217,15 @@ class Globals with ChangeNotifier {
     _walletAddress = value;
   }
 
+  bool _isLoginSign = false;
+
+
+  bool get isLoginSign => _isLoginSign;
+
+  set isLoginSign(bool value) {
+    _isLoginSign = value;
+  }
+
   void resetAndOpenPage(context) {
     Navigator.pushAndRemoveUntil<void>(
       context,

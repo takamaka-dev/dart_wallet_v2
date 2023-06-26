@@ -95,5 +95,8 @@
   "amount": "Amount",
   "enterTextHere": "Enter your text here",
   "typeHereCheckWord": "Type here check word",
-  "pay": "Pay Section"
+  "pay": "Pay Section",
+  "qrselection" : "Qr Selection",
+  "signForLogin" : "Sign for Login",
+  "loginSelectWallet" : "Login select wallet"
 }

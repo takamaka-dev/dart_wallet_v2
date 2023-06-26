@@ -22,30 +22,31 @@ class _QrCodeSignState extends State<QrCodeSign> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(child:
-        Column(children: [
-          CupertinoButton(
-            onPressed: () {
-              verifyTransactionAndCallback('z26x6xc727xba0cb16c1ax2rp4p2q2r1', true);
-            }, child: Text("Click to test login"),
-          ),
-          CupertinoButton(
-            onPressed: () {
-              verifyTransactionAndCallback('pbqry_z21p4qrzya69cz1yb1d7z438p8', false);
-            }, child: Text("Click to test select"),
-          )
-        ],)
-       /*QRCodeDartScanView(
+        // Column(children: [
+        //   // CupertinoButton(
+        //   //   onPressed: () {
+        //   //     verifyTransactionAndCallback('z26x6xc727xba0cb16c1ax2rp4p2q2r1', Globals.instance.isLoginSign);
+        //   //   }, child: Text("Click to test login"),
+        //   // ),
+        //   // CupertinoButton(
+        //   //   onPressed: () {
+        //   //     verifyTransactionAndCallback('pbqry_z21p4qrzya69cz1yb1d7z438p8', false);
+        //   //   }, child: Text("Click to test select"),
+        //   // )
+        // ],)
+       QRCodeDartScanView(
          scanInvertedQRCode: false, // enable scan invert qr code ( default = false)
          typeScan: TypeScan.live, // if TypeScan.takePicture will try decode when click to take a picture (default TypeScan.live)
          onCapture: (Result result) {
-           verifyTransactionAndCallback(result);
+           verifyTransactionAndCallback(result, Globals.instance.isLoginSign);
          },
-       )*/
+       )
     );
   }
 
-  //Future<void> verifyTransactionAndCallback(Result scannedData) async {
-  Future<void> verifyTransactionAndCallback(String code, bool isLoginAction) async {
+  Future<void> verifyTransactionAndCallback(Result scannedData, bool isLoginAction) async {
+  // Future<void> verifyTransactionAndCallback(String code, bool isLoginAction) async {
+    String code = scannedData.text;
     final response = await ConsumerHelper.doRequest(
         HttpMethods.POST,
         isLoginAction ? ApiList().apiMap['local']!["trxgetnoncedata"]! : ApiList().apiMap['local']!['trxgetnoncedataselect']!,

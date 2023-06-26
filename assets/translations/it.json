@@ -95,5 +95,8 @@
   "amount": "Somma",
   "enterTextHere": "Entera il tuo testo qui",
   "typeHereCheckWord": "Digitare qui parola di controllo",
-  "pay": "Sezione Pay"
+  "pay": "Sezione Pay",
+  "qrselection" : "Seleziona Qr",
+  "signForLogin" : "Firma per login",
+  "loginSelectWallet" : "Login wallet selezionato"
 }
