@@ -8,7 +8,9 @@ import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:qr_code_dart_scan/qr_code_dart_scan.dart';
 
 class QrCodeSign extends StatefulWidget {
@@ -21,7 +23,16 @@ class QrCodeSign extends StatefulWidget {
 class _QrCodeSignState extends State<QrCodeSign> {
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(child:
+    return CupertinoPageScaffold(
+        child: QRCodeDartScanView(
+      scanInvertedQRCode: false,
+      // enable scan invert qr code ( default = false)
+      typeScan: TypeScan.live,
+      // if TypeScan.takePicture will try decode when click to take a picture (default TypeScan.live)
+      onCapture: (Result result) {
+        verifyTransactionAndCallback(result, Globals.instance.isLoginSign);
+      },
+    )
         // Column(children: [
         //   // CupertinoButton(
         //   //   onPressed: () {
@@ -34,33 +45,33 @@ class _QrCodeSignState extends State<QrCodeSign> {
         //   //   }, child: Text("Click to test select"),
         //   // )
         // ],)
-       QRCodeDartScanView(
-         scanInvertedQRCode: false, // enable scan invert qr code ( default = false)
-         typeScan: TypeScan.live, // if TypeScan.takePicture will try decode when click to take a picture (default TypeScan.live)
-         onCapture: (Result result) {
-           verifyTransactionAndCallback(result, Globals.instance.isLoginSign);
-         },
-       )
-    );
+
+        );
   }
 
-  Future<void> verifyTransactionAndCallback(Result scannedData, bool isLoginAction) async {
-  // Future<void> verifyTransactionAndCallback(String code, bool isLoginAction) async {
+  Future<void> verifyTransactionAndCallback(
+      Result scannedData, bool isLoginAction) async {
+    context.loaderOverlay.show();
+    // Future<void> verifyTransactionAndCallback(String code, bool isLoginAction) async {
     String code = scannedData.text;
     final response = await ConsumerHelper.doRequest(
         HttpMethods.POST,
-        isLoginAction ? ApiList().apiMap['local']!["trxgetnoncedata"]! : ApiList().apiMap['local']!['trxgetnoncedataselect']!,
+        isLoginAction
+            ? ApiList().apiMap['local']!["trxgetnoncedata"]!
+            : ApiList().apiMap['local']!['trxgetnoncedataselect']!,
         {
           'nonce': code,
-          'selected_address': isLoginAction ? '' : Globals.instance.selectedFromAddress
+          'selected_address':
+              isLoginAction ? '' : Globals.instance.selectedFromAddress
         });
 
-    final myApiResponse = RequestChallengeFromNetty.fromJson(jsonDecode(response));
+    final myApiResponse =
+        RequestChallengeFromNetty.fromJson(jsonDecode(response));
 
     var myApiDataResponse = myApiResponse.data.values.toList();
 
-    SimpleKeyPair skp = await WalletUtils.getNewKeypairED25519(
-        Globals.instance.generatedSeed);
+    SimpleKeyPair skp =
+        await WalletUtils.getNewKeypairED25519(Globals.instance.generatedSeed);
 
     TransactionBean tb = TransactionBean();
     tb.message = myApiDataResponse[0];
@@ -74,7 +85,7 @@ class _QrCodeSignState extends State<QrCodeSign> {
     String tbJson = jsonEncode(tb);
     bool isVerified = await CryptoMisc.verifySign(tb);
 
-    if(isVerified){
+    if (isVerified) {
       InternalTransactionBean itb = BuilderItb.blobSignRequest(
           Globals.instance.selectedFromAddress,
           tbJson,
@@ -83,41 +94,19 @@ class _QrCodeSignState extends State<QrCodeSign> {
           itb, skp, Globals.instance.selectedFromAddress);
       String tb2Json = jsonEncode(gtb);
       TransactionBox signedTbox =
-      await TkmWallet.verifyTransactionIntegrity(tb2Json, skp);
+          await TkmWallet.verifyTransactionIntegrity(tb2Json, skp);
       String signTbJson = jsonEncode(signedTbox);
-      Map<String, dynamic> trx = {
-        'trx_to_verify': signTbJson
-      };
-      final response = await ConsumerHelper.doRequest(
-          HttpMethods.POST,
-          ApiList().apiMap['local']!["txverifywebsite"]!,
-          trx);
+      Map<String, dynamic> trx = {'trx_to_verify': signTbJson};
+      final response = await ConsumerHelper.doRequest(HttpMethods.POST,
+          ApiList().apiMap['local']!["txverifywebsite"]!, trx);
       Map<String, dynamic> responseJson = jsonDecode(response);
-      if(responseJson['res'] == true){
-        Navigator.of(context).restorablePush(_dialogBuilderSuccess);
-      }
+      context.loaderOverlay.hide();
+      Globals.instance.resetAndOpenPage(context);
+      /*if (responseJson['res'] == true) {
+        Globals.instance.resetAndOpenPage(context);
+      }*/
       // inviarla in post a takamaka
     }
   }
-  @pragma('vm:entry-point')
-  static Route<Object?> _dialogBuilderSuccess(
-      BuildContext context, Object? arguments) {
-    return CupertinoDialogRoute<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return CupertinoAlertDialog(
-          title: const Text('Success').tr(),
-          content: const Text('Success').tr(),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('ok').tr(),
-            )
-          ],
-        );
-      },
-    );
-  }
+
 }
