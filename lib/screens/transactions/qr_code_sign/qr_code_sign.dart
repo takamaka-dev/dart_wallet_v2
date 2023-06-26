@@ -53,8 +53,6 @@ class _QrCodeSignState extends State<QrCodeSign> {
           'nonce': code,
           'selected_address': isLoginAction ? '' : Globals.instance.selectedFromAddress
         });
-    
-    var decodedJsonResponse = jsonDecode(response);
 
     final myApiResponse = RequestChallengeFromNetty.fromJson(jsonDecode(response));
 
