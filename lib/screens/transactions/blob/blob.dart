@@ -44,7 +44,10 @@ class Blob extends StatelessWidget {
                 )),
           ),
           Container(
-            padding: const EdgeInsets.all(70),
+            padding: const EdgeInsets.all(10),
+            constraints: const BoxConstraints(
+                minHeight: 700
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -88,7 +91,6 @@ class Blob extends StatelessWidget {
                                   color: Colors.black54),
                               const SizedBox(height: 10),
                             ]))),
-                const SizedBox(height: 60),
                 Container(
                     decoration: BoxDecoration(
                         border: Border(
@@ -129,7 +131,6 @@ class Blob extends StatelessWidget {
                                   color: Colors.black54),
                               const SizedBox(height: 10),
                             ]))),
-                const SizedBox(height: 60),
                 Container(
                   decoration: BoxDecoration(
                       border: Border(

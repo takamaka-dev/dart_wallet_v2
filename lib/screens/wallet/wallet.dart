@@ -456,14 +456,14 @@ class _WalletState extends State<Wallet> {
                             child: GridView.count(
                             crossAxisCount: 2,
                             childAspectRatio: MediaQuery.of(context).size.width /
-                                (MediaQuery.of(context).size.height / 1.4),
+                                (MediaQuery.of(context).size.height / 1.9),
                             shrinkWrap: true,
-                            padding: const EdgeInsets.all(20),
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
+                            padding: const EdgeInsets.all(5),
+                            crossAxisSpacing: 2,
+                            mainAxisSpacing: 2,
                             children: [
                               CupertinoButton(
-                                  color: Colors.grey.shade200,
+                                  color: Styles.takamakaColor,
                                   alignment: Alignment.topLeft,
                                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                                   borderRadius: BorderRadius.zero,
@@ -473,7 +473,7 @@ class _WalletState extends State<Wallet> {
                                           return const TransactionList();
                                         }))
                                   },
-                                  child: const Center(child: Icon(CupertinoIcons.time, size: 30, color: Colors.black45))),
+                                  child: const Center(child: Icon(CupertinoIcons.time, size: 30, color: Colors.white))),
                               CupertinoButton(
                                   color: Colors.grey.shade200,
                                   alignment: Alignment.topLeft,
@@ -494,7 +494,7 @@ class _WalletState extends State<Wallet> {
                                   onPressed: () => {_launchURLBrowser()},
                                   child: const Center(child: Icon(CupertinoIcons.location_solid, size: 30, color: Colors.black45))),
                               CupertinoButton(
-                                  color: Colors.grey.shade200,
+                                  color: Styles.takamakaColor,
                                   alignment: Alignment.topLeft,
                                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                                   borderRadius: BorderRadius.zero,
@@ -504,15 +504,12 @@ class _WalletState extends State<Wallet> {
                                           return const PreSelectQrScan();
                                         }))
                                   },
-                                  child: const Center(child: Icon(CupertinoIcons.qrcode_viewfinder, size: 30, color: Colors.black45)))
+                                  child: const Center(child: Icon(CupertinoIcons.qrcode_viewfinder, size: 30, color: Colors.white)))
 
                             ]))
                       ],
                     ),
 
-
-
-                    const SizedBox(height: 20),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -534,7 +531,7 @@ class _WalletState extends State<Wallet> {
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.all(20),
+                        margin: const EdgeInsets.fromLTRB(5, 20, 5, 5),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

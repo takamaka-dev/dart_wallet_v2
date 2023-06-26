@@ -12,7 +12,11 @@ class PreSelectQrScan extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: CupertinoPageScaffold(
-          child: Column(
+          child: Container(
+            constraints: const BoxConstraints(
+                minHeight: 900
+            ),
+            child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
@@ -134,6 +138,8 @@ class PreSelectQrScan extends StatelessWidget {
               )
             ],
           ),
-        ));
+        ),
+          )
+          );
   }
 }

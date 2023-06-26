@@ -167,6 +167,7 @@ class WalletListWidget extends StatelessWidget {
 
     return CupertinoPageScaffold(
       child: CupertinoListSection(
+        margin: EdgeInsets.all(30),
         header: const Text('myWallets').tr(),
         children: wallets,
       ),
@@ -187,7 +188,8 @@ class SingleWallet extends StatelessWidget {
       leading: Container(
         width: double.infinity,
         height: double.infinity,
-        color: CupertinoColors.activeGreen,
+        color: Colors.transparent,
+        child: Icon(Icons.wallet, color: Styles.takamakaColor.withOpacity(0.5), size: 28),
       ),
       trailing: const CupertinoListTileChevron(),
       onTap: () => Navigator.of(context).push(
