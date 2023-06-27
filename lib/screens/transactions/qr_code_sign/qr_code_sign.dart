@@ -1,12 +1,7 @@
 import 'dart:convert';
 
 import 'package:cryptography/cryptography.dart';
-import 'package:cryptography/cryptography.dart';
-import 'package:cryptography/cryptography.dart';
-import 'package:cryptography/dart.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
-import 'package:dart_wallet_v2/config/styles.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
@@ -32,21 +27,7 @@ class _QrCodeSignState extends State<QrCodeSign> {
       onCapture: (Result result) {
         verifyTransactionAndCallback(result, Globals.instance.isLoginSign);
       },
-    )
-        // Column(children: [
-        //   // CupertinoButton(
-        //   //   onPressed: () {
-        //   //     verifyTransactionAndCallback('z26x6xc727xba0cb16c1ax2rp4p2q2r1', Globals.instance.isLoginSign);
-        //   //   }, child: Text("Click to test login"),
-        //   // ),
-        //   // CupertinoButton(
-        //   //   onPressed: () {
-        //   //     verifyTransactionAndCallback('pbqry_z21p4qrzya69cz1yb1d7z438p8', false);
-        //   //   }, child: Text("Click to test select"),
-        //   // )
-        // ],)
-
-        );
+    ));
   }
 
   Future<void> verifyTransactionAndCallback(
@@ -80,8 +61,6 @@ class _QrCodeSignState extends State<QrCodeSign> {
     tb.signature = myApiDataResponse[3];
     tb.walletCypher = myApiDataResponse[4];
 
-    // SimplePublicKey pubk = await skp.extractPublicKey();
-
     String tbJson = jsonEncode(tb);
     bool isVerified = await CryptoMisc.verifySign(tb);
 
@@ -97,9 +76,8 @@ class _QrCodeSignState extends State<QrCodeSign> {
           await TkmWallet.verifyTransactionIntegrity(tb2Json, skp);
       String signTbJson = jsonEncode(signedTbox);
       Map<String, dynamic> trx = {'trx_to_verify': signTbJson};
-      final response = await ConsumerHelper.doRequest(HttpMethods.POST,
+      await ConsumerHelper.doRequest(HttpMethods.POST,
           ApiList().apiMap['local']!["txverifywebsite"]!, trx);
-      Map<String, dynamic> responseJson = jsonDecode(response);
       context.loaderOverlay.hide();
       Globals.instance.resetAndOpenPage(context);
       /*if (responseJson['res'] == true) {
@@ -108,5 +86,4 @@ class _QrCodeSignState extends State<QrCodeSign> {
       // inviarla in post a takamaka
     }
   }
-
 }
