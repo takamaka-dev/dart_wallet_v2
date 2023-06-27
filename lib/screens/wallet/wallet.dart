@@ -510,6 +510,8 @@ class _WalletState extends State<Wallet> {
                       ],
                     ),
 
+                    SizedBox(height: 30),
+
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
