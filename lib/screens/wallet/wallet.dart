@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/blob/blob.dart';
 import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
-import 'package:dart_wallet_v2/screens/transactions/qr_code_sign/qr_code_sign.dart';
 import 'package:dart_wallet_v2/screens/transactions/receive_tokens/receive_tokens.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/stake.dart';
 import 'package:dart_wallet_v2/screens/transactions/transaction_list/transaction_list.dart';
@@ -510,7 +508,7 @@ class _WalletState extends State<Wallet> {
                       ],
                     ),
 
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
 
                     Container(
                       width: double.infinity,
