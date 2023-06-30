@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/single_node.dart';
