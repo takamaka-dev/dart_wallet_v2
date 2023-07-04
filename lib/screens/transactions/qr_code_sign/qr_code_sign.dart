@@ -38,8 +38,8 @@ class _QrCodeSignState extends State<QrCodeSign> {
     final response = await ConsumerHelper.doRequest(
         HttpMethods.POST,
         isLoginAction
-            ? ApiList().apiMap['local']!["trxgetnoncedata"]!
-            : ApiList().apiMap['local']!['trxgetnoncedataselect']!,
+            ? ApiList().apiMap[Globals.instance.selectedNetwork]!["trxgetnoncedata"]!
+            : ApiList().apiMap[Globals.instance.selectedNetwork]!['trxgetnoncedataselect']!,
         {
           'nonce': code,
           'selected_address':
@@ -77,7 +77,7 @@ class _QrCodeSignState extends State<QrCodeSign> {
       String signTbJson = jsonEncode(signedTbox);
       Map<String, dynamic> trx = {'trx_to_verify': signTbJson};
       await ConsumerHelper.doRequest(HttpMethods.POST,
-          ApiList().apiMap['local']!["txverifywebsite"]!, trx);
+          ApiList().apiMap[Globals.instance.selectedNetwork]!["txverifywebsite"]!, trx);
       context.loaderOverlay.hide();
       Globals.instance.resetAndOpenPage(context);
       /*if (responseJson['res'] == true) {

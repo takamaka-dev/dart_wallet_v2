@@ -632,10 +632,9 @@ packages:
   io_takamaka_core_wallet:
     dependency: "direct main"
     description:
-      name: io_takamaka_core_wallet
-      sha256: "4df119dbb8acc07b8fd4fdcd2137f5856ca3499741b8521b78d20d3deb4a3260"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../io_takamaka_core_wallet"
+      relative: true
+    source: path
     version: "2.0.7"
   js:
     dependency: transitive
