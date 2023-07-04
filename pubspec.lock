@@ -633,10 +633,10 @@ packages:
     dependency: "direct main"
     description:
       name: io_takamaka_core_wallet
-      sha256: "70fca82c31a8ce7d603b097f7f15469084fdbe6aa3e40e9e316c5ac81cb146d2"
+      sha256: "4df119dbb8acc07b8fd4fdcd2137f5856ca3499741b8521b78d20d3deb4a3260"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.7"
   js:
     dependency: transitive
     description:
