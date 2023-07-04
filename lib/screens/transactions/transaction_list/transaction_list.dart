@@ -157,7 +157,7 @@ class _TransactionListState extends State<TransactionList> {
               ],
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 children: errorLoading
                     ? [
