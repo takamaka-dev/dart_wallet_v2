@@ -1,3 +1,4 @@
+import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class SingleTransaction extends StatelessWidget {
                       borderRadius: BorderRadius.zero,
                       onPressed: () => {
                             _launchURLBrowser(
-                                ApiList().apiMap['test']!['trxinfoexp']! +
+                                ApiList().apiMap[Globals.instance.selectedNetwork]!['trxinfoexp']! +
                                     tm.sith)
                           },
                       child: Column(children: [
