@@ -98,5 +98,6 @@
   "pay": "Sezione Pay",
   "qrselection" : "Seleziona Qr",
   "signForLogin" : "Firma per login",
-  "loginSelectWallet" : "Login wallet selezionato"
+  "loginSelectWallet" : "Login wallet selezionato",
+  "notAllowedQrDesktop": "Lo scan dei Qr non è permesso per le versioni desktop"
 }

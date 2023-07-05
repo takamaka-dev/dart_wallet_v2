@@ -98,5 +98,6 @@
   "pay": "Pay Section",
   "qrselection" : "Qr Selection",
   "signForLogin" : "Sign for Login",
-  "loginSelectWallet" : "Login select wallet"
+  "loginSelectWallet" : "Login select wallet",
+  "notAllowedQrDesktop": "Qr code scan is not allowed for desktop versions"
 }

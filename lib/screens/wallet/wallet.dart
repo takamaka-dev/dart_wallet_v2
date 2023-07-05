@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cryptography/cryptography.dart';
@@ -352,6 +353,28 @@ class _WalletState extends State<Wallet> {
         brb.toJson())));
   }
 
+  @pragma('vm:entry-point')
+  static Route<Object?> _dialogNotAllowed(
+      BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('alert').tr(),
+          content: const Text('notAllowedQrDesktop').tr(),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('ok').tr(),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   Widget getUnlockedWallet() {
     final List<Widget> menuItems = [
       Flexible(
@@ -497,10 +520,15 @@ class _WalletState extends State<Wallet> {
                                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                                   borderRadius: BorderRadius.zero,
                                   onPressed: () => {
-                                    Navigator.of(context).push(
-                                        CupertinoPageRoute<void>(builder: (BuildContext context) {
-                                          return const PreSelectQrScan();
-                                        }))
+                                    if (Platform.isAndroid || Platform.isIOS) {
+                                      Navigator.of(context).push(
+                                          CupertinoPageRoute<void>(builder: (BuildContext context) {
+                                            return const PreSelectQrScan();
+                                          }))
+                                    } else {
+                                          Navigator.of(context).restorablePush(_dialogNotAllowed)
+                                    }
+
                                   },
                                   child: const Center(child: Icon(CupertinoIcons.qrcode_viewfinder, size: 30, color: Colors.white)))
 
