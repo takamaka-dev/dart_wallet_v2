@@ -33,6 +33,8 @@ class _PayState extends State<Pay> {
   Future<bool> _initPayInterface() async {
     setState(() {
       currentToken = "TKG";
+      _controller.text = "1.0";
+      updateCurrencyValue(_controller.text);
       _bytes = null;
     });
 
@@ -289,8 +291,8 @@ class _PayState extends State<Pay> {
                         onPressed: () {
                           setState(() {
                             currentToken = "TKG";
-                            _controller.text = "";
-                            _controller_2.text = "";
+                            _controller.text = "1.0";
+                            updateCurrencyValue(_controller.text);
                           });
                         },
                         child: CircleAvatar(
@@ -306,8 +308,8 @@ class _PayState extends State<Pay> {
                         onPressed: () {
                           setState(() {
                             currentToken = "TKR";
-                            _controller.text = "";
-                            _controller_2.text = "";
+                            _controller.text = "1.0";
+                            updateCurrencyValue(_controller.text);
                           });
                         },
                         child: CircleAvatar(
