@@ -80,7 +80,7 @@ class Restore extends StatelessWidget {
         ),
         Container(
           constraints: const BoxConstraints(maxWidth: 700),
-          padding: const EdgeInsets.fromLTRB(100, 80, 100, 50),
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
