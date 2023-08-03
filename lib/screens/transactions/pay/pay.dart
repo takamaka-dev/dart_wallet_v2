@@ -329,7 +329,6 @@ class _PayState extends State<Pay> {
                   CupertinoTextField(
                     textAlign: TextAlign.center,
                     controller: _controller_2,
-                    readOnly: true,
                     onChanged: (value) => {updateTokenValue(value)},
                     placeholder:
                         "${"amount".tr()} (${Globals.instance.currencyMappingReverse[Globals.instance.selectedCurrency]!})",
