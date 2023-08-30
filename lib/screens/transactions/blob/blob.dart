@@ -1,5 +1,6 @@
 import 'package:dart_wallet_v2/screens/transactions/blob/blob_file.dart';
 import 'package:dart_wallet_v2/screens/transactions/blob/blob_text.dart';
+import 'package:dart_wallet_v2/screens/transactions/blob_metadata/blob_metadata.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +89,46 @@ class Blob extends StatelessWidget {
                                   .tr(),
                               const SizedBox(height: 20),
                               const Icon(CupertinoIcons.doc_on_clipboard,
+                                  color: Colors.black54),
+                              const SizedBox(height: 10),
+                            ]))),
+                Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            left: BorderSide(
+                                color: Styles.takamakaColor.withOpacity(0.7),
+                                width: 2.0),
+                            right: BorderSide(
+                                color: Styles.takamakaColor.withOpacity(0.7),
+                                width: 2.0),
+                            top: BorderSide(
+                                color: Styles.takamakaColor.withOpacity(0.7),
+                                width: 2.0),
+                            bottom: BorderSide(
+                                color: Styles.takamakaColor.withOpacity(0.7),
+                                width: 2.0))),
+                    width: double.infinity,
+                    child: CupertinoButton(
+                        color: Colors.grey.shade200,
+                        onPressed: () => {
+                          Navigator.of(context).push(
+                              CupertinoPageRoute<void>(
+                                  builder: (BuildContext context) {
+                                    return const BlobMetadata();
+                                  }))
+                        },
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 10),
+                              const Text('blobFromJson',
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.w500))
+                                  .tr(),
+                              const SizedBox(height: 20),
+                              const Icon(Icons.document_scanner_outlined,
                                   color: Colors.black54),
                               const SizedBox(height: 10),
                             ]))),

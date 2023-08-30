@@ -99,5 +99,6 @@
   "qrselection" : "Seleziona Qr",
   "signForLogin" : "Firma per login",
   "loginSelectWallet" : "Login wallet selezionato",
-  "notAllowedQrDesktop": "Lo scan dei Qr non è permesso per le versioni desktop"
+  "notAllowedQrDesktop": "Lo scan dei Qr non è permesso per le versioni desktop",
+  "blobFromJson" : "Blob da Json"
 }
