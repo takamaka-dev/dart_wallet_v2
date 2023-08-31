@@ -69,7 +69,8 @@ class _RestorePart1State extends State<RestorePart1> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
+    return SingleChildScrollView(
+        child: ChangeNotifierProvider.value(
         value: Globals.instance,
         child: Consumer<Globals>(
             builder: (context, model, child) => SingleChildScrollView(
@@ -239,6 +240,6 @@ class _RestorePart1State extends State<RestorePart1> {
                           ]),
                     )
                   ],
-                )))));
+                ))))));
   }
 }
