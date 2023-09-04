@@ -97,7 +97,7 @@ class _RestorePart1State extends State<RestorePart1> {
                                 children: <Widget>[
                                   const Text('restoreWallet1',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(color: Colors.white))
+                                          style: TextStyle(color: Colors.white),)
                                       .tr(),
                                 ],
                               ),

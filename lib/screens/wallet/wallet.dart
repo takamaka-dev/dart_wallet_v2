@@ -83,7 +83,6 @@ class _WalletState extends State<Wallet> {
   }
 
   Future<void> method(var model) async {
-    print("User clicked outside the Text Form Field");
     context.loaderOverlay.show();
     kb = await WalletUtils.initWallet(
         'wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);

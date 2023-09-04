@@ -99,12 +99,19 @@ class Restore extends StatelessWidget {
                 const SizedBox(height: 30),
                 CupertinoTextField(
                     placeholder: walletNameLocale,
-                    controller: walletNameController),
+                    controller: walletNameController,
+                    onChanged: (value) => {
+        walletName = value
+        },
+                ),
                 const SizedBox(height: 30),
                 CupertinoTextField(
                   obscureText: true,
                   placeholder: passwordLocale,
                   controller: walletPasswordController,
+                    onChanged: (value) => {
+                    password = value
+        },
                 ),
                 const SizedBox(height: 30),
                 CupertinoButton(
