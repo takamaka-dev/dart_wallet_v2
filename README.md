@@ -14,3 +14,13 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Windows Regfile
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\tkmwallet]
+"URL Protocol"=""
+[HKEY_CLASSES_ROOT\tkmwallet\shell]
+[HKEY_CLASSES_ROOT\tkmwallet\shell\open]
+[HKEY_CLASSES_ROOT\tkmwallet\shell\open\command]
+@="\"Path to .exe\" \"%1\""
