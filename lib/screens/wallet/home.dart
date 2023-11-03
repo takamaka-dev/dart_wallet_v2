@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/screens/restore/restore_part_1.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
@@ -20,10 +23,14 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<String>? wallets =
       Globals.instance.wallets.isEmpty ? null : Globals.instance.wallets;
+  final _navigatorKey = GlobalKey<NavigatorState>();
+  late AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSubscription;
 
   @override
   void initState() {
     getWallets();
+    initDeepLinks();
     super.initState();
   }
 
@@ -61,16 +68,33 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future<void> initDeepLinks() async {
+    _appLinks = AppLinks();
+
+    // Check initial link if app was in cold state (terminated)
+    final appLink = await _appLinks.getInitialAppLink();
+    if (appLink != null) {
+      print('getInitialAppLink: $appLink');
+      openAppLink(appLink);
+    }
+
+    // Handle link when app is in warm state (front or background)
+    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
+      print('onAppLink: $uri');
+      openAppLink(uri);
+    });
+  }
+
+  void openAppLink(Uri uri) {
+    _navigatorKey.currentState?.pushNamed(uri.fragment);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        constraints: const BoxConstraints(
-            minHeight: 1200
-        ),
-        decoration: const BoxDecoration(
-            color: Colors.white
-        ),
+        constraints: const BoxConstraints(minHeight: 1200),
+        decoration: const BoxDecoration(color: Colors.white),
         child: CupertinoPageScaffold(
             navigationBar: const CupertinoNavigationBar(
               middle: Text('Home'),
@@ -90,35 +114,36 @@ class _HomeState extends State<Home> {
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const SizedBox(height: 50),
-                                    CupertinoButton(
-                                        color: Styles.takamakaColor,
-                                        onPressed: _newWallet,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const Icon(CupertinoIcons.plus),
-                                            const SizedBox(width: 10),
-                                            const Text('addWallet').tr(),
-                                          ],
-                                        )),
-                                    const SizedBox(height: 30),
-                                    CupertinoButton(
-                                        color: Styles.takamakaColor,
-                                        onPressed: _restoreWallet,
-                                        child: Row(
-                                            mainAxisAlignment:
+                                const SizedBox(height: 50),
+                                CupertinoButton(
+                                    color: Styles.takamakaColor,
+                                    onPressed: _newWallet,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(CupertinoIcons.plus),
+                                        const SizedBox(width: 10),
+                                        const Text('addWallet').tr(),
+                                      ],
+                                    )),
+                                const SizedBox(height: 30),
+                                CupertinoButton(
+                                    color: Styles.takamakaColor,
+                                    onPressed: _restoreWallet,
+                                    child: Row(
+                                        mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const Icon(CupertinoIcons
-                                                  .arrow_3_trianglepath),
-                                              const SizedBox(width: 10),
-                                              const Text('restoreWallet').tr()
-                                            ])),
-                                    const SizedBox(height: 50),
-                                  ])),
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Icon(CupertinoIcons
+                                              .arrow_3_trianglepath),
+                                          const SizedBox(width: 10),
+                                          const Text('restoreWallet').tr()
+                                        ])),
+                                const SizedBox(height: 50),
+                              ])),
                           const SizedBox(height: 50)
                         ]))
               ],
@@ -189,7 +214,8 @@ class SingleWallet extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         color: Colors.transparent,
-        child: Icon(Icons.wallet, color: Styles.takamakaColor.withOpacity(0.5), size: 28),
+        child: Icon(Icons.wallet,
+            color: Styles.takamakaColor.withOpacity(0.5), size: 28),
       ),
       trailing: const CupertinoListTileChevron(),
       onTap: () => Navigator.of(context).push(

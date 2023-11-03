@@ -4,7 +4,7 @@
 #include <flutter_windows.h>
 
 #include "resource.h"
-
+#include "app_links/app_links_plugin_c_api.h"
 namespace {
 
 /// Window attribute that enables dark mode window decorations.
@@ -123,6 +123,11 @@ Win32Window::~Win32Window() {
 bool Win32Window::Create(const std::wstring& title,
                          const Point& origin,
                          const Size& size) {
+
+  if (SendAppLinkToInstance(title)) {
+    return false;
+  }
+
   Destroy();
 
   const wchar_t* window_class =
