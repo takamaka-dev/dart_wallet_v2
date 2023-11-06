@@ -56,6 +56,7 @@ class _HomeState extends State<Home> {
     if (wallets == null) {
       return const CircularProgressIndicator();
     } else if (wallets!.isNotEmpty) {
+      print(context);
       return WalletListWidget(wallets!).build(context);
     }
 
@@ -69,20 +70,20 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> initDeepLinks() async {
-    _appLinks = AppLinks();
+    final _appLinks = AppLinks();
 
-    // Check initial link if app was in cold state (terminated)
-    final appLink = await _appLinks.getInitialAppLink();
-    if (appLink != null) {
-      print('getInitialAppLink: $appLink');
-      openAppLink(appLink);
-    }
+// Get the initial/first link.
+// This is useful when app was terminated (i.e. not started)
+    final uri = await _appLinks.getInitialAppLink();
+// Do something (navigation, ...)
 
-    // Handle link when app is in warm state (front or background)
+// Subscribe to further events when app is started.
+// (Use stringLinkStream to get it as [String])
     _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
       print('onAppLink: $uri');
       openAppLink(uri);
     });
+
   }
 
   void openAppLink(Uri uri) {
