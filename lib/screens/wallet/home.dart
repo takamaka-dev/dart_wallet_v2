@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
   late AppLinks _appLinks;
   StreamSubscription<Uri>? _linkSubscription;
 
+
   @override
   void initState() {
     getWallets();
@@ -56,7 +57,6 @@ class _HomeState extends State<Home> {
     if (wallets == null) {
       return const CircularProgressIndicator();
     } else if (wallets!.isNotEmpty) {
-      print(context);
       return WalletListWidget(wallets!).build(context);
     }
 
@@ -70,16 +70,20 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> initDeepLinks() async {
-    final _appLinks = AppLinks();
+    final appLinks = AppLinks();
 
 // Get the initial/first link.
 // This is useful when app was terminated (i.e. not started)
-    final uri = await _appLinks.getInitialAppLink();
+    final uri = await appLinks.getInitialAppLink();
+     Map<String, String> params = uri!.queryParameters;
+     String param = params['json_hash']??'';
+    _showAlertDialog(context, param);
+
 // Do something (navigation, ...)
 
 // Subscribe to further events when app is started.
 // (Use stringLinkStream to get it as [String])
-    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
+    _linkSubscription = appLinks.uriLinkStream.listen((uri) {
       print('onAppLink: $uri');
       openAppLink(uri);
     });
@@ -87,7 +91,31 @@ class _HomeState extends State<Home> {
   }
 
   void openAppLink(Uri uri) {
-    _navigatorKey.currentState?.pushNamed(uri.fragment);
+   String param = uri.query;
+   _showAlertDialog(context, param);
+  }
+
+  void _showAlertDialog(BuildContext context, String text) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) =>
+          CupertinoAlertDialog(
+            title: const Text('Alert'),
+            content: Text(text),
+            actions: <CupertinoDialogAction>[
+              CupertinoDialogAction(
+
+                /// This parameter indicates this action is the default,
+                /// and turns the action's text to bold text.
+                isDefaultAction: true,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Ok'),
+              )
+            ],
+          ),
+    );
   }
 
   @override
@@ -98,7 +126,7 @@ class _HomeState extends State<Home> {
         decoration: const BoxDecoration(color: Colors.white),
         child: CupertinoPageScaffold(
             navigationBar: const CupertinoNavigationBar(
-              middle: Text('Home'),
+              middle: Text("Home"),
             ),
             child: Column(
               children: [
