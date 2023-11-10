@@ -48,7 +48,7 @@ class _BlobTextState extends State<BlobText> {
   }
 
   Future<void> doBlobText() async {
-    String message = _controllerMessage.text;
+    String message = _controllerMessage.text.trim();
     message = base64UrlEncode(utf8.encode(message));
 
     if (message.isEmpty) {
