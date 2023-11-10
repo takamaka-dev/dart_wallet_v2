@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:app_links/app_links.dart';
+import 'package:dart_wallet_v2/config/database/database.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/screens/restore/restore_part_1.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
+import 'package:drift/drift.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -76,8 +78,15 @@ class _HomeState extends State<Home> {
 // This is useful when app was terminated (i.e. not started)
     final uri = await appLinks.getInitialAppLink();
      Map<String, String> params = uri!.queryParameters;
-     String param = params['json_hash']??'';
-    _showAlertDialog(context, param);
+     String param = params['json_hash']?.split("=")[1]??'';
+    await Globals.instance.database.into(Globals.instance.database.todoItems).insert(MetatransactionCompanion.insert(
+        jsonhash: param
+        //Insert the other fields
+
+    ));
+    List<Metatransaction> allItems = await Globals.instance.database.select(Globals.instance.database.todoItems).get();
+
+    print('items in database: $allItems');
 
 // Do something (navigation, ...)
 
