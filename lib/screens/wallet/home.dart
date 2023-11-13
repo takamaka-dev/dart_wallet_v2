@@ -6,7 +6,6 @@ import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/screens/restore/restore_part_1.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
-import 'package:drift/drift.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -81,8 +80,6 @@ class _HomeState extends State<Home> {
      String param = params['json_hash']?.split("=")[1]??'';
     await Globals.instance.database.into(Globals.instance.database.todoItems).insert(MetatransactionCompanion.insert(
         jsonhash: param
-        //Insert the other fields
-
     ));
     List<Metatransaction> allItems = await Globals.instance.database.select(Globals.instance.database.todoItems).get();
 
@@ -92,9 +89,11 @@ class _HomeState extends State<Home> {
 
 // Subscribe to further events when app is started.
 // (Use stringLinkStream to get it as [String])
-    _linkSubscription = appLinks.uriLinkStream.listen((uri) {
+    _linkSubscription = appLinks.uriLinkStream.listen((uri) async {
       print('onAppLink: $uri');
-      openAppLink(uri);
+      await Globals.instance.database.into(Globals.instance.database.todoItems).insert(MetatransactionCompanion.insert(
+          jsonhash: param
+      ));
     });
 
   }
