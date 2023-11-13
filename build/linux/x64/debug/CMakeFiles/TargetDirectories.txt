@@ -19,3 +19,9 @@
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/plugins/url_launcher_linux/CMakeFiles/rebuild_cache.dir
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/plugins/url_launcher_linux/CMakeFiles/edit_cache.dir
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/plugins/url_launcher_linux/CMakeFiles/url_launcher_linux_plugin.dir
+/home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/plugins/metadata_god/CMakeFiles/install/strip.dir
+/home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/plugins/metadata_god/CMakeFiles/install/local.dir
+/home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/plugins/metadata_god/CMakeFiles/install.dir
+/home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/plugins/metadata_god/CMakeFiles/list_install_components.dir
+/home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/plugins/metadata_god/CMakeFiles/rebuild_cache.dir
+/home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/plugins/metadata_god/CMakeFiles/edit_cache.dir
