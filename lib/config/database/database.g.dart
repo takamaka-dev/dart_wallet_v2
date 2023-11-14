@@ -15,7 +15,7 @@ class $MetatransactionTable extends Metatransaction
   late final GeneratedColumn<String> jsonhash = GeneratedColumn<String>(
       'jsonhash', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 32),
+          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 255),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
   static const VerificationMeta _createdMeta =

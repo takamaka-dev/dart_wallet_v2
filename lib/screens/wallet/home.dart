@@ -76,12 +76,13 @@ class _HomeState extends State<Home> {
 // Get the initial/first link.
 // This is useful when app was terminated (i.e. not started)
     final uri = await appLinks.getInitialAppLink();
-     Map<String, String> params = uri!.queryParameters;
-     String param = params['json_hash']?.split("=")[1]??'';
-    await Globals.instance.database.into(Globals.instance.database.todoItems).insert(MetatransactionCompanion.insert(
+    Map<String, String> params = uri!.queryParameters;
+    String param = params['json_hash']??'';
+    _showAlertDialog(context, param);
+    await Globals.instance.database.into(Globals.instance.database.metatransaction).insert(MetatransactionCompanion.insert(
         jsonhash: param
     ));
-    List<Metatransaction> allItems = await Globals.instance.database.select(Globals.instance.database.todoItems).get();
+    List<dynamic> allItems = await Globals.instance.database.select(Globals.instance.database.metatransaction).get();
 
     print('items in database: $allItems');
 
@@ -91,16 +92,18 @@ class _HomeState extends State<Home> {
 // (Use stringLinkStream to get it as [String])
     _linkSubscription = appLinks.uriLinkStream.listen((uri) async {
       print('onAppLink: $uri');
-      await Globals.instance.database.into(Globals.instance.database.todoItems).insert(MetatransactionCompanion.insert(
-          jsonhash: param
-      ));
+      openAppLink(uri);
     });
 
   }
 
-  void openAppLink(Uri uri) {
-   String param = uri.query;
+  Future<void> openAppLink(Uri uri) async {
+   Map<String, String> params = uri.queryParameters;
+   String param = params['json_hash']??'';
    _showAlertDialog(context, param);
+   await Globals.instance.database.into(Globals.instance.database.metatransaction).insert(MetatransactionCompanion.insert(
+       jsonhash: param
+   ));
   }
 
   void _showAlertDialog(BuildContext context, String text) {
@@ -109,7 +112,7 @@ class _HomeState extends State<Home> {
       builder: (BuildContext context) =>
           CupertinoAlertDialog(
             title: const Text('Alert'),
-            content: Text(text),
+            content: Text("You have aa new pending metadata transaction: $text"),
             actions: <CupertinoDialogAction>[
               CupertinoDialogAction(
 
@@ -179,6 +182,20 @@ class _HomeState extends State<Home> {
                                           const SizedBox(width: 10),
                                           const Text('restoreWallet').tr()
                                         ])),
+                                    const SizedBox(height: 30),
+                                    CupertinoButton(
+                                        color: Styles.takamakaColor,
+                                        onPressed: _testDeepLink,
+                                        child: const Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(CupertinoIcons
+                                                  .alarm),
+                                              SizedBox(width: 10),
+                                              Text('Test Deep Link')
+                                            ])),
                                 const SizedBox(height: 50),
                               ])),
                           const SizedBox(height: 50)
@@ -212,6 +229,10 @@ class _HomeState extends State<Home> {
         });*/
       },
     ));
+  }
+
+  void _testDeepLink() {
+    // initDeepLinks(Uri.parse("takamakawallet://io.takamaka/deeplink?json_hash=asdafeafegasgage"));
   }
 }
 
