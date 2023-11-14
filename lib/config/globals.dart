@@ -6,8 +6,6 @@ import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
-import 'database/database.dart';
-
 class Globals with ChangeNotifier {
   Map<String, int> currencyMapping = {'USD': 2, 'CHF': 1, 'EUR': 0};
 
@@ -227,11 +225,6 @@ class Globals with ChangeNotifier {
   set isLoginSign(bool value) {
     _isLoginSign = value;
   }
-
-  final _database = AppDatabase();
-
-  get database => _database;
-
 
   void resetAndOpenPage(context) {
     Navigator.pushAndRemoveUntil<void>(

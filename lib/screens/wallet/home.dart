@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app_links/app_links.dart';
-import 'package:dart_wallet_v2/config/database/database.dart';
+import 'package:dart_wallet_v2/config/database/metatransaction.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/screens/restore/restore_part_1.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
@@ -10,6 +10,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive/hive.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 
 import '../../config/styles.dart';
@@ -32,7 +33,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     getWallets();
-    initDeepLinks();
+    //initDeepLinks();
     super.initState();
   }
 
@@ -70,37 +71,43 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<void> initDeepLinks() async {
+  void insertJsonHash(String hash) async{
+    var box = await Hive.openBox('metatransaction');
+    var metatransaction = Metatransaction(hash, DateTime.timestamp(), false);
+    await box.put(hash, metatransaction);
+    Hive.close();
+  }
+
+  Future<void> initDeepLinks(Uri uri) async {
     final appLinks = AppLinks();
 
 // Get the initial/first link.
 // This is useful when app was terminated (i.e. not started)
-    final uri = await appLinks.getInitialAppLink();
+    //final uri = await appLinks.getInitialAppLink();
      Map<String, String> params = uri!.queryParameters;
-     String param = params['json_hash']?.split("=")[1]??'';
-    await Globals.instance.database.into(Globals.instance.database.todoItems).insert(MetatransactionCompanion.insert(
-        jsonhash: param
-    ));
-    List<Metatransaction> allItems = await Globals.instance.database.select(Globals.instance.database.todoItems).get();
-
-    print('items in database: $allItems');
+     String param = params['json_hash']??'';
+     _showAlertDialog(context, param);
+     insertJsonHash(param);
 
 // Do something (navigation, ...)
 
 // Subscribe to further events when app is started.
 // (Use stringLinkStream to get it as [String])
     _linkSubscription = appLinks.uriLinkStream.listen((uri) async {
-      print('onAppLink: $uri');
-      await Globals.instance.database.into(Globals.instance.database.todoItems).insert(MetatransactionCompanion.insert(
-          jsonhash: param
-      ));
+      openAppLink(uri);
     });
 
   }
 
   void openAppLink(Uri uri) {
-   String param = uri.query;
+    Map<String, String> params = uri.queryParameters;
+   String param = params['json_hash']??'';
    _showAlertDialog(context, param);
+    insertJsonHash(param);
+  }
+  
+  void testDeepLink(){
+    initDeepLinks(Uri.parse("tkmwallet://tkmwallet.com/home?json_hash=1edfce8f4eede990892139bed80992c88cea1cad3fe8e797c8e4aac043460e55"));
   }
 
   void _showAlertDialog(BuildContext context, String text) {
@@ -181,8 +188,22 @@ class _HomeState extends State<Home> {
                                         ])),
                                 const SizedBox(height: 50),
                               ])),
-                          const SizedBox(height: 50)
-                        ]))
+                          const SizedBox(height: 30),
+                          CupertinoButton(
+                              color: Styles.takamakaColor,
+                              onPressed: testDeepLink,
+                              child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(CupertinoIcons
+                                        .alarm),
+                                    const SizedBox(width: 10),
+                                    const Text('Test Deeplink')
+                                  ])),
+                          const SizedBox(height: 50),
+                        ])),
               ],
             )),
       ),
