@@ -1,6 +1,7 @@
 import 'package:dart_wallet_v2/config/database/metatransaction.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
+import 'package:dart_wallet_v2/screens/transactions/metatransaction_list/single_metatransaction.dart';
 import 'package:dart_wallet_v2/screens/transactions/transaction_list/single_transaction.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +25,11 @@ class _MetatransactionListState extends State<MetatransactionList> {
   Future<bool> _initMetatransactionListInterface() async {
     try {
       List<Widget> trxListTemp = [];
+      var box = await Hive.openBox('metatransaction');
+      Iterable<Metatransaction> metatrxs = box.values.cast();
+      for (Metatransaction metatrx in metatrxs) {
+        trxListTemp.add(SingleMetatransaction(metatrx));
+      }
       context.loaderOverlay.show();
 
       setState(() {
@@ -42,10 +48,24 @@ class _MetatransactionListState extends State<MetatransactionList> {
     }
   }
 
-  Future<void> retrieveMetatransaction() async {
-    var box = await Hive.openBox('metatransaction');
-    Iterable<Metatransaction> values = box.values.cast();
-
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => Container(
+          height: 216,
+          padding: const EdgeInsets.only(top: 6.0),
+          // The Bottom margin is provided to align the popup above the system navigation bar.
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          // Provide a background color for the popup.
+          color: CupertinoColors.systemBackground.resolveFrom(context),
+          // Use a SafeArea widget to avoid system overlaps.
+          child: SafeArea(
+            top: false,
+            child: child,
+          ),
+        ));
   }
 
   @override
@@ -93,39 +113,6 @@ class _MetatransactionListState extends State<MetatransactionList> {
               children: [
                 Text("${"itemNumber".tr()} ${transactionList.length}"),
                 const SizedBox(width: 10),
-                CupertinoButton(
-                    color: Colors.grey.shade200,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(CupertinoIcons.search,
-                            color: Styles.takamakaColor.withOpacity(0.6)),
-                        const SizedBox(width: 10),
-                        Text("windowResultSize".tr(),
-                            style: TextStyle(
-                                color: Styles.takamakaColor.withOpacity(0.6)))
-                      ],
-                    ),
-                    onPressed: () {
-                      _showDialog(CupertinoPicker(
-                        magnification: 1.22,
-                        squeeze: 1.2,
-                        useMagnifier: true,
-                        itemExtent: 32.0,
-                        onSelectedItemChanged: (int selectedItem) {
-                          _initTransactionListInterface(
-                              int.parse(filters[selectedItem]));
-                        },
-                        children:
-                            List<Widget>.generate(filters.length, (int index) {
-                          return Center(
-                            child: Text(
-                              filters[index],
-                            ),
-                          );
-                        }),
-                      ));
-                    })
               ],
             ),
             Container(

@@ -1,10 +1,12 @@
+import 'package:dart_wallet_v2/config/database/metatransaction.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SingleMetatransaction extends StatelessWidget {
-  const SingleMetatransaction({super.key});
+  const SingleMetatransaction(this.mtrx,{super.key});
 
+  final Metatransaction mtrx;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class SingleMetatransaction extends StatelessWidget {
                               children: [
                                 Icon(i, color: Styles.takamakaColor),
                                 const SizedBox(width: 10),
-                                const Text("Metatransazione"),
+                                Text(mtrx.jsonHash),
                               ],
                             ),
                             const SizedBox(height: 10),

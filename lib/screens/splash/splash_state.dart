@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/about_us/about_us.dart';
 import 'package:dart_wallet_v2/screens/settings/settings.dart';
+import 'package:dart_wallet_v2/screens/transactions/metatransaction_list/metatransaction_list.dart';
 import 'package:dart_wallet_v2/screens/wallet/home.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -90,6 +91,8 @@ class MainScreen extends StatelessWidget {
               icon: Icon(Icons.wallet), label: 'Wallets'),
           BottomNavigationBarItem(
               icon: const Icon(CupertinoIcons.settings), label: settings),
+          const BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.list_bullet), label: 'Metatransactions'),
         ],
       ),
       tabBuilder: (context, index) {
@@ -112,6 +115,13 @@ class MainScreen extends StatelessWidget {
             returnValue = CupertinoTabView(
               builder: (context) {
                 return const Settings();
+              },
+            );
+            break;
+          case 3:
+            returnValue = CupertinoTabView(
+              builder: (context) {
+                return const MetatransactionList();
               },
             );
             break;
