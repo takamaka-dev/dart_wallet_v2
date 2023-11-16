@@ -30,6 +30,7 @@ class _MetatransactionListState extends State<MetatransactionList> {
       for (Metatransaction metatrx in metatrxs) {
         trxListTemp.add(SingleMetatransaction(metatrx));
       }
+      Hive.close();
       context.loaderOverlay.show();
 
       setState(() {
@@ -71,7 +72,6 @@ class _MetatransactionListState extends State<MetatransactionList> {
   @override
   void initState() {
     _initMetatransactionListInterface();
-    //fetchMyObjects();
     super.initState();
   }
 

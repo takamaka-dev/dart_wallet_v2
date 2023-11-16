@@ -79,6 +79,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> initDeepLinks(Uri uri) async {
+  // Future<void> initDeepLinks() async {
     final appLinks = AppLinks();
 
 // Get the initial/first link.
