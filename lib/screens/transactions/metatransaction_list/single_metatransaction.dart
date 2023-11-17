@@ -2,6 +2,7 @@ import 'package:dart_wallet_v2/config/database/metatransaction.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/blob/blob_text.dart';
+import 'package:dart_wallet_v2/screens/transactions/select_wallet/select_wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -64,7 +65,9 @@ class SingleMetatransaction extends StatelessWidget {
                           borderRadius: BorderRadius.zero,
                           onPressed: () => {
                             Globals.instance.generatedSeed.isEmpty?
-                          _showAlertDialog(context):Navigator.of(context).push(
+                          Navigator.of(context).push(
+                          CupertinoPageRoute<void>(builder: (BuildContext context) {
+                          return const SelectWallet();})):Navigator.of(context).push(
                                 CupertinoPageRoute<void>(builder: (BuildContext context) {
                                   return const BlobText();
                                 }))},
