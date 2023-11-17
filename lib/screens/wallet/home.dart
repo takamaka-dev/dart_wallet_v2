@@ -193,15 +193,15 @@ class _HomeState extends State<Home> {
                           CupertinoButton(
                               color: Styles.takamakaColor,
                               onPressed: testDeepLink,
-                              child: Row(
+                              child: const Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(CupertinoIcons
+                                    Icon(CupertinoIcons
                                         .alarm),
-                                    const SizedBox(width: 10),
-                                    const Text('Test Deeplink')
+                                    SizedBox(width: 10),
+                                    Text('Test Deeplink')
                                   ])),
                           const SizedBox(height: 50),
                         ])),

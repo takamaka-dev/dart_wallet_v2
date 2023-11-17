@@ -55,6 +55,10 @@ class Globals with ChangeNotifier {
     _generatedWordsPreInitWallet = value;
   }
 
+  String _nextAction = "";
+
+  String get nextAction => _nextAction;
+
   String _walletPassword = "";
 
   String get walletPassword => _walletPassword;
