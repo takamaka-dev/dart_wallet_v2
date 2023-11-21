@@ -57,14 +57,14 @@ class Globals with ChangeNotifier {
     _generatedWordsPreInitWallet = value;
   }
 
-  Metatransaction _metatransaction = ;
+  Metatransaction? _metatransaction = null;
   String _nextAction = "";
 
   String get nextAction => _nextAction;
   set nextAction(String action) => _nextAction;
 
-  Metatransaction get metatransaction => _metatransaction;
-  set metatransaction(Metatransaction mtrx) => _metatransaction;
+  Metatransaction? get metatransaction => _metatransaction;
+  set metatransaction(Metatransaction? mtrx) => _metatransaction;
 
   String _walletPassword = "";
 

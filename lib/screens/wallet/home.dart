@@ -108,7 +108,7 @@ class _HomeState extends State<Home> {
   }
   
   void testDeepLink(){
-    initDeepLinks(Uri.parse("tkmwallet://tkmwallet.com/home?json_hash=1edfce8f4eede990892139bed80992c88cea1cad3fe8e797c8e4aac043460e55"));
+    initDeepLinks(Uri.parse("tkmwallet://tkmwallet.com/home?json_hash=f9c55275939d31a0cc72b4dd45e8267a42c39bb78e121632150483f986b42522"));
   }
 
   void _showAlertDialog(BuildContext context, String text) {

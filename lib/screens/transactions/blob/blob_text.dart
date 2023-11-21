@@ -293,10 +293,15 @@ class _BlobTextState extends State<BlobText> {
     );
   }
 
-  void writeMetadatatransaction() {
-    if (Globals.instance.metatransaction.jsonHash.isNotEmpty) {
-      // Variabile ricevuta dall'API in base all'j_hash
-      // _controllerMessage.text();
+  Future<void> writeMetadatatransaction() async {
+    final metatransaction = Globals.instance.metatransaction;
+    if (metatransaction !=  null) {
+      final response = await ConsumerHelper.doRequest(
+          HttpMethods.GET,
+          "http://localhost:5000/e/get_json_from_temp_dir/${metatransaction.jsonHash}",
+          {});
+      print(response);
+      _controllerMessage.text = response;
     }
   }
 }

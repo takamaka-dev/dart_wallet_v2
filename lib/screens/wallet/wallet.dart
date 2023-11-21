@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
+import 'dart:async';
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/api/changes.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/blob/blob.dart';
+import 'package:dart_wallet_v2/screens/transactions/blob/blob_text.dart';
 import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
 import 'package:dart_wallet_v2/screens/transactions/receive_tokens/receive_tokens.dart';
 import 'package:dart_wallet_v2/screens/transactions/stake/stake.dart';
@@ -78,8 +79,14 @@ class _WalletState extends State<Wallet> {
 
   @override
   void initState() {
+    Future.microtask(() => {if(Globals.instance.nextAction == "BLOB"){
+      Navigator.of(context).push(
+          CupertinoPageRoute<void>(builder: (BuildContext context) {
+            return const BlobText();
+          }))}});
     _initWalletInterface();
     super.initState();
+
   }
 
   Future<void> method(var model) async {
@@ -130,9 +137,7 @@ class _WalletState extends State<Wallet> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        child: Globals.instance.generatedSeed.isEmpty
-            ? getLockedWallet()
-            : getUnlockedWallet());
+        child: Globals.instance.generatedSeed.isEmpty?getLockedWallet():getUnlockedWallet());
   }
 
   Future<dynamic> _launchURLBrowser() async {
