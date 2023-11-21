@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:dart_wallet_v2/config/api/changes.dart';
+import 'package:dart_wallet_v2/config/database/metatransaction.dart';
+import 'package:dart_wallet_v2/screens/transactions/metatransaction_list/single_metatransaction.dart';
 import 'package:dart_wallet_v2/screens/wallet/home.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
 import 'package:flutter/material.dart';
@@ -55,9 +57,14 @@ class Globals with ChangeNotifier {
     _generatedWordsPreInitWallet = value;
   }
 
+  Metatransaction _metatransaction = ;
   String _nextAction = "";
 
   String get nextAction => _nextAction;
+  set nextAction(String action) => _nextAction;
+
+  Metatransaction get metatransaction => _metatransaction;
+  set metatransaction(Metatransaction mtrx) => _metatransaction;
 
   String _walletPassword = "";
 

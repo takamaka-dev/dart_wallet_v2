@@ -8,7 +8,7 @@ class Metatransaction {
 
   Metatransaction(this.jsonHash, this.creationTimestamp, this.isSolved);
 
-  @HiveField(0)
+  @HiveField(0, defaultValue: "")
   String jsonHash;
 
   @HiveField(1)

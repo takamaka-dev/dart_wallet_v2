@@ -30,6 +30,7 @@ class _BlobTextState extends State<BlobText> {
 
   @override
   void initState() {
+    writeMetadatatransaction();
     super.initState();
   }
 
@@ -290,5 +291,12 @@ class _BlobTextState extends State<BlobText> {
         ),
       ),
     );
+  }
+
+  void writeMetadatatransaction() {
+    if (Globals.instance.metatransaction.jsonHash.isNotEmpty) {
+      // Variabile ricevuta dall'API in base all'j_hash
+      // _controllerMessage.text();
+    }
   }
 }

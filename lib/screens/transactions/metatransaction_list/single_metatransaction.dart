@@ -13,29 +13,9 @@ class SingleMetatransaction extends StatelessWidget {
 
   final Metatransaction mtrx;
 
-  void _showAlertDialog(BuildContext context) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) =>
-          CupertinoAlertDialog(
-            title: const Text('Alert'),
-            content: Text("Login first!"),
-            actions: <CupertinoDialogAction>[
-              CupertinoDialogAction(
-
-                /// This parameter indicates this action is the default,
-                /// and turns the action's text to bold text.
-                isDefaultAction: true,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Ok'),
-              )
-            ],
-          ),
-    );
+  void _routeToSelectWallet(){
+      Globals.instance.nextAction="BLOB";
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +45,20 @@ class SingleMetatransaction extends StatelessWidget {
                           alignment: Alignment.topLeft,
                           padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                           borderRadius: BorderRadius.zero,
-                          onPressed: () => {
-                            Globals.instance.generatedSeed.isEmpty?
+                          onPressed:
+                            Globals.instance.generatedSeed.isEmpty?() =>{
+                            Globals.instance.nextAction = "BlOB",
+                            Globals.instance.metatransaction = mtrx,
                           Navigator.of(context).push(
                           CupertinoPageRoute<void>(builder: (BuildContext context) {
-                          return const SelectWallet();})):Navigator.of(context).push(
-                                CupertinoPageRoute<void>(builder: (BuildContext context) {
-                                  return const BlobText();
-                                }))},
+                          return const SelectWallet();}
+                            ))}:() =>{
+                                          Globals.instance.metatransaction = mtrx,
+                                          Navigator.of(context).push(
+                                              CupertinoPageRoute<void>(builder: (BuildContext context) {
+                                                return const BlobText();
+                                              }))
+                                        },
                           child: Column(children: [
                             Row(
                               children: [SvgPicture.string(
