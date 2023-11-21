@@ -19,10 +19,10 @@
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/shaders/ink_sparkle.frag
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES
-/home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/.env
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
-/home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
 /home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/tyranneo/StudioProjects/dart_wallet_v2/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin

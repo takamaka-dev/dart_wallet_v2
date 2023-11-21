@@ -5,6 +5,8 @@ import 'package:dart_wallet_v2/screens/transactions/blob/blob_text.dart';
 import 'package:dart_wallet_v2/screens/transactions/select_wallet/select_wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jdenticon_dart/jdenticon_dart.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SingleMetatransaction extends StatelessWidget {
   const SingleMetatransaction(this.mtrx,{super.key});
@@ -37,7 +39,7 @@ class SingleMetatransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    IconData i = CupertinoIcons.doc_fill;
+    // IconData i = CupertinoIcons.doc_fill;
 
     return Container(
         width: double.infinity,
@@ -73,8 +75,13 @@ class SingleMetatransaction extends StatelessWidget {
                                 }))},
                           child: Column(children: [
                             Row(
-                              children: [
-                                Icon(i, color: Styles.takamakaColor),
+                              children: [SvgPicture.string(
+                                      Jdenticon.toSvg(mtrx.jsonHash),
+                                      fit: BoxFit.fill,
+                                      height: 32,
+                                      width: 32,
+                                    ),
+                                // Icon(i, color: Styles.takamakaColor),
                                 const SizedBox(width: 10),
                                 Text(mtrx.jsonHash),
                               ],
