@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
+import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/tag_list/tagList.dart';
 import 'package:dart_wallet_v2/screens/transactions/splash_page/error.dart';
 import 'package:dart_wallet_v2/screens/transactions/splash_page/success.dart';
@@ -9,8 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:io_takamaka_core_wallet/io_takamaka_core_wallet.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-
-import '../../../config/styles.dart';
 
 class BlobText extends StatefulWidget {
   const BlobText({super.key});

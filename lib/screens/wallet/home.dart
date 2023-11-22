@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     getWallets();
-    //initDeepLinks();
+    // initDeepLinks();
     super.initState();
   }
 
@@ -85,7 +85,7 @@ class _HomeState extends State<Home> {
 
 // Get the initial/first link.
 // This is useful when app was terminated (i.e. not started)
-    //final uri = await appLinks.getInitialAppLink();
+//     final uri = await appLinks.getInitialAppLink();
      Map<String, String> params = uri!.queryParameters;
      String param = params['json_hash']??'';
      _showAlertDialog(context, param);
@@ -225,15 +225,6 @@ class _HomeState extends State<Home> {
     Navigator.of(context).push(CupertinoPageRoute<void>(
       builder: (BuildContext context) {
         return const RestorePart1();
-        /*return Restore(onRefresh: () {
-          FileSystemUtils.getWalletsInWalletsDir(
-                  dotenv.get('WALLET_FOLDER'), dotenv.get('WALLET_EXTENSION'))
-              .then((value) => {
-                    setState(() {
-                      wallets = value;
-                    })
-                  });
-        });*/
       },
     ));
   }
