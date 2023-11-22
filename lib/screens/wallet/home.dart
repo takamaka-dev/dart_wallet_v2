@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:dart_wallet_v2/config/database/metatransaction.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
+import 'package:dart_wallet_v2/screens/login/login.dart';
 import 'package:dart_wallet_v2/screens/restore/restore_part_1.dart';
 import 'package:dart_wallet_v2/screens/wallet/new_wallet.dart';
 import 'package:dart_wallet_v2/screens/wallet/wallet.dart';
@@ -281,7 +282,7 @@ class SingleWallet extends StatelessWidget {
       onTap: () => Navigator.of(context).push(
         CupertinoPageRoute<void>(
           builder: (BuildContext context) {
-            return Wallet(walletName);
+            return Login(walletName);
           },
         ),
       ),
