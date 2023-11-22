@@ -61,10 +61,14 @@ class Globals with ChangeNotifier {
   String _nextAction = "";
 
   String get nextAction => _nextAction;
-  set nextAction(String action) => _nextAction;
+  set nextAction(String action) {
+    _nextAction = action;
+  }
 
   Metatransaction? get metatransaction => _metatransaction;
-  set metatransaction(Metatransaction? mtrx) => _metatransaction;
+  set metatransaction(Metatransaction? mtrx) {
+    _metatransaction = mtrx;
+  }
 
   String _walletPassword = "";
 

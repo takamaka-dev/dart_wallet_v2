@@ -3,6 +3,7 @@ import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/blob/blob_text.dart';
 import 'package:dart_wallet_v2/screens/transactions/select_wallet/select_wallet.dart';
+import 'package:dart_wallet_v2/screens/wallet/unlocked_wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
@@ -47,16 +48,17 @@ class SingleMetatransaction extends StatelessWidget {
                           borderRadius: BorderRadius.zero,
                           onPressed:
                             Globals.instance.generatedSeed.isEmpty?() =>{
-                            Globals.instance.nextAction = "BlOB",
+                            Globals.instance.nextAction = "BLOB",
                             Globals.instance.metatransaction = mtrx,
                           Navigator.of(context).push(
                           CupertinoPageRoute<void>(builder: (BuildContext context) {
                           return const SelectWallet();}
                             ))}:() =>{
+                                          Globals.instance.nextAction = "BLOB",
                                           Globals.instance.metatransaction = mtrx,
                                           Navigator.of(context).push(
                                               CupertinoPageRoute<void>(builder: (BuildContext context) {
-                                                return const BlobText();
+                                                return const UnlockedWallet();
                                               }))
                                         },
                           child: Column(children: [

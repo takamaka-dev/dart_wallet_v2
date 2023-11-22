@@ -6,6 +6,7 @@ import 'package:cryptography/cryptography.dart';
 import 'package:dart_wallet_v2/config/globals.dart';
 import 'package:dart_wallet_v2/config/styles.dart';
 import 'package:dart_wallet_v2/screens/transactions/blob/blob.dart';
+import 'package:dart_wallet_v2/screens/transactions/blob/blob_text.dart';
 import 'package:dart_wallet_v2/screens/transactions/pay/pay.dart';
 import 'package:dart_wallet_v2/screens/transactions/qr_code_sign/pre_select_qr_scan.dart';
 import 'package:dart_wallet_v2/screens/transactions/receive_tokens/receive_tokens.dart';
@@ -47,7 +48,12 @@ class _UnlockedWalletState extends State<UnlockedWallet>{
   void initState() {
     _initWalletInterface();
     super.initState();
-  }
+    Globals.instance.nextAction == "BLOB"?WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.of(context).push(
+          CupertinoPageRoute<void>(builder: (BuildContext context) {
+            return const BlobText();
+          }));}):null;
+    }
 
   Future<dynamic> _launchURLBrowser() async {
     Uri url = Uri.parse(Globals.instance.selectedNetwork == "prod"

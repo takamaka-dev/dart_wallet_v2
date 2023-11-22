@@ -143,6 +143,7 @@ class _LoginState extends State<Login>{
           'wallets', walletName, dotenv.get('WALLET_EXTENSION'), password);
 
       Globals.instance.kb = kb!;
+      Globals.instance.generatedSeed = kb!['seed'];
 
       SimpleKeyPair keypair = await WalletUtils.getNewKeypairED25519(
           kb!['seed'],
