@@ -297,7 +297,7 @@ class _BlobTextState extends State<BlobText> {
     if (metatransaction !=  null) {
       final response = await ConsumerHelper.doRequest(
           HttpMethods.GET,
-          "http://localhost:5000/e/get_json_from_temp_dir/${metatransaction.jsonHash}",
+          "https://testmeta.takamaka.org/e/get_json_from_temp_dir/${metatransaction.jsonHash}",
           {});
       print(response);
       _controllerMessage.text = response;
