@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     getWallets();
-    // initDeepLinks();
+    initDeepLinks();
     super.initState();
   }
 
@@ -79,13 +79,13 @@ class _HomeState extends State<Home> {
     Hive.close();
   }
 
-  Future<void> initDeepLinks(Uri uri) async {
+  Future<void> initDeepLinks() async {
   // Future<void> initDeepLinks() async {
     final appLinks = AppLinks();
 
 // Get the initial/first link.
 // This is useful when app was terminated (i.e. not started)
-//     final uri = await appLinks.getInitialAppLink();
+     final uri = await appLinks.getInitialAppLink();
      Map<String, String> params = uri!.queryParameters;
      String param = params['json_hash']??'';
      _showAlertDialog(context, param);
@@ -108,9 +108,9 @@ class _HomeState extends State<Home> {
     insertJsonHash(param);
   }
   
-  void testDeepLink(){
-    initDeepLinks(Uri.parse("tkmwallet://tkmwallet.com/home?json_hash=f9c55275939d31a0cc72b4dd45e8267a42c39bb78e121632150483f986b42522"));
-  }
+  // void testDeepLink(){
+  //   initDeepLinks(Uri.parse("tkmwallet://tkmwallet.com/home?json_hash=f9c55275939d31a0cc72b4dd45e8267a42c39bb78e121632150483f986b42522"));
+  // }
 
   void _showAlertDialog(BuildContext context, String text) {
     showCupertinoModalPopup<void>(
@@ -191,19 +191,19 @@ class _HomeState extends State<Home> {
                                 const SizedBox(height: 50),
                               ])),
                           const SizedBox(height: 30),
-                          CupertinoButton(
-                              color: Styles.takamakaColor,
-                              onPressed: testDeepLink,
-                              child: const Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(CupertinoIcons
-                                        .alarm),
-                                    SizedBox(width: 10),
-                                    Text('Test Deeplink')
-                                  ])),
+                          // CupertinoButton(
+                          //     color: Styles.takamakaColor,
+                          //     onPressed: testDeepLink,
+                          //     child: const Row(
+                          //         mainAxisAlignment:
+                          //         MainAxisAlignment.center,
+                          //         mainAxisSize: MainAxisSize.min,
+                          //         children: [
+                          //           Icon(CupertinoIcons
+                          //               .alarm),
+                          //           SizedBox(width: 10),
+                          //           Text('Test Deeplink')
+                          //         ])),
                           const SizedBox(height: 50),
                         ])),
               ],

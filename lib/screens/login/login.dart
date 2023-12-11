@@ -166,6 +166,7 @@ class _LoginState extends State<Login>{
       Globals.instance.walletName = walletName;
 
       Globals.instance.selectedWalletIndex = int.parse(_walletIndexNumberController.text);
+      Globals.instance.selectedFromAddress = walletAddress!;
       Globals.instance.walletPassword = password;
       // context.loaderOverlay.hide();
       Navigator.of(context).push(

@@ -588,6 +588,7 @@ class _UnlockedWalletState extends State<UnlockedWallet>{
       kb = Globals.instance.kb;
       selectedIndex = Globals.instance.selectedWalletIndex;
       password = Globals.instance.walletPassword;
+      Globals.instance.selectedFromAddress = walletAddress;
     });
 
     return true;
